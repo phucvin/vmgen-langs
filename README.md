@@ -22,5 +22,5 @@ Build stack-assembly-01:
 ```
 $ cd stack-assembly-01
 $ make
-$ time ./vm.out fib.asm
+$ time ./vm.out fib_old.asm
 ```
