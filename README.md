@@ -17,3 +17,10 @@ $ time ./mini fib.mini
 result = 102334155
 real    0m2.213s
 ```
+
+Build stack-assembly-01:
+```
+$ cd stack-assembly-01
+$ make
+$ time ./vm.out fib.asm
+```

@@ -1,0 +1,8 @@
+*.o
+*.out
+
+// TODO: Remove these temporary ignores to have generated code checked in too
+vm-*.i
+lex.yy.c
+vm.tab.c
+vm.vmg
