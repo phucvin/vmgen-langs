@@ -17,7 +17,27 @@
 // s(.. n 2 ), jump to @base_case if n < 2, fallthrough if not
   jump_if_lt @fib_base_case 
 @fib_recursive_case:
-// TODO
+// -> s(.. n n )
+  dup
+  add #1
+// -> s(.. n n-1 )
+  sub
+  push @fib_recursive_case_01
+// -> s(.. n @fib_recursive_case_01 n-1 )
+  swap
+  jump @fib
+@fib_recursive_case_01:
+// s(.. n fib(n-1) ) -> s(.. fib(n-1) n )
+  add #2
+  sub
+  push @fib_recursive_case_02
+// -> s(.. fib(n-1) @fib_recursive_case_02 n-2)
+  swap
+  jump @fib
+// s(.. return_address fib(n-1) fib(n-2) ) -> s(.. return_address result)
+  add
+  swap
+  jump_tos
 @fib_base_case:
 // -> s(.. n return_address )
   swap
