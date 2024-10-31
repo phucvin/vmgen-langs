@@ -274,75 +274,110 @@ if (VM_IS_INST(*ip, 22)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 23)) {
+  fputs("set_r0l", vm_out);
+{
+long i0;
+vm_Cell2i(IMM_ARG(IPTOS,305397792 ),i0);
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 24)) {
+  fputs("set_r1l", vm_out);
+{
+long i0;
+vm_Cell2i(IMM_ARG(IPTOS,305397793 ),i0);
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 25)) {
+  fputs("push_r0", vm_out);
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 26)) {
+  fputs("add_r0r0r0", vm_out);
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 27)) {
+  fputs("jump_r1", vm_out);
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 28)) {
   fputs("s_call0", vm_out);
 {
 Cell _IP0;
-vm_Cell2Cell(IMM_ARG(IPTOS,305397792 ),_IP0);
+vm_Cell2Cell(IMM_ARG(IPTOS,305397794 ),_IP0);
 fputs(" _IP0=", vm_out); printarg_Cell(_IP0);
 }
 {
 Cell _IP1;
-vm_Cell2Cell(IMM_ARG(IP[1],305397793 ),_IP1);
+vm_Cell2Cell(IMM_ARG(IP[1],305397795 ),_IP1);
 fputs(" _IP1=", vm_out); printarg_Cell(_IP1);
 }
 {
 Cell _IP2;
-vm_Cell2Cell(IMM_ARG(IP[2],305397794 ),_IP2);
+vm_Cell2Cell(IMM_ARG(IP[2],305397796 ),_IP2);
 fputs(" _IP2=", vm_out); printarg_Cell(_IP2);
 }
   ip += 4;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 24)) {
+if (VM_IS_INST(*ip, 29)) {
   fputs("s_call1_0", vm_out);
 {
 Cell _IP0;
-vm_Cell2Cell(IMM_ARG(IPTOS,305397795 ),_IP0);
+vm_Cell2Cell(IMM_ARG(IPTOS,305397797 ),_IP0);
 fputs(" _IP0=", vm_out); printarg_Cell(_IP0);
 }
 {
 Cell _IP1;
-vm_Cell2Cell(IMM_ARG(IP[1],305397796 ),_IP1);
+vm_Cell2Cell(IMM_ARG(IP[1],305397798 ),_IP1);
 fputs(" _IP1=", vm_out); printarg_Cell(_IP1);
 }
 {
 Cell _IP2;
-vm_Cell2Cell(IMM_ARG(IP[2],305397797 ),_IP2);
+vm_Cell2Cell(IMM_ARG(IP[2],305397799 ),_IP2);
 fputs(" _IP2=", vm_out); printarg_Cell(_IP2);
 }
 {
 Cell _IP3;
-vm_Cell2Cell(IMM_ARG(IP[3],305397798 ),_IP3);
+vm_Cell2Cell(IMM_ARG(IP[3],305397800 ),_IP3);
 fputs(" _IP3=", vm_out); printarg_Cell(_IP3);
 }
   ip += 5;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 25)) {
+if (VM_IS_INST(*ip, 30)) {
   fputs("s_call1", vm_out);
 {
 Cell _IP0;
-vm_Cell2Cell(IMM_ARG(IPTOS,305397799 ),_IP0);
+vm_Cell2Cell(IMM_ARG(IPTOS,305397801 ),_IP0);
 fputs(" _IP0=", vm_out); printarg_Cell(_IP0);
 }
 {
 Cell _IP1;
-vm_Cell2Cell(IMM_ARG(IP[1],305397800 ),_IP1);
+vm_Cell2Cell(IMM_ARG(IP[1],305397802 ),_IP1);
 fputs(" _IP1=", vm_out); printarg_Cell(_IP1);
 }
 {
 Cell _IP2;
-vm_Cell2Cell(IMM_ARG(IP[2],305397801 ),_IP2);
+vm_Cell2Cell(IMM_ARG(IP[2],305397803 ),_IP2);
 fputs(" _IP2=", vm_out); printarg_Cell(_IP2);
 }
 {
 Cell _IP3;
-vm_Cell2Cell(IMM_ARG(IP[3],305397802 ),_IP3);
+vm_Cell2Cell(IMM_ARG(IP[3],305397804 ),_IP3);
 fputs(" _IP3=", vm_out); printarg_Cell(_IP3);
 }
 {
 Cell _IP4;
-vm_Cell2Cell(IMM_ARG(IP[4],305397803 ),_IP4);
+vm_Cell2Cell(IMM_ARG(IP[4],305397805 ),_IP4);
 fputs(" _IP4=", vm_out); printarg_Cell(_IP4);
 }
   ip += 6;

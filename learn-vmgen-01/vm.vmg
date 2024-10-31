@@ -81,6 +81,23 @@ regs[i0] = regs[i1];
 end ( i0 -- )
 return i0;
 
+\ Instructions with baked in register indexes
+
+set_r0l( #i0 -- )
+reg0 = i0;
+
+set_r1l( #i0 -- )
+reg1 = i0;
+
+push_r0( -- i0 )
+i0 = reg0;
+
+add_r0r0r0( -- )
+reg0 = reg0 + reg0;
+
+jump_r1( -- )
+SET_IP(reg1);
+
 \ Super instructions below
 
 s_call0 = set_rl jump_l

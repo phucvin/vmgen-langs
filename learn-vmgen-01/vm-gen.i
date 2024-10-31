@@ -122,3 +122,25 @@ void gen_end(Inst **ctp)
 {
   gen_inst(ctp, vm_prim[22]);
 }
+void gen_set_r0l(Inst **ctp, long i0)
+{
+  gen_inst(ctp, vm_prim[23]);
+  genarg_i(ctp, i0);
+}
+void gen_set_r1l(Inst **ctp, long i0)
+{
+  gen_inst(ctp, vm_prim[24]);
+  genarg_i(ctp, i0);
+}
+void gen_push_r0(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[25]);
+}
+void gen_add_r0r0r0(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[26]);
+}
+void gen_jump_r1(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[27]);
+}

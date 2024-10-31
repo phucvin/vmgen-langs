@@ -59,7 +59,22 @@ int main(int argc, char **argv)
 
   start = vmcodep;
   // Generate bytecode directly here for now
-  int code = 1;
+  int code = 2;
+  if (code == 2) {
+    // main
+    // call foo(n) with param n in r0 and return address in r1
+    gen_set_r0l(&vmcodep, 40);
+    gen_set_r1l(&vmcodep, (long int)(char *)start + 48);
+    gen_jump_l(&vmcodep, (Cell *)((char *)start + 64));
+    // result is now in r0
+    gen_push_r0(&vmcodep);
+    gen_end(&vmcodep);
+
+    // foo
+    // param n is in r0, return address in r1
+    gen_add_r0r0r0(&vmcodep);
+    gen_jump_r1(&vmcodep);
+  }
   if (code == 1) {
     // main
     // call foo(n) with param n in r0 and return address in r1

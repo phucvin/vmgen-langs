@@ -114,16 +114,41 @@ if (VM_IS_INST(*ip, 22)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 23)) {
+  add_inst(b, "set_r0l");
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 24)) {
+  add_inst(b, "set_r1l");
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 25)) {
+  add_inst(b, "push_r0");
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 26)) {
+  add_inst(b, "add_r0r0r0");
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 27)) {
+  add_inst(b, "jump_r1");
+  ip += 1;
+  return;
+}
+if (VM_IS_INST(*ip, 28)) {
   add_inst(b, "s_call0");
   ip += 4;
   return;
 }
-if (VM_IS_INST(*ip, 24)) {
+if (VM_IS_INST(*ip, 29)) {
   add_inst(b, "s_call1_0");
   ip += 5;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 25)) {
+if (VM_IS_INST(*ip, 30)) {
   add_inst(b, "s_call1");
   ip += 6;
   return;
