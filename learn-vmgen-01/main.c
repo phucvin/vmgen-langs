@@ -38,7 +38,11 @@ int main(int argc, char **argv)
 	start = vmcodep;
 	// Generate bytecode directly here for now
 	{
-		gen_push(&vmcodep, 14);
+		gen_push_l(&vmcodep, 14);
+		gen_sub_rrr(&vmcodep, 0, 0, 0);
+		gen_add_rrl(&vmcodep, 0, 0, 3);
+		gen_push_r(&vmcodep, 0);
+		gen_add(&vmcodep);
 		gen_end(&vmcodep);
 	}
 	vmcode_end = vmcodep;
@@ -49,8 +53,8 @@ int main(int argc, char **argv)
 	printf("\nvm run:\n");
 	printf("\nreturn code: %ld\n", runvm(start, stack + STACK_SIZE - 1, NULL));
 
-	printf("\nvm profile:\n");
-	vm_print_profile(vm_out);
+	// printf("\nvm profile:\n");
+	// vm_print_profile(vm_out);
 
 	return 0;
 }

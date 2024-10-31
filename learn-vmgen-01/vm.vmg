@@ -9,8 +9,29 @@
 \ type prefix definitions:
 \E s" long" single data-stack type-prefix i
 
-push ( #i0 -- i1 )
+push_l ( #i0 -- i1 )
 i1 = i0;
+
+push_r ( #i0 -- i1 )
+i1 = regs[i0];
+
+add ( i0 i1 -- i2 )
+i2 = i0 + i1;
+
+add_rrl ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] + i2;
+
+add_rrr ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] + regs[i2];
+
+sub_rrl ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] - i2;
+
+sub_rlr ( #i0 #i1 #i2 -- )
+regs[i0] = i1 - regs[i2];
+
+sub_rrr ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] - regs[i2];
 
 end ( i0 -- )
 return i0;

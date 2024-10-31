@@ -60,9 +60,7 @@ long engine(Cell *ip0, Cell *sp, char *fp)
   static Label labels[] = {
 #include "vm-labels.i"
   };
-#ifdef MORE_VARS
-  MORE_VARS
-#endif
+  long regs[4];
 
   if (vm_debug)
     fprintf(vm_out, "entering engine(%p,%p,%p)\n", ip0, sp, fp);
