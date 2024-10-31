@@ -136,11 +136,39 @@ void gen_push_r0(Inst **ctp)
 {
   gen_inst(ctp, vm_prim[25]);
 }
-void gen_add_r0r0r0(Inst **ctp)
+void gen_push_r1(Inst **ctp)
 {
   gen_inst(ctp, vm_prim[26]);
 }
-void gen_jump_r1(Inst **ctp)
+void gen_pop_r1(Inst **ctp)
 {
   gen_inst(ctp, vm_prim[27]);
+}
+void gen_add_r0r0r0(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[28]);
+}
+void gen_add_r0r0r1(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[29]);
+}
+void gen_sub_r0r0l(Inst **ctp, long i0)
+{
+  gen_inst(ctp, vm_prim[30]);
+  genarg_i(ctp, i0);
+}
+void gen_sub_r0r1l(Inst **ctp, long i0)
+{
+  gen_inst(ctp, vm_prim[31]);
+  genarg_i(ctp, i0);
+}
+void gen_jump_r1(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[32]);
+}
+void gen_jump_l_if_r0_lt_l(Inst **ctp, Inst * target0, long i0)
+{
+  gen_inst(ctp, vm_prim[33]);
+  genarg_target(ctp, target0);
+  genarg_i(ctp, i0);
 }

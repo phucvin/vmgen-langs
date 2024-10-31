@@ -92,11 +92,29 @@ reg1 = i0;
 push_r0( -- i0 )
 i0 = reg0;
 
+push_r1( -- i0 )
+i0 = reg1;
+
+pop_r1( i0 -- )
+reg1 = i0;
+
 add_r0r0r0( -- )
 reg0 = reg0 + reg0;
 
+add_r0r0r1( -- )
+reg0 = reg0 + reg1;
+
+sub_r0r0l( #i0 -- )
+reg0 = reg0 - i0;
+
+sub_r0r1l( #i0 -- )
+reg0 = reg1 - i0;
+
 jump_r1( -- )
 SET_IP(reg1);
+
+jump_l_if_r0_lt_l ( #target0 #i0 -- )
+if (reg0 < i0) SET_IP(target0);
 
 \ Super instructions below
 

@@ -898,6 +898,68 @@ LABEL2(push_r0)
 NEXT_P2;
 }
 
+LABEL(push_r1) /* push_r1 ( -- i0 ) */
+/*  */
+NAME("push_r1")
+{
+DEF_CA
+long i0;
+NEXT_P0;
+IF_spTOS(sp[0] = spTOS);
+#ifdef VM_DEBUG
+if (vm_debug) {
+}
+#endif
+sp += -1;
+{
+#line 96 "vm.vmg"
+i0 = reg1;
+#line 918 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputs(" i0=", vm_out); printarg_i(i0);
+fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+vm_i2Cell(i0,spTOS);
+LABEL2(push_r1)
+NEXT_P2;
+}
+
+LABEL(pop_r1) /* pop_r1 ( i0 -- ) */
+/*  */
+NAME("pop_r1")
+{
+DEF_CA
+long i0;
+NEXT_P0;
+vm_Cell2i(spTOS,i0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+#endif
+sp += 1;
+{
+#line 99 "vm.vmg"
+reg1 = i0;
+#line 950 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+IF_spTOS(spTOS = sp[0]);
+LABEL2(pop_r1)
+NEXT_P2;
+}
+
 LABEL(add_r0r0r0) /* add_r0r0r0 ( -- ) */
 /*  */
 NAME("add_r0r0r0")
@@ -909,9 +971,9 @@ if (vm_debug) {
 }
 #endif
 {
-#line 96 "vm.vmg"
+#line 102 "vm.vmg"
 reg0 = reg0 + reg0;
-#line 915 "vm-vm.i"
+#line 977 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -921,6 +983,92 @@ fputs(" -- ", vm_out); fputc('\n', vm_out);
 #endif
 NEXT_P1;
 LABEL2(add_r0r0r0)
+NEXT_P2;
+}
+
+LABEL(add_r0r0r1) /* add_r0r0r1 ( -- ) */
+/*  */
+NAME("add_r0r0r1")
+{
+DEF_CA
+NEXT_P0;
+#ifdef VM_DEBUG
+if (vm_debug) {
+}
+#endif
+{
+#line 105 "vm.vmg"
+reg0 = reg0 + reg1;
+#line 1003 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+LABEL2(add_r0r0r1)
+NEXT_P2;
+}
+
+LABEL(sub_r0r0l) /* sub_r0r0l ( #i0 -- ) */
+/*  */
+NAME("sub_r0r0l")
+{
+DEF_CA
+long i0;
+NEXT_P0;
+vm_Cell2i(IMM_ARG(IPTOS,305397794 ),i0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+#endif
+INC_IP(1);
+{
+#line 108 "vm.vmg"
+reg0 = reg0 - i0;
+#line 1033 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+LABEL2(sub_r0r0l)
+NEXT_P2;
+}
+
+LABEL(sub_r0r1l) /* sub_r0r1l ( #i0 -- ) */
+/*  */
+NAME("sub_r0r1l")
+{
+DEF_CA
+long i0;
+NEXT_P0;
+vm_Cell2i(IMM_ARG(IPTOS,305397795 ),i0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+#endif
+INC_IP(1);
+{
+#line 111 "vm.vmg"
+reg0 = reg1 - i0;
+#line 1063 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+LABEL2(sub_r0r1l)
 NEXT_P2;
 }
 
@@ -935,9 +1083,9 @@ if (vm_debug) {
 }
 #endif
 {
-#line 99 "vm.vmg"
+#line 114 "vm.vmg"
 SET_IP(reg1);
-#line 941 "vm-vm.i"
+#line 1089 "vm-vm.i"
 }
 SUPER_END;
 
@@ -948,6 +1096,40 @@ fputs(" -- ", vm_out); fputc('\n', vm_out);
 #endif
 NEXT_P1;
 LABEL2(jump_r1)
+NEXT_P2;
+}
+
+LABEL(jump_l_if_r0_lt_l) /* jump_l_if_r0_lt_l ( #target0 #i0 -- ) */
+/*  */
+NAME("jump_l_if_r0_lt_l")
+{
+DEF_CA
+Inst * target0;
+long i0;
+NEXT_P0;
+vm_Cell2target(IMM_ARG(IPTOS,305397796 ),target0);
+vm_Cell2i(IMM_ARG(IP[1],305397797 ),i0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" target0=", vm_out); printarg_target(target0);
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+#endif
+INC_IP(2);
+{
+#line 117 "vm.vmg"
+if (reg0 < i0) SET_IP(target0);
+#line 1123 "vm-vm.i"
+}
+SUPER_END;
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+LABEL2(jump_l_if_r0_lt_l)
 NEXT_P2;
 }
 
@@ -963,8 +1145,8 @@ NAME("set_rl")
 {
 long i0;
 long i1;
-vm_Cell2i(IMM_ARG(IPTOS,305397794 ),i0);
-vm_Cell2i(IMM_ARG(IP[1],305397795 ),i1);
+vm_Cell2i(IMM_ARG(IPTOS,305397798 ),i0);
+vm_Cell2i(IMM_ARG(IP[1],305397799 ),i1);
 #ifdef VM_DEBUG
 if (vm_debug) {
 fputs(" i0=", vm_out); printarg_i(i0);
@@ -972,9 +1154,9 @@ fputs(" i1=", vm_out); printarg_i(i1);
 }
 #endif
 {
-#line 99 "vm.vmg"
+#line 117 "vm.vmg"
 regs[i0] = i1;
-#line 978 "vm-vm.i"
+#line 1160 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -987,7 +1169,7 @@ fputs(" -- ", vm_out); fputc('\n', vm_out);
 NAME("jump_l")
 {
 Inst * target0;
-vm_Cell2target(IMM_ARG(IP[2],305397796 ),target0);
+vm_Cell2target(IMM_ARG(IP[2],305397800 ),target0);
 #ifdef VM_DEBUG
 if (vm_debug) {
 fputs(" target0=", vm_out); printarg_target(target0);
@@ -995,9 +1177,9 @@ fputs(" target0=", vm_out); printarg_target(target0);
 #endif
 INC_IP(3);
 {
-#line 99 "vm.vmg"
+#line 117 "vm.vmg"
 SET_IP(target0);
-#line 1001 "vm-vm.i"
+#line 1183 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -1025,8 +1207,8 @@ NAME("set_rl")
 {
 long i0;
 long i1;
-vm_Cell2i(IMM_ARG(IPTOS,305397797 ),i0);
-vm_Cell2i(IMM_ARG(IP[1],305397798 ),i1);
+vm_Cell2i(IMM_ARG(IPTOS,305397801 ),i0);
+vm_Cell2i(IMM_ARG(IP[1],305397802 ),i1);
 #ifdef VM_DEBUG
 if (vm_debug) {
 fputs(" i0=", vm_out); printarg_i(i0);
@@ -1034,9 +1216,9 @@ fputs(" i1=", vm_out); printarg_i(i1);
 }
 #endif
 {
-#line 99 "vm.vmg"
+#line 117 "vm.vmg"
 regs[i0] = i1;
-#line 1040 "vm-vm.i"
+#line 1222 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -1050,8 +1232,8 @@ NAME("set_rl")
 {
 long i0;
 long i1;
-vm_Cell2i(IMM_ARG(IP[2],305397799 ),i0);
-vm_Cell2i(IMM_ARG(IP[3],305397800 ),i1);
+vm_Cell2i(IMM_ARG(IP[2],305397803 ),i0);
+vm_Cell2i(IMM_ARG(IP[3],305397804 ),i1);
 #ifdef VM_DEBUG
 if (vm_debug) {
 fputs(" i0=", vm_out); printarg_i(i0);
@@ -1060,9 +1242,9 @@ fputs(" i1=", vm_out); printarg_i(i1);
 #endif
 INC_IP(4);
 {
-#line 99 "vm.vmg"
+#line 117 "vm.vmg"
 regs[i0] = i1;
-#line 1066 "vm-vm.i"
+#line 1248 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -1090,8 +1272,8 @@ NAME("set_rl")
 {
 long i0;
 long i1;
-vm_Cell2i(IMM_ARG(IPTOS,305397801 ),i0);
-vm_Cell2i(IMM_ARG(IP[1],305397802 ),i1);
+vm_Cell2i(IMM_ARG(IPTOS,305397805 ),i0);
+vm_Cell2i(IMM_ARG(IP[1],305397806 ),i1);
 #ifdef VM_DEBUG
 if (vm_debug) {
 fputs(" i0=", vm_out); printarg_i(i0);
@@ -1099,9 +1281,9 @@ fputs(" i1=", vm_out); printarg_i(i1);
 }
 #endif
 {
-#line 99 "vm.vmg"
+#line 117 "vm.vmg"
 regs[i0] = i1;
-#line 1105 "vm-vm.i"
+#line 1287 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -1115,8 +1297,8 @@ NAME("set_rl")
 {
 long i0;
 long i1;
-vm_Cell2i(IMM_ARG(IP[2],305397803 ),i0);
-vm_Cell2i(IMM_ARG(IP[3],305397804 ),i1);
+vm_Cell2i(IMM_ARG(IP[2],305397807 ),i0);
+vm_Cell2i(IMM_ARG(IP[3],305397808 ),i1);
 #ifdef VM_DEBUG
 if (vm_debug) {
 fputs(" i0=", vm_out); printarg_i(i0);
@@ -1124,9 +1306,9 @@ fputs(" i1=", vm_out); printarg_i(i1);
 }
 #endif
 {
-#line 99 "vm.vmg"
+#line 117 "vm.vmg"
 regs[i0] = i1;
-#line 1130 "vm-vm.i"
+#line 1312 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -1139,7 +1321,7 @@ fputs(" -- ", vm_out); fputc('\n', vm_out);
 NAME("jump_l")
 {
 Inst * target0;
-vm_Cell2target(IMM_ARG(IP[4],305397805 ),target0);
+vm_Cell2target(IMM_ARG(IP[4],305397809 ),target0);
 #ifdef VM_DEBUG
 if (vm_debug) {
 fputs(" target0=", vm_out); printarg_target(target0);
@@ -1147,9 +1329,9 @@ fputs(" target0=", vm_out); printarg_target(target0);
 #endif
 INC_IP(5);
 {
-#line 99 "vm.vmg"
+#line 117 "vm.vmg"
 SET_IP(target0);
-#line 1153 "vm-vm.i"
+#line 1335 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
