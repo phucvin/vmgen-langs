@@ -19,13 +19,13 @@ void printarg_i(long i)
 
 void genarg_target(Inst **vmcodepp, Inst *target)
 {
-  vm_target2Cell(target, *((Cell *) *vmcodepp));
-  (*vmcodepp)++;
+	vm_target2Cell(target, *((Cell *)*vmcodepp));
+	(*vmcodepp)++;
 }
 
 void printarg_target(Inst *target)
 {
-  fprintf(vm_out, "%p ", target);
+	fprintf(vm_out, "%p ", target);
 }
 
 Label *vm_prim;
@@ -39,9 +39,9 @@ int main(int argc, char **argv)
 	Inst *start;
 	Cell *stack = (Cell *)calloc(STACK_SIZE, sizeof(Cell));
 	engine_t runvm = engine_debug;
-  vm_debug = 1;
+	vm_debug = 1;
 
-  vmcodep = vm_code;
+	vmcodep = vm_code;
 	vm_out = stderr;
 	(void)runvm(NULL, NULL, NULL); /* initialize vm_prim */
 	init_peeptable();
@@ -49,19 +49,19 @@ int main(int argc, char **argv)
 	start = vmcodep;
 	// Generate bytecode directly here for now
 	{
-    // main
-    // call fib(n) where n is in r0 and return address in the stack
-    gen_push_l(&vmcodep, (char*)start + 56);
-    gen_set_rl(&vmcodep, 0, 6);
-    gen_jump_l(&vmcodep, (char *)start + 80);
-    gen_push_r(&vmcodep, 0);
-    gen_end(&vmcodep);
+		// main
+		// call fib(n) where n is in r0 and return address in the stack
+		gen_push_l(&vmcodep, (char *)start + 56);
+		gen_set_rl(&vmcodep, 0, 6);
+		gen_jump_l(&vmcodep, (char *)start + 80);
+		gen_push_r(&vmcodep, 0);
+		gen_end(&vmcodep);
 
-    // fib
-    gen_add_rrl(&vmcodep, 0, 0, 2);
-    gen_jump(&vmcodep);
-  }
-  vmcode_end = vmcodep;
+		// fib
+		gen_add_rrl(&vmcodep, 0, 0, 2);
+		gen_jump(&vmcodep);
+	}
+	vmcode_end = vmcodep;
 
 	printf("\nvm assembly:\n");
 	vm_disassemble(vm_code, vmcodep, vm_prim);
