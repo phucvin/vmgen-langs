@@ -1,7 +1,7 @@
 // compute fib(N) and print the result
 
 @main:
-  call_ret_addr @end
+  call_ret_addr @main_end
   call_param #0 #6
   call @fib
 @main_end:
@@ -12,7 +12,7 @@
 @fib:
   local_get #0
   push #2
-// jump to @base_case if n < 2, fallthrough if not
+// jump to @fib_base_case if n < 2, fallthrough if not
   jump_if_lt @fib_base_case 
 @fib_recursive_case:
   call_ret_addr @fib_recursive_case_01
