@@ -8,3 +8,6 @@
 
 push ( i0 -- )
 // TODO
+
+end ( i0 -- )
+return i0;
