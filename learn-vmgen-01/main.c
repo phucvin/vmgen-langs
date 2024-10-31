@@ -49,10 +49,8 @@ int main(int argc, char **argv)
 	start = vmcodep;
 	// Generate bytecode directly here for now
 	{
-    gen_push_relative_addr(&vmcodep, 24);
-    gen_jump(&vmcodep);
-    gen_push_l(&vmcodep, 3);
-    gen_push_l(&vmcodep, 5);
+    gen_set_rl(&vmcodep, 0 , 9);
+    gen_push_r(&vmcodep, 0);
     gen_end(&vmcodep);
   }
 	vmcode_end = vmcodep;

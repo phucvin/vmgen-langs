@@ -79,6 +79,16 @@ if (VM_IS_INST(*ip, 15)) {
   return;
 }
 if (VM_IS_INST(*ip, 16)) {
+  add_inst(b, "set_rl");
+  ip += 3;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 17)) {
+  add_inst(b, "set_rr");
+  ip += 3;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 18)) {
   add_inst(b, "end");
   ip += 1;
   goto _endif_;
