@@ -54,16 +54,31 @@ if (VM_IS_INST(*ip, 10)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 11)) {
+  add_inst(b, "push_addr");
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 12)) {
+  add_inst(b, "push_relative_addr");
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 13)) {
+  add_inst(b, "jump");
+  ip += 1;
+  return;
+}
+if (VM_IS_INST(*ip, 14)) {
   add_inst(b, "jump_l");
   ip += 2;
   return;
 }
-if (VM_IS_INST(*ip, 12)) {
+if (VM_IS_INST(*ip, 15)) {
   add_inst(b, "jump_l_if_lt");
   ip += 2;
   return;
 }
-if (VM_IS_INST(*ip, 13)) {
+if (VM_IS_INST(*ip, 16)) {
   add_inst(b, "end");
   ip += 1;
   goto _endif_;

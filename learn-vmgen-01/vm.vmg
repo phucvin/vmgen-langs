@@ -45,10 +45,19 @@ regs[i0] = i1 - regs[i2];
 sub_rrr ( #i0 #i1 #i2 -- )
 regs[i0] = regs[i1] - regs[i2];
 
+push_addr ( #target0 -- target1 )
+target1 = target0;
+
+push_relative_addr ( #i0 -- target1 )
+target1 = (char*)IP + i0;
+
+jump ( target0 -- )
+SET_IP(target0);
+
 jump_l ( #target0 -- )
 SET_IP(target0);
 
-jump_l_if_lt ( i0 i1 #target0 -- )
+jump_l_if_lt ( #target0 i0 i1 -- )
 if (i0 < i1) SET_IP(target0);
 
 end ( i0 -- )

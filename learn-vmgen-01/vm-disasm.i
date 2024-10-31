@@ -139,7 +139,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 11)) {
-  fputs("jump_l", vm_out);
+  fputs("push_addr", vm_out);
 {
 Inst * target0;
 vm_Cell2target(IMM_ARG(IPTOS,305397777 ),target0);
@@ -149,16 +149,41 @@ fputs(" target0=", vm_out); printarg_target(target0);
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 12)) {
-  fputs("jump_l_if_lt", vm_out);
+  fputs("push_relative_addr", vm_out);
 {
-Inst * target0;
-vm_Cell2target(IMM_ARG(IPTOS,305397778 ),target0);
-fputs(" target0=", vm_out); printarg_target(target0);
+long i0;
+vm_Cell2i(IMM_ARG(IPTOS,305397778 ),i0);
+fputs(" i0=", vm_out); printarg_i(i0);
 }
   ip += 2;
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 13)) {
+  fputs("jump", vm_out);
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 14)) {
+  fputs("jump_l", vm_out);
+{
+Inst * target0;
+vm_Cell2target(IMM_ARG(IPTOS,305397779 ),target0);
+fputs(" target0=", vm_out); printarg_target(target0);
+}
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 15)) {
+  fputs("jump_l_if_lt", vm_out);
+{
+Inst * target0;
+vm_Cell2target(IMM_ARG(IPTOS,305397780 ),target0);
+fputs(" target0=", vm_out); printarg_target(target0);
+}
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 16)) {
   fputs("end", vm_out);
   ip += 1;
   goto _endif_;
