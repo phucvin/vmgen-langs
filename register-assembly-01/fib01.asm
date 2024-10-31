@@ -26,7 +26,7 @@
 // save fib(n-1), now in r0
   push r0
 // call fib(n-2)
-  sub_to r0 r1 #1
+  sub_to r0 r1 #2
   push @fib_recursive_case_01
   jump @fib
 @fib_recursive_case_01:
