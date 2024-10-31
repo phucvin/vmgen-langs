@@ -1,5 +1,6 @@
 INST_ADDR(push_l),
 INST_ADDR(push_r),
+INST_ADDR(pop_r),
 INST_ADDR(dup),
 INST_ADDR(swap),
 INST_ADDR(add),

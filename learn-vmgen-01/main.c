@@ -55,6 +55,9 @@ int main(int argc, char **argv)
     gen_set_rl(&vmcodep, 0, 5);
     gen_add_rrl(&vmcodep, 0, 0, 8);
     gen_push_r(&vmcodep, 0);
+    gen_set_rl(&vmcodep, 0, 0);
+    gen_pop_r(&vmcodep, 0);
+    gen_push_r(&vmcodep, 0);
     gen_end(&vmcodep);
   }
 	vmcode_end = vmcodep;
