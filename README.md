@@ -30,3 +30,11 @@ $ time ./vm.out fib_old.asm
 Learn Vmgen:
 - http://www.complang.tuwien.ac.at/anton/vmgen/
 - See commit history of `learn-vmgen-01`
+```
+$ cd learn-vmgen-01
+$ make vm && time vm.out
+...
+vm run:
+return code: 102334155
+real    0m2.585s
+```

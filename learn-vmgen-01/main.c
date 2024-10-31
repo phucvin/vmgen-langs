@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     // main
     // call fib(n) with param n in r0 and return address in stack
     gen_push_l(&vmcodep, (long int)(char *)start + 56);
-    gen_set_rl(&vmcodep, 0, 6);
+    gen_set_rl(&vmcodep, 0, 40);
     gen_jump_l(&vmcodep, (Cell *)((char *)start + 80));
     // result is now in r0
     gen_push_r(&vmcodep, 0);
