@@ -60,6 +60,12 @@ SET_IP(target0);
 jump_l_if_lt ( #target0 i0 i1 -- )
 if (i0 < i1) SET_IP(target0);
 
+jump_l_if_r_lt_l ( #target0 #i0 #i1 -- )
+if (regs[i0] < i1) SET_IP(target0);
+
+jump_if_r_lt_l ( target0 #i0 #i1 -- )
+if (regs[i0] < i1) SET_IP(target0);
+
 set_rl ( #i0 #i1 -- )
 regs[i0] = i1;
 
