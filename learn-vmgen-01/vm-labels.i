@@ -1,5 +1,6 @@
 INST_ADDR(push_l),
 INST_ADDR(push_r),
+INST_ADDR(dup),
 INST_ADDR(add),
 INST_ADDR(add_rrl),
 INST_ADDR(add_rrr),

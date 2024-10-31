@@ -52,8 +52,10 @@ int main(int argc, char **argv)
     gen_jump_l(&vmcodep, start + 2 * 2);
     gen_jump_l(&vmcodep, start);
     gen_push_l(&vmcodep, 8);
-		gen_end(&vmcodep);
-	}
+    gen_dup(&vmcodep);
+    gen_add(&vmcodep);
+    gen_end(&vmcodep);
+  }
 	vmcode_end = vmcodep;
 
 	printf("\nvm assembly:\n");

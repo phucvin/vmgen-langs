@@ -68,6 +68,43 @@ LABEL2(push_r)
 NEXT_P2;
 }
 
+LABEL(dup) /* dup ( i0 -- i1 i2 ) */
+/*  */
+NAME("dup")
+{
+DEF_CA
+long i0;
+long i1;
+long i2;
+NEXT_P0;
+vm_Cell2i(spTOS,i0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+#endif
+sp += -1;
+{
+#line 20 "vm.vmg"
+i1 = i0;
+i2 = i0;
+#line 92 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputs(" i1=", vm_out); printarg_i(i1);
+fputs(" i2=", vm_out); printarg_i(i2);
+fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+vm_i2Cell(i1,sp[1]);
+vm_i2Cell(i2,spTOS);
+LABEL2(dup)
+NEXT_P2;
+}
+
 LABEL(add) /* add ( i0 i1 -- i2 ) */
 /*  */
 NAME("add")
@@ -87,9 +124,9 @@ fputs(" i1=", vm_out); printarg_i(i1);
 #endif
 sp += 1;
 {
-#line 20 "vm.vmg"
+#line 24 "vm.vmg"
 i2 = i0 + i1;
-#line 93 "vm-vm.i"
+#line 130 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -125,9 +162,9 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 23 "vm.vmg"
+#line 27 "vm.vmg"
 regs[i0] = regs[i1] + i2;
-#line 131 "vm-vm.i"
+#line 168 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -161,9 +198,9 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 26 "vm.vmg"
+#line 30 "vm.vmg"
 regs[i0] = regs[i1] + regs[i2];
-#line 167 "vm-vm.i"
+#line 204 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -197,9 +234,9 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 29 "vm.vmg"
+#line 33 "vm.vmg"
 regs[i0] = regs[i1] - i2;
-#line 203 "vm-vm.i"
+#line 240 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -233,9 +270,9 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 32 "vm.vmg"
+#line 36 "vm.vmg"
 regs[i0] = i1 - regs[i2];
-#line 239 "vm-vm.i"
+#line 276 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -269,9 +306,9 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 35 "vm.vmg"
+#line 39 "vm.vmg"
 regs[i0] = regs[i1] - regs[i2];
-#line 275 "vm-vm.i"
+#line 312 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
@@ -299,9 +336,9 @@ fputs(" target0=", vm_out); printarg_target(target0);
 #endif
 INC_IP(1);
 {
-#line 38 "vm.vmg"
+#line 42 "vm.vmg"
 SET_IP(target0);
-#line 305 "vm-vm.i"
+#line 342 "vm-vm.i"
 }
 SUPER_END;
 
@@ -330,9 +367,9 @@ fputs(" i0=", vm_out); printarg_i(i0);
 #endif
 sp += 1;
 {
-#line 41 "vm.vmg"
+#line 45 "vm.vmg"
 return i0;
-#line 336 "vm-vm.i"
+#line 373 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
