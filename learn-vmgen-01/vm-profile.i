@@ -109,7 +109,17 @@ if (VM_IS_INST(*ip, 21)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 22)) {
-  add_inst(b, "s_pljl");
-  ip += 3;
+  add_inst(b, "s_call0");
+  ip += 4;
+  return;
+}
+if (VM_IS_INST(*ip, 23)) {
+  add_inst(b, "s_call1_0");
+  ip += 5;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 24)) {
+  add_inst(b, "s_call1");
+  ip += 6;
   return;
 }

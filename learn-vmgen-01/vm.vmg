@@ -80,4 +80,6 @@ return i0;
 
 \ Super instructions below
 
-s_pljl = push_l jump_l
+s_call0 = set_rl jump_l
+s_call1_0 = set_rl set_rl
+s_call1 = set_rl set_rl jump_l

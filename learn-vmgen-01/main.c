@@ -61,24 +61,26 @@ int main(int argc, char **argv)
   // Generate bytecode directly here for now
   {
     // main
-    // call fib(n) with param n in r0 and return address in stack
+    // call fib(n) with param n in r0 and return address in r1
     gen_set_rl(&vmcodep, 0, 40);
-    gen_push_l(&vmcodep, (long int)(char *)start + 48);
+    gen_set_rl(&vmcodep, 1, (long int)(char *)start + 48);
     gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
     // result is now in r0
     gen_push_r(&vmcodep, 0);
     gen_end(&vmcodep);
 
     // fib
-    // param n is in r0, return address in stack
+    // param n is in r0, return address in r1
+    // save return_address to stack so we can use r1 for other things
+    gen_push_r(&vmcodep, 1);
     // if n < 0, jump to base case; fallthrough if not
-    gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 312), 0, 2);
+    gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 344), 0, 2);
     // recursive case
     // save r0=n to stack
     gen_push_r(&vmcodep, 0);
-    // call fib(n-1) with param n-1 in r0 and return address in stack
+    // call fib(n-1) with param n-1 in r0 and return address in r1
     gen_sub_rrl(&vmcodep, 0, 0, 1);
-    gen_push_l(&vmcodep, (long int)(char *)start + 176);
+    gen_set_rl(&vmcodep, 1, (long int)(char *)start + 200);
     gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
     // restore n to r1
     gen_pop_r(&vmcodep, 1);
@@ -86,7 +88,7 @@ int main(int argc, char **argv)
     gen_push_r(&vmcodep, 0);
     // call fib(n-2) with param n-2 in r0 and return address in stack
     gen_sub_rrl(&vmcodep, 0, 1, 2);
-    gen_push_l(&vmcodep, (long int)(char *)start + 264);
+    gen_set_rl(&vmcodep, 1, (long int)(char *)start + 296);
     gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
     // pop saved fib(n-1) to r1
     gen_pop_r(&vmcodep, 1);

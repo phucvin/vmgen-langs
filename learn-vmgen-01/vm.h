@@ -41,6 +41,7 @@ void genarg_i(Inst **vmcodepp, long i);
 void printarg_i(long i);
 void genarg_target(Inst **vmcodepp, Inst *target);
 void printarg_target(Inst *target);
+void printarg_Cell(Cell i);
 
 /* engine functions (type not fixed) */
 long engine(Inst *ip0, Cell *sp, char *fp);
