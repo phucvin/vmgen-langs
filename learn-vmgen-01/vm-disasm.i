@@ -359,7 +359,7 @@ fputs(" i0=", vm_out); printarg_i(i0);
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 34)) {
-  fputs("s_call0", vm_out);
+  fputs("s_pljl", vm_out);
 {
 Cell _IP0;
 vm_Cell2Cell(IMM_ARG(IPTOS,305397798 ),_IP0);
@@ -370,66 +370,6 @@ Cell _IP1;
 vm_Cell2Cell(IMM_ARG(IP[1],305397799 ),_IP1);
 fputs(" _IP1=", vm_out); printarg_Cell(_IP1);
 }
-{
-Cell _IP2;
-vm_Cell2Cell(IMM_ARG(IP[2],305397800 ),_IP2);
-fputs(" _IP2=", vm_out); printarg_Cell(_IP2);
-}
-  ip += 4;
-  goto _endif_;
-}
-if (VM_IS_INST(*ip, 35)) {
-  fputs("s_call1_0", vm_out);
-{
-Cell _IP0;
-vm_Cell2Cell(IMM_ARG(IPTOS,305397801 ),_IP0);
-fputs(" _IP0=", vm_out); printarg_Cell(_IP0);
-}
-{
-Cell _IP1;
-vm_Cell2Cell(IMM_ARG(IP[1],305397802 ),_IP1);
-fputs(" _IP1=", vm_out); printarg_Cell(_IP1);
-}
-{
-Cell _IP2;
-vm_Cell2Cell(IMM_ARG(IP[2],305397803 ),_IP2);
-fputs(" _IP2=", vm_out); printarg_Cell(_IP2);
-}
-{
-Cell _IP3;
-vm_Cell2Cell(IMM_ARG(IP[3],305397804 ),_IP3);
-fputs(" _IP3=", vm_out); printarg_Cell(_IP3);
-}
-  ip += 5;
-  goto _endif_;
-}
-if (VM_IS_INST(*ip, 36)) {
-  fputs("s_call1", vm_out);
-{
-Cell _IP0;
-vm_Cell2Cell(IMM_ARG(IPTOS,305397805 ),_IP0);
-fputs(" _IP0=", vm_out); printarg_Cell(_IP0);
-}
-{
-Cell _IP1;
-vm_Cell2Cell(IMM_ARG(IP[1],305397806 ),_IP1);
-fputs(" _IP1=", vm_out); printarg_Cell(_IP1);
-}
-{
-Cell _IP2;
-vm_Cell2Cell(IMM_ARG(IP[2],305397807 ),_IP2);
-fputs(" _IP2=", vm_out); printarg_Cell(_IP2);
-}
-{
-Cell _IP3;
-vm_Cell2Cell(IMM_ARG(IP[3],305397808 ),_IP3);
-fputs(" _IP3=", vm_out); printarg_Cell(_IP3);
-}
-{
-Cell _IP4;
-vm_Cell2Cell(IMM_ARG(IP[4],305397809 ),_IP4);
-fputs(" _IP4=", vm_out); printarg_Cell(_IP4);
-}
-  ip += 6;
+  ip += 3;
   goto _endif_;
 }
