@@ -105,18 +105,6 @@ void postprocess(void)
   }
 }
 
-#if 0
-void print_block(FILE *file, block_count *b)
-{
-  size_t i;
-
-  fprintf(file,"%14lld\t",b->count);
-  for (i=0; i<b->ninsts; i++)
-    fprintf(file, "%s ", b->insts[i]);
-  putc('\n', file);
-}
-#endif
-
 void print_block(FILE *file, block_count *b)
 {
   size_t i, j, k;

@@ -19,46 +19,7 @@
 #define NAME(_x)
 #endif
 
-/* different threading schemes for different architectures; the sparse
-   numbering is there for historical reasons */
-
-/* here you select the threading scheme; I have only set this up for
-   386 and generic, because I don't know what preprocessor macros to
-   test for (Gforth uses config.guess instead).  Anyway, it's probably
-   best to build them all and select the fastest instead of hardwiring
-   a specific scheme for an architecture.  E.g., scheme 8 is fastest
-   for Gforth "make bench" on a 486, whereas scheme 5 is fastest for
-   "mini fib.mini" on an Athlon */
-#ifndef THREADING_SCHEME
-#define THREADING_SCHEME 5
-#endif /* defined(THREADING_SCHEME) */
-
-#if THREADING_SCHEME == 1
-/* direct threading scheme 1: autoinc, long latency (HPPA, Sharc) */
-#define NEXT_P0 ({ cfa = *ip++; })
-#define IP (ip - 1)
-#define SET_IP(p) ({ip=(p); NEXT_P0; })
-#define NEXT_INST (cfa)
-#define INC_IP(const_inc) ({cfa=IP[const_inc]; ip+=(const_inc); })
-#define DEF_CA
-#define NEXT_P1
-#define NEXT_P2 ({ goto *(cfa.inst); })
-#endif
-
-#if THREADING_SCHEME == 3
-/* direct threading scheme 3: autoinc, low latency (68K) */
-#define NEXT_P0
-#define IP (ip)
-#define SET_IP(p) ({ip=(p); NEXT_P0; })
-#define NEXT_INST (*ip)
-#define INC_IP(const_inc) ({ ip += (const_inc); })
-#define DEF_CA
-#define NEXT_P1 ({ cfa = *ip++; })
-#define NEXT_P2 ({ goto *(cfa.inst); })
-#endif
-
-#if THREADING_SCHEME == 5
-/* direct threading scheme 5: early fetching (Alpha, MIPS) */
+/* direct threading scheme */
 #define CFA_NEXT
 #define NEXT_P0 ({ cfa = *ip; })
 #define IP (ip)
@@ -68,47 +29,6 @@
 #define DEF_CA
 #define NEXT_P1 (ip++)
 #define NEXT_P2 ({ goto *(cfa.inst); })
-#endif
-
-#if THREADING_SCHEME == 8
-/* direct threading scheme 8: i386 hack */
-#define NEXT_P0
-#define IP (ip)
-#define SET_IP(p) ({ip=(p); NEXT_P0; })
-#define NEXT_INST (*IP)
-#define INC_IP(const_inc) ({ ip += (const_inc); })
-#define DEF_CA
-#define NEXT_P1 (ip++)
-#define NEXT_P2 ({ goto *((*(ip - 1)).inst); })
-#endif
-
-#if THREADING_SCHEME == 9
-/* direct threading scheme 9: prefetching (for PowerPC) */
-/* note that the "cfa=next_cfa;" occurs only in NEXT_P1, because this
-   works out better with the capabilities of gcc to introduce and
-   schedule the mtctr instruction. */
-#define NEXT_P0
-#define IP ip
-#define SET_IP(p) ({ip=(p); next_cfa=*ip; NEXT_P0; })
-#define NEXT_INST (next_cfa)
-#define INC_IP(const_inc) ({next_cfa=IP[const_inc]; ip+=(const_inc); })
-#define DEF_CA
-#define NEXT_P1 ({cfa=next_cfa; ip++; next_cfa=*ip; })
-#define NEXT_P2 ({ goto *(cfa.inst); })
-#define MORE_VARS Cell next_cfa;
-#endif
-
-#if THREADING_SCHEME == 10
-/* direct threading scheme 10: plain (no attempt at scheduling) */
-#define NEXT_P0
-#define IP (ip)
-#define SET_IP(p) ({ip=(p); NEXT_P0; })
-#define NEXT_INST (*ip)
-#define INC_IP(const_inc) ({ ip += (const_inc); })
-#define DEF_CA
-#define NEXT_P1
-#define NEXT_P2 ({cfa=*ip++; goto *(cfa.inst); })
-#endif
 
 #define NEXT ({DEF_CA NEXT_P1; NEXT_P2; })
 #define IPTOS ((NEXT_INST))
