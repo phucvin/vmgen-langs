@@ -14,6 +14,8 @@ typedef union Cell
 
 #define VM_IS_INST(_inst, n) ((_inst).inst == vm_prim[n])
 
+#define IMM_ARG(access, value) (access)
+
 extern Label *vm_prim;
 extern struct Peeptable_entry **peeptable;
 extern int vm_debug;

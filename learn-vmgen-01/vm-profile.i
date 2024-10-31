@@ -1,6 +1,6 @@
 if (VM_IS_INST(*ip, 0)) {
   add_inst(b, "push");
-  ip += 1;
+  ip += 2;
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 1)) {

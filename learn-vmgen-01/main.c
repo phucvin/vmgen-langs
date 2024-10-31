@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	start = vmcodep;
 	// Generate bytecode directly here for now
 	{
-		gen_push(&vmcodep);
+		gen_push(&vmcodep, 14);
 		gen_end(&vmcodep);
 	}
 	vmcode_end = vmcodep;
