@@ -39,6 +39,11 @@ if (VM_IS_INST(*ip, 7)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 8)) {
+  add_inst(b, "jump_l");
+  ip += 2;
+  return;
+}
+if (VM_IS_INST(*ip, 9)) {
   add_inst(b, "end");
   ip += 1;
   goto _endif_;

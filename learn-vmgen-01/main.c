@@ -17,6 +17,17 @@ void printarg_i(long i)
 	fprintf(vm_out, "%ld ", i);
 }
 
+void genarg_target(Inst **vmcodepp, Inst *target)
+{
+  vm_target2Cell(target, *((Cell *) *vmcodepp));
+  (*vmcodepp)++;
+}
+
+void printarg_target(Inst *target)
+{
+  fprintf(vm_out, "%p ", target);
+}
+
 Label *vm_prim;
 Inst *vmcodep;
 FILE *vm_out;
@@ -38,11 +49,9 @@ int main(int argc, char **argv)
 	start = vmcodep;
 	// Generate bytecode directly here for now
 	{
-		gen_push_l(&vmcodep, 14);
-		gen_sub_rrr(&vmcodep, 0, 0, 0);
-		gen_add_rrl(&vmcodep, 0, 0, 3);
-		gen_push_r(&vmcodep, 0);
-		gen_add(&vmcodep);
+    gen_jump_l(&vmcodep, start + 2 * 2);
+    gen_jump_l(&vmcodep, start);
+    gen_push_l(&vmcodep, 8);
 		gen_end(&vmcodep);
 	}
 	vmcode_end = vmcodep;

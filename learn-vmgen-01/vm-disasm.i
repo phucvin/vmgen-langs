@@ -124,6 +124,16 @@ fputs(" i2=", vm_out); printarg_i(i2);
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 8)) {
+  fputs("jump_l", vm_out);
+{
+Inst * target0;
+vm_Cell2target(IMM_ARG(IPTOS,305397777 ),target0);
+fputs(" target0=", vm_out); printarg_target(target0);
+}
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 9)) {
   fputs("end", vm_out);
   ip += 1;
   goto _endif_;

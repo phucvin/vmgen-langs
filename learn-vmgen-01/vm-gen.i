@@ -47,7 +47,12 @@ void gen_sub_rrr(Inst **ctp, long i0, long i1, long i2)
   genarg_i(ctp, i1);
   genarg_i(ctp, i2);
 }
-void gen_end(Inst **ctp)
+void gen_jump_l(Inst **ctp, Inst * target0)
 {
   gen_inst(ctp, vm_prim[8]);
+  genarg_target(ctp, target0);
+}
+void gen_end(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[9]);
 }

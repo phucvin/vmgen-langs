@@ -16,7 +16,7 @@ fputs(" i0=", vm_out); printarg_i(i0);
 INC_IP(1);
 sp += -1;
 {
-#line 13 "vm.vmg"
+#line 14 "vm.vmg"
 i1 = i0;
 #line 22 "vm-vm.i"
 }
@@ -51,7 +51,7 @@ fputs(" i0=", vm_out); printarg_i(i0);
 INC_IP(1);
 sp += -1;
 {
-#line 16 "vm.vmg"
+#line 17 "vm.vmg"
 i1 = regs[i0];
 #line 57 "vm-vm.i"
 }
@@ -87,7 +87,7 @@ fputs(" i1=", vm_out); printarg_i(i1);
 #endif
 sp += 1;
 {
-#line 19 "vm.vmg"
+#line 20 "vm.vmg"
 i2 = i0 + i1;
 #line 93 "vm-vm.i"
 }
@@ -125,7 +125,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 22 "vm.vmg"
+#line 23 "vm.vmg"
 regs[i0] = regs[i1] + i2;
 #line 131 "vm-vm.i"
 }
@@ -161,7 +161,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 25 "vm.vmg"
+#line 26 "vm.vmg"
 regs[i0] = regs[i1] + regs[i2];
 #line 167 "vm-vm.i"
 }
@@ -197,7 +197,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 28 "vm.vmg"
+#line 29 "vm.vmg"
 regs[i0] = regs[i1] - i2;
 #line 203 "vm-vm.i"
 }
@@ -233,7 +233,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 31 "vm.vmg"
+#line 32 "vm.vmg"
 regs[i0] = i1 - regs[i2];
 #line 239 "vm-vm.i"
 }
@@ -269,7 +269,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
 #endif
 INC_IP(3);
 {
-#line 34 "vm.vmg"
+#line 35 "vm.vmg"
 regs[i0] = regs[i1] - regs[i2];
 #line 275 "vm-vm.i"
 }
@@ -281,6 +281,37 @@ fputs(" -- ", vm_out); fputc('\n', vm_out);
 #endif
 NEXT_P1;
 LABEL2(sub_rrr)
+NEXT_P2;
+}
+
+LABEL(jump_l) /* jump_l ( #target0 -- ) */
+/*  */
+NAME("jump_l")
+{
+DEF_CA
+Inst * target0;
+NEXT_P0;
+vm_Cell2target(IMM_ARG(IPTOS,305397777 ),target0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" target0=", vm_out); printarg_target(target0);
+}
+#endif
+INC_IP(1);
+{
+#line 38 "vm.vmg"
+SET_IP(target0);
+#line 305 "vm-vm.i"
+}
+SUPER_END;
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+LABEL2(jump_l)
 NEXT_P2;
 }
 
@@ -299,9 +330,9 @@ fputs(" i0=", vm_out); printarg_i(i0);
 #endif
 sp += 1;
 {
-#line 37 "vm.vmg"
+#line 41 "vm.vmg"
 return i0;
-#line 305 "vm-vm.i"
+#line 336 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
