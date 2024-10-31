@@ -24,11 +24,16 @@ if (VM_IS_INST(*ip, 2)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 3)) {
-  fputs("add", vm_out);
+  fputs("swap", vm_out);
   ip += 1;
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 4)) {
+  fputs("add", vm_out);
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 5)) {
   fputs("add_rrl", vm_out);
 {
 long i0;
@@ -48,7 +53,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
   ip += 4;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 5)) {
+if (VM_IS_INST(*ip, 6)) {
   fputs("add_rrr", vm_out);
 {
 long i0;
@@ -68,7 +73,12 @@ fputs(" i2=", vm_out); printarg_i(i2);
   ip += 4;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 6)) {
+if (VM_IS_INST(*ip, 7)) {
+  fputs("sub", vm_out);
+  ip += 1;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 8)) {
   fputs("sub_rrl", vm_out);
 {
 long i0;
@@ -88,7 +98,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
   ip += 4;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 7)) {
+if (VM_IS_INST(*ip, 9)) {
   fputs("sub_rlr", vm_out);
 {
 long i0;
@@ -108,7 +118,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
   ip += 4;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 8)) {
+if (VM_IS_INST(*ip, 10)) {
   fputs("sub_rrr", vm_out);
 {
 long i0;
@@ -128,7 +138,7 @@ fputs(" i2=", vm_out); printarg_i(i2);
   ip += 4;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 9)) {
+if (VM_IS_INST(*ip, 11)) {
   fputs("jump_l", vm_out);
 {
 Inst * target0;
@@ -138,7 +148,7 @@ fputs(" target0=", vm_out); printarg_target(target0);
   ip += 2;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 10)) {
+if (VM_IS_INST(*ip, 12)) {
   fputs("jump_l_if_lt", vm_out);
 {
 Inst * target0;
@@ -148,7 +158,7 @@ fputs(" target0=", vm_out); printarg_target(target0);
   ip += 2;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 11)) {
+if (VM_IS_INST(*ip, 13)) {
   fputs("end", vm_out);
   ip += 1;
   goto _endif_;

@@ -20,6 +20,10 @@ dup ( i0 -- i1 i2 )
 i1 = i0;
 i2 = i0;
 
+swap ( i0 i1 -- i2 i3 )
+i2 = i1;
+i3 = i0;
+
 add ( i0 i1 -- i2 )
 i2 = i0 + i1;
 
@@ -28,6 +32,9 @@ regs[i0] = regs[i1] + i2;
 
 add_rrr ( #i0 #i1 #i2 -- )
 regs[i0] = regs[i1] + regs[i2];
+
+sub ( i0 i1 -- i2 )
+i2 = i0 - i1;
 
 sub_rrl ( #i0 #i1 #i2 -- )
 regs[i0] = regs[i1] - i2;

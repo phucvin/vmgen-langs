@@ -53,9 +53,10 @@ int main(int argc, char **argv)
     gen_push_l(&vmcodep, 2);
     gen_jump_l_if_lt(&vmcodep, start + 2 * 4);
     gen_jump_l(&vmcodep, start);
+    gen_push_l(&vmcodep, 2);
     gen_push_l(&vmcodep, 8);
-    gen_dup(&vmcodep);
-    gen_add(&vmcodep);
+    gen_swap(&vmcodep);
+    gen_sub(&vmcodep);
     gen_end(&vmcodep);
   }
 	vmcode_end = vmcodep;
