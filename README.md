@@ -24,3 +24,9 @@ $ cd stack-assembly-01
 $ make
 $ time ./vm.out fib_old.asm
 ```
+
+## Appendix
+
+Learn Vmgen:
+- http://www.complang.tuwien.ac.at/anton/vmgen/
+- See commit history of `learn-vmgen-01`

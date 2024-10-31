@@ -1,0 +1,10 @@
+\ comments start with "\ " (note that "\E" is not a comment)
+
+\ stack definitions:
+\E stack data-stack sp Cell
+
+\ type prefix definitions:
+\E s" long" single data-stack type-prefix i
+
+push ( i0 -- )
+// TODO
