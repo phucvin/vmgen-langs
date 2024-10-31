@@ -83,37 +83,42 @@ void gen_jump_l(Inst **ctp, Inst * target0)
   gen_inst(ctp, vm_prim[15]);
   genarg_target(ctp, target0);
 }
-void gen_jump_l_if_lt(Inst **ctp, Inst * target0)
+void gen_jump_r(Inst **ctp, long i0)
 {
   gen_inst(ctp, vm_prim[16]);
+  genarg_i(ctp, i0);
+}
+void gen_jump_l_if_lt(Inst **ctp, Inst * target0)
+{
+  gen_inst(ctp, vm_prim[17]);
   genarg_target(ctp, target0);
 }
 void gen_jump_l_if_r_lt_l(Inst **ctp, Inst * target0, long i0, long i1)
 {
-  gen_inst(ctp, vm_prim[17]);
+  gen_inst(ctp, vm_prim[18]);
   genarg_target(ctp, target0);
   genarg_i(ctp, i0);
   genarg_i(ctp, i1);
 }
 void gen_jump_if_r_lt_l(Inst **ctp, long i0, long i1)
 {
-  gen_inst(ctp, vm_prim[18]);
+  gen_inst(ctp, vm_prim[19]);
   genarg_i(ctp, i0);
   genarg_i(ctp, i1);
 }
 void gen_set_rl(Inst **ctp, long i0, long i1)
 {
-  gen_inst(ctp, vm_prim[19]);
+  gen_inst(ctp, vm_prim[20]);
   genarg_i(ctp, i0);
   genarg_i(ctp, i1);
 }
 void gen_set_rr(Inst **ctp, long i0, long i1)
 {
-  gen_inst(ctp, vm_prim[20]);
+  gen_inst(ctp, vm_prim[21]);
   genarg_i(ctp, i0);
   genarg_i(ctp, i1);
 }
 void gen_end(Inst **ctp)
 {
-  gen_inst(ctp, vm_prim[21]);
+  gen_inst(ctp, vm_prim[22]);
 }
