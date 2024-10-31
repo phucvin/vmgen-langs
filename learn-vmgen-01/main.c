@@ -50,15 +50,21 @@ int main(int argc, char **argv)
 	// Generate bytecode directly here for now
 	{
 		// main
-		// call fib(n) where n is in r0 and return address in the stack
-		gen_push_l(&vmcodep, (char *)start + 56);
-		gen_set_rl(&vmcodep, 0, 6);
-		gen_jump_l(&vmcodep, (char *)start + 80);
+		// call fib(n) with param n in r0 and return address in stack
+		gen_push_l(&vmcodep, (long int)(char *)start + 56);
+		gen_set_rl(&vmcodep, 0, 2);
+		gen_jump_l(&vmcodep, (Cell*)((char *)start + 80));
+    // result is now in r0
 		gen_push_r(&vmcodep, 0);
 		gen_end(&vmcodep);
 
 		// fib
-		gen_add_rrl(&vmcodep, 0, 0, 2);
+    // param n is in r0, return address in stack
+		gen_jump_l_if_r_lt_l(&vmcodep, (Cell*)((char *)start + 144), 0, 2);
+    gen_add_rrl(&vmcodep, 0, 0, 100);  // TODO: handle recursive case
+    gen_jump(&vmcodep);
+    // base case
+    // result is also n, which is already in r0
 		gen_jump(&vmcodep);
 	}
 	vmcode_end = vmcodep;
