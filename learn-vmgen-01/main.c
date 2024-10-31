@@ -49,7 +49,9 @@ int main(int argc, char **argv)
 	start = vmcodep;
 	// Generate bytecode directly here for now
 	{
-    gen_jump_l(&vmcodep, start + 2 * 2);
+    gen_push_l(&vmcodep, 1);
+    gen_push_l(&vmcodep, 2);
+    gen_jump_l_if_lt(&vmcodep, start + 2 * 4);
     gen_jump_l(&vmcodep, start);
     gen_push_l(&vmcodep, 8);
     gen_dup(&vmcodep);

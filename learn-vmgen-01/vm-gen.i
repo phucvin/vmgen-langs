@@ -56,7 +56,12 @@ void gen_jump_l(Inst **ctp, Inst * target0)
   gen_inst(ctp, vm_prim[9]);
   genarg_target(ctp, target0);
 }
-void gen_end(Inst **ctp)
+void gen_jump_l_if_lt(Inst **ctp, Inst * target0)
 {
   gen_inst(ctp, vm_prim[10]);
+  genarg_target(ctp, target0);
+}
+void gen_end(Inst **ctp)
+{
+  gen_inst(ctp, vm_prim[11]);
 }

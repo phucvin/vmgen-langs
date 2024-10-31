@@ -41,5 +41,8 @@ regs[i0] = regs[i1] - regs[i2];
 jump_l ( #target0 -- )
 SET_IP(target0);
 
+jump_l_if_lt ( i0 i1 #target0 -- )
+if (i0 < i1) SET_IP(target0);
+
 end ( i0 -- )
 return i0;

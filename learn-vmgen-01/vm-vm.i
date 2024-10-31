@@ -352,6 +352,45 @@ LABEL2(jump_l)
 NEXT_P2;
 }
 
+LABEL(jump_l_if_lt) /* jump_l_if_lt ( i0 i1 #target0 -- ) */
+/*  */
+NAME("jump_l_if_lt")
+{
+DEF_CA
+long i0;
+long i1;
+Inst * target0;
+NEXT_P0;
+vm_Cell2i(sp[1],i0);
+vm_Cell2i(spTOS,i1);
+vm_Cell2target(IMM_ARG(IPTOS,305397778 ),target0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" i0=", vm_out); printarg_i(i0);
+fputs(" i1=", vm_out); printarg_i(i1);
+fputs(" target0=", vm_out); printarg_target(target0);
+}
+#endif
+INC_IP(1);
+sp += 2;
+{
+#line 45 "vm.vmg"
+if (i0 < i1) SET_IP(target0);
+#line 380 "vm-vm.i"
+}
+SUPER_END;
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+NEXT_P1;
+IF_spTOS(spTOS = sp[0]);
+LABEL2(jump_l_if_lt)
+NEXT_P2;
+}
+
 LABEL(end) /* end ( i0 -- ) */
 /*  */
 NAME("end")
@@ -367,9 +406,9 @@ fputs(" i0=", vm_out); printarg_i(i0);
 #endif
 sp += 1;
 {
-#line 45 "vm.vmg"
+#line 48 "vm.vmg"
 return i0;
-#line 373 "vm-vm.i"
+#line 412 "vm-vm.i"
 }
 
 #ifdef VM_DEBUG
