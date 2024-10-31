@@ -11,9 +11,6 @@ typedef struct Combination
 
 Combination peephole_table[] = {
 #include "vm-peephole.i"
-#ifndef __GNUC__
-    {-1, -1, -1} /* unnecessary; just to shut up lcc if the file is empty */
-#endif
 };
 
 int use_super = 1; /* turned off by option -p */

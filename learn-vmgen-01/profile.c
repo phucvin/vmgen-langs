@@ -8,11 +8,7 @@
 #define HASH_SIZE (1 << 20)
 #define hash(p) ((((long)(p)) / sizeof(Inst)) & (HASH_SIZE - 1))
 
-#ifdef __GNUC__
 typedef long long long_long;
-#else
-typedef long long_long;
-#endif
 
 typedef struct block_count
 {

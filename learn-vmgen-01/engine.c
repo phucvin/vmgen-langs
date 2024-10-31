@@ -33,7 +33,6 @@
 #define THREADING_SCHEME 5
 #endif /* defined(THREADING_SCHEME) */
 
-#ifdef __GNUC__
 #if THREADING_SCHEME == 1
 /* direct threading scheme 1: autoinc, long latency (HPPA, Sharc) */
 #define NEXT_P0 ({ cfa = *ip++; })
@@ -116,21 +115,6 @@
 
 #define INST_ADDR(name) (Label) && I_##name
 #define LABEL(name) I_##name:
-#else /* !defined(__GNUC__) */
-/* use switch dispatch */
-#define DEF_CA
-#define NEXT_P0
-#define NEXT_P1
-#define NEXT_P2 goto next_inst;
-#define SET_IP(p) (ip = (p))
-#define IP ip
-#define NEXT_INST (*ip)
-#define INC_IP(const_inc) (ip += (const_inc))
-#define IPTOS NEXT_INST
-#define INST_ADDR(name) I_##name
-#define LABEL(name) case I_##name:
-
-#endif /* !defined(__GNUC__) */
 
 #define LABEL2(x)
 
@@ -140,18 +124,7 @@
 #define SUPER_END
 #endif
 
-#ifndef __GNUC__
-enum
-{
-#include "vm-labels.i"
-};
-#endif
-
-#if defined(__GNUC__) && ((__GNUC__ == 2 && defined(__GNUC_MINOR__) && __GNUC_MINOR__ >= 7) || (__GNUC__ > 2))
 #define MAYBE_UNUSED __attribute__((unused))
-#else
-#define MAYBE_UNUSED
-#endif
 
 /* the return type can be anything you want it to */
 long engine(Cell *ip0, Cell *sp, char *fp)
@@ -186,17 +159,6 @@ long engine(Cell *ip0, Cell *sp, char *fp)
   SET_IP(ip0);
   SUPER_END; /* count the BB starting at ip0 */
 
-#ifdef __GNUC__
   NEXT;
 #include "vm-vm.i"
-#else
-next_inst:
-  switch ((*ip++).inst)
-  {
-#include "vm-vm.i"
-  default:
-    fprintf(stderr, "unknown instruction %d at %p\n", ip[-1], ip - 1);
-    exit(1);
-  }
-#endif
 }
