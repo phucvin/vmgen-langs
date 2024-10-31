@@ -776,3 +776,66 @@ LABEL2(end)
 NEXT_P2;
 }
 
+LABEL(s_pljl)
+{
+DEF_CA
+Cell MAYBE_UNUSED _IP0;
+Cell MAYBE_UNUSED _IP1;
+Cell MAYBE_UNUSED _sp0;
+NEXT_P0;
+IF_spTOS(sp[0] = spTOS);
+/* push_l ( #i0 -- i1 ) */
+NAME("push_l")
+{
+long i0;
+long i1;
+vm_Cell2i(IMM_ARG(IPTOS,305397791 ),i0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" i0=", vm_out); printarg_i(i0);
+}
+#endif
+sp += -1;
+{
+#line 79 "vm.vmg"
+i1 = i0;
+#line 803 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputs(" i1=", vm_out); printarg_i(i1);
+fputc('\n', vm_out);
+}
+#endif
+vm_i2Cell(i1,spTOS);
+}
+/* jump_l ( #target0 -- ) */
+NAME("jump_l")
+{
+Inst * target0;
+vm_Cell2target(IMM_ARG(IP[1],305397792 ),target0);
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" target0=", vm_out); printarg_target(target0);
+}
+#endif
+INC_IP(2);
+{
+#line 79 "vm.vmg"
+SET_IP(target0);
+#line 828 "vm-vm.i"
+}
+
+#ifdef VM_DEBUG
+if (vm_debug) {
+fputs(" -- ", vm_out); fputc('\n', vm_out);
+}
+#endif
+}
+SUPER_END;
+NEXT_P1;
+LABEL2(s_pljl)
+NEXT_P2;
+}
+

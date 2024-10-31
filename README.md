@@ -36,5 +36,5 @@ $ make vm && time vm.out
 ...
 vm run:
 return code: 102334155
-real    0m2.585s
+real    0m2.097s
 ```

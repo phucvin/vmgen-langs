@@ -263,3 +263,18 @@ if (VM_IS_INST(*ip, 21)) {
   ip += 1;
   goto _endif_;
 }
+if (VM_IS_INST(*ip, 22)) {
+  fputs("s_pljl", vm_out);
+{
+Cell _IP0;
+vm_Cell2Cell(IMM_ARG(IPTOS,305397791 ),_IP0);
+fputs(" _IP0=", vm_out); printarg_Cell(_IP0);
+}
+{
+Cell _IP1;
+vm_Cell2Cell(IMM_ARG(IP[1],305397792 ),_IP1);
+fputs(" _IP1=", vm_out); printarg_Cell(_IP1);
+}
+  ip += 3;
+  goto _endif_;
+}

@@ -28,6 +28,11 @@ void printarg_target(Inst *target)
   fprintf(vm_out, "%p ", target);
 }
 
+void printarg_Cell(Cell i)
+{
+  fprintf(vm_out, "0x%lx ", i.i);
+}
+
 Label *vm_prim;
 Inst *vmcodep;
 FILE *vm_out;
@@ -57,9 +62,9 @@ int main(int argc, char **argv)
   {
     // main
     // call fib(n) with param n in r0 and return address in stack
-    gen_push_l(&vmcodep, (long int)(char *)start + 56);
     gen_set_rl(&vmcodep, 0, 40);
-    gen_jump_l(&vmcodep, (Cell *)((char *)start + 80));
+    gen_push_l(&vmcodep, (long int)(char *)start + 48);
+    gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
     // result is now in r0
     gen_push_r(&vmcodep, 0);
     gen_end(&vmcodep);
@@ -67,22 +72,22 @@ int main(int argc, char **argv)
     // fib
     // param n is in r0, return address in stack
     // if n < 0, jump to base case; fallthrough if not
-    gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 336), 0, 2);
+    gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 312), 0, 2);
     // recursive case
     // save r0=n to stack
     gen_push_r(&vmcodep, 0);
     // call fib(n-1) with param n-1 in r0 and return address in stack
-    gen_push_l(&vmcodep, (long int)(char *)start + 192);
     gen_sub_rrl(&vmcodep, 0, 0, 1);
-    gen_jump_l(&vmcodep, (Cell *)((char *)start + 80));
+    gen_push_l(&vmcodep, (long int)(char *)start + 176);
+    gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
     // restore n to r1
     gen_pop_r(&vmcodep, 1);
     // save fib(n-1) to stack
     gen_push_r(&vmcodep, 0);
     // call fib(n-2) with param n-2 in r0 and return address in stack
-    gen_push_l(&vmcodep, (long int)(char *)start + 288);
     gen_sub_rrl(&vmcodep, 0, 1, 2);
-    gen_jump_l(&vmcodep, (Cell *)((char *)start + 80));
+    gen_push_l(&vmcodep, (long int)(char *)start + 264);
+    gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
     // pop saved fib(n-1) to r1
     gen_pop_r(&vmcodep, 1);
     // set r0 to r1=fib(n-1) + r2=fib(n-2)

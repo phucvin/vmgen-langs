@@ -108,3 +108,8 @@ if (VM_IS_INST(*ip, 21)) {
   ip += 1;
   goto _endif_;
 }
+if (VM_IS_INST(*ip, 22)) {
+  add_inst(b, "s_pljl");
+  ip += 3;
+  return;
+}
