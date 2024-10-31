@@ -49,18 +49,19 @@ int main(int argc, char **argv)
 	start = vmcodep;
 	// Generate bytecode directly here for now
 	{
-    gen_set_rl(&vmcodep, 0, 3);
-    gen_push_relative_addr(&vmcodep, 48);
-    gen_jump_if_r_lt_l(&vmcodep, 0, 9);
-    gen_set_rl(&vmcodep, 0, 5);
-    gen_add_rrl(&vmcodep, 0, 0, 8);
-    gen_push_r(&vmcodep, 0);
-    gen_set_rl(&vmcodep, 0, 0);
-    gen_pop_r(&vmcodep, 0);
+    // main
+    // call fib(n) where n is in r0 and return address in the stack
+    gen_push_l(&vmcodep, (char*)start + 56);
+    gen_set_rl(&vmcodep, 0, 6);
+    gen_jump_l(&vmcodep, (char *)start + 80);
     gen_push_r(&vmcodep, 0);
     gen_end(&vmcodep);
+
+    // fib
+    gen_add_rrl(&vmcodep, 0, 0, 2);
+    gen_jump(&vmcodep);
   }
-	vmcode_end = vmcodep;
+  vmcode_end = vmcodep;
 
 	printf("\nvm assembly:\n");
 	vm_disassemble(vm_code, vmcodep, vm_prim);
