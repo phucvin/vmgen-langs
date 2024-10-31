@@ -53,5 +53,5 @@ vm assembly:
 vm run:
 return code: 102334155
 
-real    0m2.217s
+real    0m2.145s
 ```
