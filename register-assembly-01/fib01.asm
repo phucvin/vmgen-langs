@@ -27,9 +27,9 @@
   push r0
 // call fib(n-2)
   sub_to r0 r1 #2
-  push @fib_recursive_case_01
+  push @fib_recursive_case_02
   jump @fib
-@fib_recursive_case_01:
+@fib_recursive_case_02:
 // pop saved fib(n-1) to r1
   pop r1
   add_to r0 r0 r1
