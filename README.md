@@ -21,8 +21,7 @@ real    0m2.213s
 Build stack-assembly-01:
 ```
 $ cd stack-assembly-01
-$ make vm
-$ ./vm.out examples/simple01.asm
+$ make vm && ./vm.out examples/simple01.asm
 ```
 
 ## Appendix
