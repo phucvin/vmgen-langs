@@ -22,7 +22,7 @@ Build stack-assembly-01:
 ```
 $ cd stack-assembly-01
 $ make vm
-$ time ./vm.out examples/simple01.asm
+$ ./vm.out examples/simple01.asm
 ```
 
 ## Appendix

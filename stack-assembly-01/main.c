@@ -31,7 +31,7 @@ int vm_debug;
 
 void gen_code(Inst **p, const char *path)
 {
-  const char *delimiter_characters = " ";
+  const char *delimiter_characters = " \n";
   FILE *input_file = fopen(path, "r");
   char buffer[1024];
   char *token;
@@ -43,31 +43,53 @@ void gen_code(Inst **p, const char *path)
     return;
   }
 
+#define must_next()                                                    \
+  {                                                                    \
+    char *last_token = token;                                          \
+    token = strtok(NULL, delimiter_characters);                        \
+    if (token == NULL)                                                 \
+    {                                                                  \
+      printf("parse error: expecting something after %s", last_token); \
+      exit(1);                                                         \
+      return;                                                          \
+    }                                                                  \
+  }
+
   while (fgets(buffer, 1024, input_file) != NULL)
   {
+    // printf("%s\n", buffer);
     token = strtok(buffer, delimiter_characters);
     while (token != NULL)
     {
-      // printf("%s\n", last_token);
-      if (strcmp(token, "end") == 0) {
+      if (strcmp(token, "end") == 0)
+      {
         gen_end(p);
       }
-      else if (strcmp(token, "push") == 0) {
-        token = strtok(NULL, delimiter_characters);
-        if (token == NULL) {
-          printf("parse error: expecting something after push");
-          exit(1);
-          return;
-        }
-        if (token[0] == '#') {
+      else if (strcmp(token, "push") == 0)
+      {
+        must_next();
+        if (token[0] == '#')
+        {
           int i = atoi(token + 1);
           gen_push_l(p, i);
+        }
+      }
+      else if (strcmp(token, "jump") == 0)
+      {
+        must_next();
+        if (token[0] == '@')
+        {
+          // TODO
+          gen_jump_l(p, 123);
         }
       }
 
       token = strtok(NULL, delimiter_characters);
     }
   }
+
+#undef must_next
+
   if (ferror(input_file))
   {
     perror("The following error occurred");
