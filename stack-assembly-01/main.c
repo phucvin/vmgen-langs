@@ -146,16 +146,16 @@ void gen_code(Inst **p, const char *path)
     return;
   }
 
-#define must_next()                                                    \
-  {                                                                    \
-    char *last_token = token;                                          \
-    token = strtok(NULL, delimiter_characters);                        \
-    if (token == NULL)                                                 \
-    {                                                                  \
-      printf("parse error: expecting something after %s", last_token); \
-      exit(1);                                                         \
-      return;                                                          \
-    }                                                                  \
+#define must_next()                                                      \
+  {                                                                      \
+    char *last_token = token;                                            \
+    token = strtok(NULL, delimiter_characters);                          \
+    if (token == NULL)                                                   \
+    {                                                                    \
+      printf("parse error: expecting something after %s\n", last_token); \
+      exit(1);                                                           \
+      return;                                                            \
+    }                                                                    \
   }
 
   while (fgets(buffer, 1024, input_file) != NULL)
@@ -178,25 +178,50 @@ void gen_code(Inst **p, const char *path)
         }
         else
         {
-          printf("parse error: unexpected %s", token);
+          printf("parse error: unexpected %s\n", token);
+          exit(1);
+          return;
         }
       }
-      else if (strcmp(token, "jump") == 0)
+      else if (strcmp(token, "jump") == 0 || strcmp(token, "jump_lt") == 0)
       {
+        void (*gen)(Inst **, Cell *);
+        if (strcmp(token, "jump") == 0)
+        {
+          gen = gen_jump_l;
+        }
+        else if (strcmp(token, "jump_lt") == 0)
+        {
+          gen = gen_jump_l_if_lt;
+        }
+        else
+        {
+          printf("parse error: unexpected token %s\n", token);
+          exit(1);
+          return;
+        }
         must_next();
         if (token[0] == '@')
         {
-          gen_jump_l(p, NULL);
+          gen(p, NULL);
           insert_j(token + 1, (*p) - 1);
         }
         else
         {
-          printf("parse error: unexpected %s", token);
+          printf("parse error: unexpected %s\n", token);
+          exit(1);
+          return;
         }
       }
       else if (token[0] == '@')
       {
         insert_lbl(token + 1, *p);
+      }
+      else
+      {
+        printf("parse error: unexpected %s\n", token);
+        exit(1);
+        return;
       }
 
       token = strtok(NULL, delimiter_characters);
