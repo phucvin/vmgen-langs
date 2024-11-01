@@ -21,8 +21,8 @@ real    0m2.213s
 Build stack-assembly-01:
 ```
 $ cd stack-assembly-01
-$ make
-$ time ./vm.out fib_old.asm
+$ make vm
+$ time ./vm.out examples/simple01.asm
 ```
 
 ## Appendix
