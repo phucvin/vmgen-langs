@@ -81,6 +81,9 @@ regs[i0] = regs[i1];
 end ( i0 -- )
 return i0;
 
+end_r ( #i0 -- )
+return regs[i0];
+
 \ Instructions with baked in register indexes
 
 set_r0l( #i0 -- )
@@ -115,6 +118,30 @@ SET_IP(reg1);
 
 jump_l_if_r0_lt_l ( #target0 #i0 -- )
 if (reg0 < i0) SET_IP(target0);
+
+\ Variable instructions below
+
+alloc_v ( #i0 -- )
+var_begin = var_end;
+var_end += i0;
+// printf("\n\t\talloc_v begin=%d end=%d\n", var_begin, var_end);
+
+set_vr ( #i0 #i1 -- )
+vars[var_begin + i0] = regs[i1];
+
+sub_rvl ( #i0 #i1 #i2 -- )
+regs[i0] = vars[var_begin + i1] - i2;
+
+add_rrv ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] + vars[var_begin + i2];
+
+jump_v_dealloc_v ( #i0 #i1 -- )
+SET_IP(vars[var_begin + i0]);
+// printf("\n\t\tdealloc_v begin=%d end=%d\n", var_begin, var_end);
+var_tmp = var_begin;
+var_begin = var_end - i1;
+var_end = var_tmp;
+// printf("\n\t\tdealloc_v begin=%d end=%d\n", var_begin, var_end);
 
 \ Super instructions below
 

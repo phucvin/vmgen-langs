@@ -114,61 +114,91 @@ if (VM_IS_INST(*ip, 22)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 23)) {
-  add_inst(b, "set_r0l");
+  add_inst(b, "end_r");
   ip += 2;
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 24)) {
-  add_inst(b, "set_r1l");
+  add_inst(b, "set_r0l");
   ip += 2;
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 25)) {
+  add_inst(b, "set_r1l");
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 26)) {
   add_inst(b, "push_r0");
   ip += 1;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 26)) {
+if (VM_IS_INST(*ip, 27)) {
   add_inst(b, "push_r1");
   ip += 1;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 27)) {
+if (VM_IS_INST(*ip, 28)) {
   add_inst(b, "pop_r1");
   ip += 1;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 28)) {
+if (VM_IS_INST(*ip, 29)) {
   add_inst(b, "add_r0r0r0");
   ip += 1;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 29)) {
+if (VM_IS_INST(*ip, 30)) {
   add_inst(b, "add_r0r0r1");
   ip += 1;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 30)) {
+if (VM_IS_INST(*ip, 31)) {
   add_inst(b, "sub_r0r0l");
   ip += 2;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 31)) {
+if (VM_IS_INST(*ip, 32)) {
   add_inst(b, "sub_r0r1l");
   ip += 2;
   goto _endif_;
 }
-if (VM_IS_INST(*ip, 32)) {
+if (VM_IS_INST(*ip, 33)) {
   add_inst(b, "jump_r1");
   ip += 1;
   return;
 }
-if (VM_IS_INST(*ip, 33)) {
+if (VM_IS_INST(*ip, 34)) {
   add_inst(b, "jump_l_if_r0_lt_l");
   ip += 3;
   return;
 }
-if (VM_IS_INST(*ip, 34)) {
+if (VM_IS_INST(*ip, 35)) {
+  add_inst(b, "alloc_v");
+  ip += 2;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 36)) {
+  add_inst(b, "set_vr");
+  ip += 3;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 37)) {
+  add_inst(b, "sub_rvl");
+  ip += 4;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 38)) {
+  add_inst(b, "add_rrv");
+  ip += 4;
+  goto _endif_;
+}
+if (VM_IS_INST(*ip, 39)) {
+  add_inst(b, "jump_v_dealloc_v");
+  ip += 3;
+  return;
+}
+if (VM_IS_INST(*ip, 40)) {
   add_inst(b, "s_pljl");
   ip += 3;
   return;

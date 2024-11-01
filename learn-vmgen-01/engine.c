@@ -60,9 +60,13 @@ long engine(Cell *ip0, Cell *sp, char *fp)
   static Label labels[] = {
 #include "vm-labels.i"
   };
-  long regs[4];
+  long long regs[10];
   register long long reg0 __asm__( "rax" );
   register long long reg1 __asm__( "rbx" );
+  long long vars[1024];
+  int var_begin = 0;
+  int var_end = 0;
+  int var_tmp = 0;
 
   if (vm_debug)
     fprintf(vm_out, "entering engine(%p,%p,%p)\n", ip0, sp, fp);

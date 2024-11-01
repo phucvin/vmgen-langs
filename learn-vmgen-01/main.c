@@ -78,16 +78,16 @@ int main(int argc, char **argv)
   if (code == 0) {
     // main
     // call fib(n) with param n in r0 and return address in stack
-    gen_set_rl(&vmcodep, 0, 40);
-    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 48);
-    gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
+    gen_set_rl(&vmcodep, 0, 4);
+    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 64);
+    gen_jump_l(&vmcodep, (Cell *)((char *)start + 80));
     // result is now in r0
     gen_end_r(&vmcodep, 0);
 
     // fib
     // param n is in r0, return address in stack
     // if n < 0, jump to base case; fallthrough if not
-    gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 312), 0, 2);
+    gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 400), 0, 2);
     // recursive case
     // allocate spaces for variables (won't change when making calls)
     gen_alloc_v(&vmcodep, 3);
@@ -96,23 +96,22 @@ int main(int argc, char **argv)
     gen_set_vr(&vmcodep, 1, 9);
     // call fib(n-1) with param n-1 in r0 and return address in stack
     gen_sub_rvl(&vmcodep, 0, 0, 1);
-    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 176);
-    gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
+    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 248);
+    gen_jump_l(&vmcodep, (Cell *)((char *)start + 80));
     // save fib(n-1) to a variable (v2)
     gen_set_vr(&vmcodep, 2, 0);
     // call fib(n-2) with param n-2 in r0 and return address in stack
     gen_sub_rvl(&vmcodep, 0, 0, 2);
-    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 264);
-    gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
+    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 344);
+    gen_jump_l(&vmcodep, (Cell *)((char *)start + 80));
     // set r0 to r0=fib(n-2) + v2=fib(n-1)
     gen_add_rrv(&vmcodep, 0, 0, 2);
-    // deallocate spaces
-    gen_dealloc_v(&vmcodep, 3);
-    gen_jump_v(&vmcodep, 1);
+    // jump and deallocate spaces at the same time
+    gen_jump_v_dealloc_v(&vmcodep, 1, 3);
     // base case
     // here we don't even needs to access locals since we didn't make any calls
     // registers are still the same with when we enter this function
-    gen_jump(&vmcodep);
+    gen_jump_r(&vmcodep, 9);
   }
   vmcode_end = vmcodep;
 
