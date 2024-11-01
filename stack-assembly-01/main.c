@@ -17,22 +17,12 @@ void printarg_i(long i)
   fprintf(vm_out, "%ld ", i);
 }
 
-void genarg_target(Inst **vmcodepp, Inst *target)
-{
-  vm_target2Cell(target, *((Cell *)*vmcodepp));
-  (*vmcodepp)++;
-}
-
-void printarg_target(Inst *target)
-{
-  fprintf(vm_out, "%p ", target);
-}
-
 void printarg_Cell(Cell i)
 {
   fprintf(vm_out, "0x%lx ", i.i);
 }
 
+Inst *vmcodestart;
 Label *vm_prim;
 Inst *vmcodep;
 FILE *vm_out;
@@ -41,6 +31,7 @@ int vm_debug;
 int main(int argc, char **argv)
 {
   Inst *vm_code = (Inst *)calloc(CODE_SIZE, sizeof(Inst));
+  vmcodestart = vm_code;
   Inst *start;
   Cell *stack = (Cell *)calloc(STACK_SIZE, sizeof(Cell));
   engine_t runvm;
@@ -61,6 +52,7 @@ int main(int argc, char **argv)
   // Generate bytecode directly here for now
   int code = 0;
   if (code == 0) {
+    gen_jump_l(&vmcodep, 16);
     gen_end(&vmcodep);
   }
   vmcode_end = vmcodep;
