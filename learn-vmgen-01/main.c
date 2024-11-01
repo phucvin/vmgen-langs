@@ -60,6 +60,21 @@ int main(int argc, char **argv)
   start = vmcodep;
   // Generate bytecode directly here for now
   int code = 0;
+  if (code == 2) {
+    gen_set_r0l(&vmcodep, 0);
+    gen_set_r1l(&vmcodep, 1);
+    gen_add_r0r0r1(&vmcodep);
+    gen_jump_l_if_r0_lt_l(&vmcodep, (Cell *)((char *)start + 16), 1000000000);
+    gen_push_r0(&vmcodep);
+    gen_end(&vmcodep);
+  }
+  if (code == 1) {
+    gen_set_rl(&vmcodep, 0, 0);
+    gen_add_rrl(&vmcodep, 0, 0, 1);
+    gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 24), 0, 1000000000);
+    gen_push_r(&vmcodep, 0);
+    gen_end(&vmcodep);
+  }
   if (code == 0) {
     // main
     // call fib(n) with param n in r0 and return address in stack
