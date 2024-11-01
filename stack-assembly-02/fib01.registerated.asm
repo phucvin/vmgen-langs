@@ -20,7 +20,7 @@
 @fib_recursive_case_01:
   set l1 r0
   sub r0 l0 #2 // local_get #0 // push #2 // sub // call_param #0
-  push @fib_recursive_case_01  // call_ret_addr @fib_recursive_case_02
+  push @fib_recursive_case_02  // call_ret_addr @fib_recursive_case_02
   jump @fib  // call @fib
 @fib_recursive_case_02:
   add r0 r0 l1  // add // return_param
