@@ -79,36 +79,39 @@ int main(int argc, char **argv)
     // main
     // call fib(n) with param n in r0 and return address in stack
     gen_set_rl(&vmcodep, 0, 40);
-    gen_push_l(&vmcodep, (long int)(char *)start + 48);
+    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 48);
     gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
     // result is now in r0
-    gen_push_r(&vmcodep, 0);
-    gen_end(&vmcodep);
+    gen_end_r(&vmcodep, 0);
 
     // fib
     // param n is in r0, return address in stack
     // if n < 0, jump to base case; fallthrough if not
     gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 312), 0, 2);
     // recursive case
-    // save r0=n to stack
-    gen_push_r(&vmcodep, 0);
+    // allocate spaces for variables (won't change when making calls)
+    gen_alloc_v(&vmcodep, 3);
+    // save registers to variables since we're going to make calls
+    gen_set_vr(&vmcodep, 0, 0);
+    gen_set_vr(&vmcodep, 1, 9);
     // call fib(n-1) with param n-1 in r0 and return address in stack
-    gen_sub_rrl(&vmcodep, 0, 0, 1);
-    gen_push_l(&vmcodep, (long int)(char *)start + 176);
+    gen_sub_rvl(&vmcodep, 0, 0, 1);
+    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 176);
     gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
-    // restore n to r1
-    gen_pop_r(&vmcodep, 1);
-    // save fib(n-1) to stack
-    gen_push_r(&vmcodep, 0);
+    // save fib(n-1) to a variable (v2)
+    gen_set_vr(&vmcodep, 2, 0);
     // call fib(n-2) with param n-2 in r0 and return address in stack
-    gen_sub_rrl(&vmcodep, 0, 1, 2);
-    gen_push_l(&vmcodep, (long int)(char *)start + 264);
+    gen_sub_rvl(&vmcodep, 0, 0, 2);
+    gen_set_rl(&vmcodep, 9, (long int)(char *)start + 264);
     gen_jump_l(&vmcodep, (Cell *)((char *)start + 72));
-    // pop saved fib(n-1) to r1
-    gen_pop_r(&vmcodep, 1);
-    // set r0 to r1=fib(n-1) + r2=fib(n-2)
-    gen_add_rrr(&vmcodep, 0, 0, 1);
-    // fib end: in both cases, now r0=result and return_address in stack
+    // set r0 to r0=fib(n-2) + v2=fib(n-1)
+    gen_add_rrv(&vmcodep, 0, 0, 2);
+    // deallocate spaces
+    gen_dealloc_v(&vmcodep, 3);
+    gen_jump_v(&vmcodep, 1);
+    // base case
+    // here we don't even needs to access locals since we didn't make any calls
+    // registers are still the same with when we enter this function
     gen_jump(&vmcodep);
   }
   vmcode_end = vmcodep;
