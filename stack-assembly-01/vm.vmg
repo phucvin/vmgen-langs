@@ -8,6 +8,7 @@
 
 \ type prefix definitions:
 \E s" long" single data-stack type-prefix i
+\E s" Inst *" single data-stack type-prefix target
 
 push_l ( #i0 -- i1 )
 i1 = i0;
@@ -26,14 +27,14 @@ i2 = i0 + i1;
 sub ( i0 i1 -- i2 )
 i2 = i0 - i1;
 
-jump ( i0 -- )
-SET_IP(start + i0);
+jump ( target0 -- )
+SET_IP(target0);
 
-jump_l ( #i0 -- )
-SET_IP(start + i0);
+jump_l ( #target0 -- )
+SET_IP(target0);
 
-jump_l_if_lt ( #i0 i0 i1 -- )
-if (i0 < i1) SET_IP(start + i0);
+jump_l_if_lt ( #target0 i0 i1 -- )
+if (i0 < i1) SET_IP(target0);
 
 end ( i0 -- )
 return i0;

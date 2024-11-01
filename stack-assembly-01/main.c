@@ -18,20 +18,102 @@ void printarg_i(long i)
   fprintf(vm_out, "%ld ", i);
 }
 
+void genarg_target(Inst **vmcodepp, Inst *target)
+{
+  vm_target2Cell(target, *((Cell *)*vmcodepp));
+  (*vmcodepp)++;
+}
+void printarg_target(Inst *target)
+{
+  fprintf(vm_out, "%p ", target);
+}
+
 void printarg_Cell(Cell i)
 {
   fprintf(vm_out, "0x%lx ", i.i);
 }
 
-Inst *vmcodestart;
 Label *vm_prim;
 Inst *vmcodep;
 FILE *vm_out;
 int vm_debug;
 
+typedef struct jumptab
+{
+  struct jumptab *next;
+  Inst *jump;
+} jumptab;
+
+typedef struct lbltab
+{
+  struct lbltab *next;
+  char *name;
+  Inst *start;
+  struct jumptab *jtab;
+} lbltab;
+
+lbltab *ltab = NULL;
+
+void insert_lbl(const char *name, Inst *inst)
+{
+  lbltab *p;
+  for (p = ltab; p != NULL; p = p->next)
+  {
+    if (strcmp(p->name, name) == 0)
+    {
+      break;
+    }
+  }
+  if (p == NULL)
+  {
+    p = malloc(sizeof(lbltab));
+    if (p->start != NULL)
+    {
+      printf("redefined label %s", name);
+      exit(1);
+    }
+    p->next = ltab;
+    p->start = inst;
+    p->jtab = NULL;
+    ltab = p;
+  }
+  p->name = name != NULL ? strdup(name) : NULL;
+  p->start = inst;
+  if (p->jtab != NULL)
+  {
+    jumptab *j = p->jtab;
+    while (j != NULL)
+    {
+      j->jump->target = p->start;
+      j = j->next;
+    }
+  }
+}
+
+void insert_j(const char *name, Inst *inst)
+{
+  lbltab *p;
+  for (p = ltab; p != NULL; p = p->next)
+  {
+    if (strcmp(p->name, name) == 0)
+    {
+      break;
+    }
+  }
+  if (p == NULL)
+  {
+    insert_lbl(name, NULL);
+    p = ltab;
+  }
+  jumptab *jtab = malloc(sizeof(jumptab));
+  jtab->next = p->jtab;
+  jtab->jump = inst;
+  p->jtab = jtab;
+}
+
 void gen_code(Inst **p, const char *path)
 {
-  const char *delimiter_characters = " \n";
+  const char *delimiter_characters = ": \n";
   FILE *input_file = fopen(path, "r");
   char buffer[1024];
   char *token;
@@ -73,15 +155,27 @@ void gen_code(Inst **p, const char *path)
           int i = atoi(token + 1);
           gen_push_l(p, i);
         }
+        else
+        {
+          printf("parse error: unexpected %s", token);
+        }
       }
       else if (strcmp(token, "jump") == 0)
       {
         must_next();
         if (token[0] == '@')
         {
-          // TODO
-          gen_jump_l(p, 123);
+          gen_jump_l(p, NULL);
+          insert_j(token + 1, (*p) - 1);
         }
+        else
+        {
+          printf("parse error: unexpected %s", token);
+        }
+      }
+      else if (token[0] == '@')
+      {
+        insert_lbl(token + 1, *p);
       }
 
       token = strtok(NULL, delimiter_characters);
@@ -110,7 +204,6 @@ int main(int argc, char **argv)
   char *asm_path = argv[1];
 
   Inst *vm_code = (Inst *)calloc(CODE_SIZE, sizeof(Inst));
-  vmcodestart = vm_code;
   Inst *start;
   Cell *stack = (Cell *)calloc(STACK_SIZE, sizeof(Cell));
   engine_t runvm;

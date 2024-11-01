@@ -6,10 +6,13 @@ typedef union Cell
 {
   Label inst;
   long i;
+  union Cell *target;
 } Cell, Inst;
 
 #define vm_Cell2i(_cell, _x) ((_x) = (_cell).i)
 #define vm_i2Cell(_x, _cell) ((_cell).i = (_x))
+#define vm_Cell2target(_cell,_x) ((_x)=(_cell).target)
+#define vm_target2Cell(_x,_cell) ((_cell).target=(_x))
 #define vm_Cell2Cell(_x, _y) ((_y) = (_x))
 
 #define VM_IS_INST(_inst, n) ((_inst).inst == vm_prim[n])
