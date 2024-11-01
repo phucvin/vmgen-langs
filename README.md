@@ -31,23 +31,23 @@ Learn Vmgen:
 - See commit history of `learn-vmgen-01`
 ```
 $ cd learn-vmgen-01
-$ make vm && time vm.out
+$ make vm && time ./vm.out
 vm assembly:
-0x6051305f12a0: set_r0l i0=40 
-0x6051305f12b0: s_pljl _IP0=0x6051305f12c8  _IP1=0x6051305f12d8 
-0x6051305f12c8: push_r0
-0x6051305f12d0: end
-0x6051305f12d8: jump_l_if_r0_lt_l target0=0x6051305f1368  i0=2 
-0x6051305f12f0: push_r0
-0x6051305f12f8: sub_r0r0l i0=1 
-0x6051305f1308: s_pljl _IP0=0x6051305f1320  _IP1=0x6051305f12d8 
-0x6051305f1320: pop_r1
-0x6051305f1328: push_r0
-0x6051305f1330: sub_r0r1l i0=2 
-0x6051305f1340: s_pljl _IP0=0x6051305f1358  _IP1=0x6051305f12d8 
-0x6051305f1358: pop_r1
-0x6051305f1360: add_r0r0r1
-0x6051305f1368: jump
+0x584f46aa22a0: set_rl i0=0  i1=40 
+0x584f46aa22b8: s_pljl _IP0=0x584f46aa22d0  _IP1=0x584f46aa22e8 
+0x584f46aa22d0: push_r i0=0 
+0x584f46aa22e0: end
+0x584f46aa22e8: jump_l_if_r_lt_l target0=0x584f46aa23d8  i0=0  i1=2 
+0x584f46aa2308: push_r i0=0 
+0x584f46aa2318: sub_rrl i0=0  i1=0  i2=1 
+0x584f46aa2338: s_pljl _IP0=0x584f46aa2350  _IP1=0x584f46aa22e8 
+0x584f46aa2350: pop_r i0=1 
+0x584f46aa2360: push_r i0=0 
+0x584f46aa2370: sub_rrl i0=0  i1=1  i2=2 
+0x584f46aa2390: s_pljl _IP0=0x584f46aa23a8  _IP1=0x584f46aa22e8 
+0x584f46aa23a8: pop_r i0=1 
+0x584f46aa23b8: add_rrr i0=0  i1=0  i2=1 
+0x584f46aa23d8: jump
 
 vm run:
 return code: 102334155
