@@ -54,6 +54,26 @@ typedef struct lbltab
 
 lbltab *ltab = NULL;
 
+void delete_ltab()
+{
+  lbltab *p = ltab;
+  while (p != NULL)
+  {
+    jumptab *j = p->jtab;
+    while (j != NULL)
+    {
+      jumptab *tmp = j;
+      j = j->next;
+      free(tmp);
+    }
+    p->jtab = NULL;
+    lbltab *tmp = p;
+    p = p->next;
+    free(tmp);
+  }
+  ltab = NULL;
+}
+
 void insert_lbl(const char *name, Inst *inst)
 {
   lbltab *p;
@@ -108,6 +128,7 @@ void insert_j(const char *name, Inst *inst)
   jumptab *jtab = malloc(sizeof(jumptab));
   jtab->next = p->jtab;
   jtab->jump = inst;
+  jtab->jump->target = p->start;
   p->jtab = jtab;
 }
 
@@ -191,6 +212,7 @@ void gen_code(Inst **p, const char *path)
     return;
   }
 
+  delete_ltab();
   fclose(input_file);
 }
 
