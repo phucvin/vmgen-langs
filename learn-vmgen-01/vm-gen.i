@@ -202,9 +202,8 @@ void gen_add_rrv(Inst **ctp, long i0, long i1, long i2)
   genarg_i(ctp, i1);
   genarg_i(ctp, i2);
 }
-void gen_jump_v_dealloc_v(Inst **ctp, long i0, long i1)
+void gen_jump_v_dealloc(Inst **ctp, long i0)
 {
   gen_inst(ctp, vm_prim[39]);
   genarg_i(ctp, i0);
-  genarg_i(ctp, i1);
 }

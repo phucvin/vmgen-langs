@@ -33,24 +33,24 @@ Learn Vmgen:
 $ cd learn-vmgen-01
 $ make vm && time ./vm.out
 vm assembly:
-0x584f46aa22a0: set_rl i0=0  i1=40 
-0x584f46aa22b8: s_pljl _IP0=0x584f46aa22d0  _IP1=0x584f46aa22e8 
-0x584f46aa22d0: push_r i0=0 
-0x584f46aa22e0: end
-0x584f46aa22e8: jump_l_if_r_lt_l target0=0x584f46aa23d8  i0=0  i1=2 
-0x584f46aa2308: push_r i0=0 
-0x584f46aa2318: sub_rrl i0=0  i1=0  i2=1 
-0x584f46aa2338: s_pljl _IP0=0x584f46aa2350  _IP1=0x584f46aa22e8 
-0x584f46aa2350: pop_r i0=1 
-0x584f46aa2360: push_r i0=0 
-0x584f46aa2370: sub_rrl i0=0  i1=1  i2=2 
-0x584f46aa2390: s_pljl _IP0=0x584f46aa23a8  _IP1=0x584f46aa22e8 
-0x584f46aa23a8: pop_r i0=1 
-0x584f46aa23b8: add_rrr i0=0  i1=0  i2=1 
-0x584f46aa23d8: jump
+0x59ec82ebd2a0: set_rl i0=0  i1=40 
+0x59ec82ebd2b8: s_call0 _IP0=0x9  _IP1=0x59ec82ebd2d8  _IP2=0x59ec82ebd2e8 
+0x59ec82ebd2d8: end_r i0=0 
+0x59ec82ebd2e8: jump_l_if_r_lt_l target0=0x59ec82ebd410  i0=0  i1=2 
+0x59ec82ebd308: alloc_v i0=3 
+0x59ec82ebd318: set_vr i0=0  i1=0 
+0x59ec82ebd330: set_vr i0=1  i1=9 
+0x59ec82ebd348: sub_rvl i0=0  i1=0  i2=1 
+0x59ec82ebd368: s_call0 _IP0=0x9  _IP1=0x59ec82ebd388  _IP2=0x59ec82ebd2e8 
+0x59ec82ebd388: set_vr i0=2  i1=0 
+0x59ec82ebd3a0: sub_rvl i0=0  i1=0  i2=2 
+0x59ec82ebd3c0: s_call0 _IP0=0x9  _IP1=0x59ec82ebd3e0  _IP2=0x59ec82ebd2e8 
+0x59ec82ebd3e0: add_rrv i0=0  i1=0  i2=2 
+0x59ec82ebd400: jump_v_dealloc i0=1 
+0x59ec82ebd410: jump_r i0=9
 
 vm run:
 return code: 102334155
 
-real    0m2.145s
+real    0m2.455s
 ```

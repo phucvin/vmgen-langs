@@ -64,8 +64,9 @@ long engine(Cell *ip0, Cell *sp, char *fp)
   register long long reg0 __asm__( "rax" );
   register long long reg1 __asm__( "rbx" );
   long long vars[1024];
+  vars[0] = 0;
   int var_begin = 0;
-  int var_end = 0;
+  int var_end = 1;
   int var_tmp = 0;
 
   if (vm_debug)

@@ -194,12 +194,12 @@ if (VM_IS_INST(*ip, 38)) {
   goto _endif_;
 }
 if (VM_IS_INST(*ip, 39)) {
-  add_inst(b, "jump_v_dealloc_v");
-  ip += 3;
+  add_inst(b, "jump_v_dealloc");
+  ip += 2;
   return;
 }
 if (VM_IS_INST(*ip, 40)) {
-  add_inst(b, "s_pljl");
-  ip += 3;
+  add_inst(b, "s_call0");
+  ip += 4;
   return;
 }
