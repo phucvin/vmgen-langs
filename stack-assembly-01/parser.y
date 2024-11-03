@@ -20,23 +20,27 @@ void yyerror(char *s)
 int yylex();
 %}
 
-%token halt num push
+%token halt num push label jump
 
 %union {
   long long_val;
+  char *string_val;
 }
 
 %type <long_val> num;
+%type <string_val> label;
 
 %%
 
 program:
     | program inst
+    | program label ':' { insert_label($2, vmcodep); printf("label %s\n", $2); }
     | ;
 
 inst:
     | halt { gen_end(&vmcodep); }
     | push num { gen_push_l(&vmcodep, $2); }
+    | jump label { gen_jump_l(&vmcodep, 0); insert_jump($2, vmcodep - 1); printf("jump to %s\n", $2); }
     | ;
 
 %%

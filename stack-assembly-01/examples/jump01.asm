@@ -2,7 +2,7 @@ jump @label01
 
 @label02:
 push #1
-end
+halt
 
 @label01:
 push #2

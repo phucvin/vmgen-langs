@@ -50,3 +50,6 @@ long engine_debug(Inst *ip0, Cell *sp, char *fp);
 
 extern FILE *yyin;
 int yyparse(void);
+
+void insert_jump(const char *name, Inst *inst);
+void insert_label(const char *name, Inst *inst);

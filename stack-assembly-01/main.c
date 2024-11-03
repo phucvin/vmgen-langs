@@ -73,7 +73,7 @@ void delete_ltab()
   ltab = NULL;
 }
 
-void insert_lbl(const char *name, Inst *inst)
+void insert_label(const char *name, Inst *inst)
 {
   lbltab *p;
   for (p = ltab; p != NULL; p = p->next)
@@ -109,7 +109,7 @@ void insert_lbl(const char *name, Inst *inst)
   }
 }
 
-void insert_j(const char *name, Inst *inst)
+void insert_jump(const char *name, Inst *inst)
 {
   lbltab *p;
   for (p = ltab; p != NULL; p = p->next)
@@ -121,7 +121,7 @@ void insert_j(const char *name, Inst *inst)
   }
   if (p == NULL)
   {
-    insert_lbl(name, NULL);
+    insert_label(name, NULL);
     p = ltab;
   }
   jumptab *jtab = malloc(sizeof(jumptab));
