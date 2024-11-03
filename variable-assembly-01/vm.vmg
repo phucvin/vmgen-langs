@@ -1,0 +1,57 @@
+\ comments start with "\ " (note that "\E" is not a comment)
+
+\ stack definitions:
+\E stack data-stack sp Cell
+
+\ stack prefix definitions
+\E inst-stream stack-prefix #
+
+\ type prefix definitions:
+\E s" long" single data-stack type-prefix i
+\E s" Inst *" single data-stack type-prefix target
+
+push_l ( #i0 -- i1 )
+i1 = i0;
+
+push_r ( #i0 -- i1 )
+i1 = regs[i0];
+
+pop_r ( #i0 i1 -- )
+regs[i0] = i1;
+
+add_rrl ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] + i2;
+
+add_rrr ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] + regs[i2];
+
+sub_rrl ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] - i2;
+
+sub_rlr ( #i0 #i1 #i2 -- )
+regs[i0] = i1 - regs[i2];
+
+sub_rrr ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] - regs[i2];
+
+set_rl ( #i0 #i1 -- )
+regs[i0] = i1;
+
+set_rr ( #i0 #i1 -- )
+regs[i0] = regs[i1];
+
+jump_tos ( target0 -- )
+SET_IP(target0);
+
+jump_l ( #target0 -- )
+SET_IP(target0);
+
+jump_l_if_r_lt_l ( #target0 #i0 #i1 -- )
+if (regs[i0] < i1) SET_IP(target0);
+
+halt_r ( #i0 -- )
+return regs[i0];
+
+\ Super instructions below
+
+s_call0 = push_l jump_l
