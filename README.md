@@ -81,6 +81,34 @@ return code: 102334155
 real    0m2.135s
 ```
 
+Build variable-assembly-01:
+```
+$ cd variable-assembly-01
+$ make vm && time ./vm.out examples/fib01.asm
+
+vm assembly:
+0x5d2f649c92a0: set_rl i0=0  i1=40 
+0x5d2f649c92b8: s_call0 _IP0=0x9  _IP1=0x5d2f649c92d8  _IP2=0x5d2f649c92e8 
+0x5d2f649c92d8: halt_r i0=0 
+0x5d2f649c92e8: jump_l_if_r_lt_l target0=0x5d2f649c9410  i0=0  i1=2 
+0x5d2f649c9308: alloc_v i0=3 
+0x5d2f649c9318: set_vr i0=0  i1=0 
+0x5d2f649c9330: set_vr i0=1  i1=9 
+0x5d2f649c9348: sub_rvl i0=0  i1=0  i2=1 
+0x5d2f649c9368: s_call0 _IP0=0x9  _IP1=0x5d2f649c9388  _IP2=0x5d2f649c92e8 
+0x5d2f649c9388: set_vr i0=2  i1=0 
+0x5d2f649c93a0: sub_rvl i0=0  i1=0  i2=2 
+0x5d2f649c93c0: s_call0 _IP0=0x9  _IP1=0x5d2f649c93e0  _IP2=0x5d2f649c92e8 
+0x5d2f649c93e0: add_rrv i0=0  i1=0  i2=2 
+0x5d2f649c9400: jump_v_dealloc i0=1 
+0x5d2f649c9410: jump_r i0=9 
+
+vm run:
+return code: 102334155
+
+real    0m2.690s
+```
+
 ## Appendix
 
 Learn Vmgen:

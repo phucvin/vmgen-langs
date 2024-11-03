@@ -50,6 +50,10 @@
 long engine(Cell *ip0, Cell *sp, char *fp)
 {
   long long regs[10];
+  long long vars[1024];
+  int var_begin = 0;
+  int var_end = 1;
+  int var_tmp = 0;
   /* VM registers (you may want to use gcc's "Explicit Reg Vars" here) */
   Cell *ip;
   Cell cfa;

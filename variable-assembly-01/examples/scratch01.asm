@@ -1,39 +1,33 @@
-set r0 #44
+set r0 #99
+set v0 r0
 halt r0
 
 @main:
-// prepare to call fib :: r( r0=n ) s( return_address ) -> r( r0=result ) s()
   set r0 #6
-  push @main_end
+  set r9 @main_end
   jump @fib
 @main_end:
   halt r0
 
-// fib :: r( r0=n ) s( return_address ) -> r( r0=result ) s()
 @fib:
-// jump to @fib_end if n < 2, fallthrough if not
   jump_lt @fib_end r0 #2
-@fib_end:
-// in both cases, now r( r0=result ) s( return_address )
-  jump_tos
-
+@fib_base_case:
+  // here we don't even needs to access variables since we didn't make any calls
+  // registers are still the same with when we enter this function
+  jump r9
 @fib_recursive_case:
-// save r0
-  push r0
-// call fib(n-1)
-  sub r0 r0 #1
-  push @fib_recursive_case_01
-  jump @fib
-@fib_recursive_case_01:
-// pop saved n to r1
-  pop r1
-// save fib(n-1), now in r0
-  push r0
-// call fib(n-2)
-  sub r0 r1 #2
-  push @fib_recursive_case_02
+  // allocate spaces for variables (won't change when making calls)
+  begin_vars #3
+  // save registers to variables since we're going to make calls
+  set v0 r0
+  set v1 r9
+  sub r0 v0 #1
+  set r9 @fib_recursive_case_01
   jump @fib
 @fib_recursive_case_02:
-// pop saved fib(n-1) to r1
-  pop r1
-  add r0 r0 r1
+  add r0 r0 v2
+  jump_end_vars v1
+@fib_recursive_case_01:
+  set v2 r0
+  sub r0 v0 #2
+  jump @fib
