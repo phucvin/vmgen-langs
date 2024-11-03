@@ -1,0 +1,26 @@
+-- BYTECODE -- fib01.lua:1-7
+0001    KSHORT   1   2
+0002    ISGE     0   1
+0003    JMP      1 => 0006
+0004    RET1     0   2
+0005    JMP      1 => 0014
+0006 => UGET     1   0      ; fib
+0007    SUBVN    2   0   0  ; 1
+0008    CALL     1   2   2
+0009    UGET     2   0      ; fib
+0010    SUBVN    3   0   1  ; 2
+0011    CALL     2   2   2
+0012    ADDVV    1   1   2
+0013    RET1     1   2
+0014 => RET0     0   1
+
+-- BYTECODE -- fib01.lua:0-17
+0001    FNEW     0   0      ; fib01.lua:1
+0002    GGET     1   1      ; "print"
+0003    MOV      2   0
+0004    KSHORT   3  40
+0005    CALL     2   0   2
+0006    CALLM    1   1   0
+0007    UCLO     0 => 0008
+0008 => RET0     0   1
+
