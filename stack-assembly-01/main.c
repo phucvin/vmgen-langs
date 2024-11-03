@@ -158,7 +158,7 @@ int main(int argc, char **argv)
 
   start = vmcodep;
   // Parse and generate code at the same time
-  if ((yyin=fopen(argv[1], "r"))==NULL) {
+  if ((yyin = fopen(argv[1], "r")) == NULL) {
     perror(argv[1]);
     exit(1);
   }

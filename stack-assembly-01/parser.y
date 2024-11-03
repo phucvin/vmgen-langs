@@ -20,18 +20,21 @@ void yyerror(char *s)
 int yylex();
 %}
 
-%token NUM
+%token num halt
 
 %union {
-  long num;
+  long long_val;
 }
 
-%type <num> NUM;
+%type <long_val> num;
 
 %%
 
-program: NUM
-       | ;
+program:
+    | program inst;
+
+inst:
+    | halt { gen_end(&vmcodep); };
 
 %%
 
