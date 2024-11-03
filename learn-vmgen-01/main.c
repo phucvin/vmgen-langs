@@ -61,6 +61,7 @@ int main(int argc, char **argv)
   // Generate bytecode directly here for now
   int code = 0;
   if (code == 2) {
+    // Loop from 0 to 1B
     gen_set_r0l(&vmcodep, 0);
     gen_set_r1l(&vmcodep, 1);
     gen_add_r0r0r1(&vmcodep);
@@ -69,6 +70,7 @@ int main(int argc, char **argv)
     gen_end(&vmcodep);
   }
   if (code == 1) {
+    // Loop from 0 to 1B
     gen_set_rl(&vmcodep, 0, 0);
     gen_add_rrl(&vmcodep, 0, 0, 1);
     gen_jump_l_if_r_lt_l(&vmcodep, (Cell *)((char *)start + 24), 0, 1000000000);
