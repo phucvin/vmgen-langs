@@ -3,8 +3,8 @@ push #2
 jump_lt @lbl01
 
 push #4
-end
+halt
 
 @lbl01:
 push #3
-end
+halt
