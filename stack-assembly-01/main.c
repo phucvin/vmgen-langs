@@ -53,7 +53,7 @@ typedef struct lbltab
 
 lbltab *ltab = NULL;
 
-void delete_ltab()
+void delete_labeltab()
 {
   lbltab *p = ltab;
   while (p != NULL)
@@ -167,6 +167,7 @@ int main(int argc, char **argv)
     exit(1);
   }
   vmcode_end = vmcodep;
+  delete_labeltab();
 
   printf("\nvm assembly:\n");
   vm_disassemble(vm_code, vmcodep, vm_prim);
