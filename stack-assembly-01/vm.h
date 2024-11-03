@@ -47,3 +47,6 @@ void printarg_Cell(Cell i);
 /* engine functions (type not fixed) */
 long engine(Inst *ip0, Cell *sp, char *fp);
 long engine_debug(Inst *ip0, Cell *sp, char *fp);
+
+extern FILE *yyin;
+int yyparse(void);

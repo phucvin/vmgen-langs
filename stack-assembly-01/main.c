@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "vm.h"
-#include "vm-gen.i"
 
 #define CODE_SIZE 128
 #define STACK_SIZE 128
@@ -132,123 +131,13 @@ void insert_j(const char *name, Inst *inst)
   p->jtab = jtab;
 }
 
-void gen_code(Inst **p, const char *path)
-{
-  const char *delimiter_characters = ": \n";
-  FILE *input_file = fopen(path, "r");
-  char buffer[1024];
-  char *token;
-
-  if (input_file == NULL)
-  {
-    fprintf(stderr, "Unable to open file %s\n", path);
-    exit(1);
-    return;
-  }
-
-#define must_next()                                                      \
-  {                                                                      \
-    char *last_token = token;                                            \
-    token = strtok(NULL, delimiter_characters);                          \
-    if (token == NULL)                                                   \
-    {                                                                    \
-      printf("parse error: expecting something after %s\n", last_token); \
-      exit(1);                                                           \
-      return;                                                            \
-    }                                                                    \
-  }
-
-  while (fgets(buffer, 1024, input_file) != NULL)
-  {
-    // printf("%s\n", buffer);
-    token = strtok(buffer, delimiter_characters);
-    while (token != NULL)
-    {
-      if (strcmp(token, "end") == 0)
-      {
-        gen_end(p);
-      }
-      else if (strcmp(token, "push") == 0)
-      {
-        must_next();
-        if (token[0] == '#')
-        {
-          int i = atoi(token + 1);
-          gen_push_l(p, i);
-        }
-        else
-        {
-          printf("parse error: unexpected %s\n", token);
-          exit(1);
-          return;
-        }
-      }
-      else if (strcmp(token, "jump") == 0 || strcmp(token, "jump_lt") == 0)
-      {
-        void (*gen)(Inst **, Cell *);
-        if (strcmp(token, "jump") == 0)
-        {
-          gen = gen_jump_l;
-        }
-        else if (strcmp(token, "jump_lt") == 0)
-        {
-          gen = gen_jump_l_if_lt;
-        }
-        else
-        {
-          printf("parse error: unexpected token %s\n", token);
-          exit(1);
-          return;
-        }
-        must_next();
-        if (token[0] == '@')
-        {
-          gen(p, NULL);
-          insert_j(token + 1, (*p) - 1);
-        }
-        else
-        {
-          printf("parse error: unexpected %s\n", token);
-          exit(1);
-          return;
-        }
-      }
-      else if (token[0] == '@')
-      {
-        insert_lbl(token + 1, *p);
-      }
-      else
-      {
-        printf("parse error: unexpected %s\n", token);
-        exit(1);
-        return;
-      }
-
-      token = strtok(NULL, delimiter_characters);
-    }
-  }
-
-#undef must_next
-
-  if (ferror(input_file))
-  {
-    perror("The following error occurred");
-    exit(1);
-    return;
-  }
-
-  delete_ltab();
-  fclose(input_file);
-}
-
 int main(int argc, char **argv)
 {
-  if (argc < 2)
+  if (argc != 2)
   {
     printf("Usage: ./vm.out <path to asm file>");
     return 1;
   }
-  char *asm_path = argv[1];
 
   Inst *vm_code = (Inst *)calloc(CODE_SIZE, sizeof(Inst));
   Inst *start;
@@ -268,7 +157,15 @@ int main(int argc, char **argv)
   init_peeptable();
 
   start = vmcodep;
-  gen_code(&vmcodep, asm_path);
+  // Parse and generate code at the same time
+  if ((yyin=fopen(argv[1], "r"))==NULL) {
+    perror(argv[1]);
+    exit(1);
+  }
+  if (yyparse())
+  {
+    exit(1);
+  }
   vmcode_end = vmcodep;
 
   printf("\nvm assembly:\n");
