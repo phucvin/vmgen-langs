@@ -3,26 +3,26 @@
 // Uncommented lines are same with original
 
 @main:
-  li r0 #6  // call_param #0 #6
-  push @main_end  // call_ret_addr @main_end
-  jump @fib  // call @fib
-@main_end:
-  puti r0  // puti
-  halt
+  set r0 #6  // call_param #0 #6
+  push @main_L001  // call @fib
+  jump @fib  // (cont)
+@main_L001:
+  halt_r r0  // halt
 
 @fib:
-  jump_if_lt r0 #2 @fib_end  // local_get #0 // push #2 // jump_if_lt @fib_base_case 
-@fib_recursive_case:
-  set l0 r0
-  sub r0 l0 #1  // local_get #0 // push #1 // sub // call_param #0
-  push @fib_recursive_case_01  // call_ret_addr @fib_recursive_case_01
-  jump @fib  // call @fib
-@fib_recursive_case_01:
-  set l1 r0
-  sub r0 l0 #2 // local_get #0 // push #2 // sub // call_param #0
-  push @fib_recursive_case_02  // call_ret_addr @fib_recursive_case_02
-  jump @fib  // call @fib
-@fib_recursive_case_02:
-  add r0 r0 l1  // add // return_param
-@fib_end:
-  jump
+  jump_if_lt r0 #2 @fib_L001 // local_get #0 // push #2 // jump_if_lt @@base_case
+  push r0  // (prev)
+  sub r0 r0 #1  // local_get #0 // push #1 // sub // call_param #0
+  push @fib_L002  // call @fib
+  jump @fib  // (cont)
+@fib_L002:
+  push r0  // (prev)
+  sub r0 l0 #2  // local_get #0 // push #2 // sub // call_param #0
+  push @fib_L003  // call @fib
+  jump @fib  // (cont)
+@fib_L003:
+  pop r1  // add // return_param #0
+  add r0 r0 r1  // (cont)
+  jump  // return
+@fib_L001:
+  jump // local_get #0 // return_param #0 // return
