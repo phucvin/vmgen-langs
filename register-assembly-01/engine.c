@@ -49,6 +49,7 @@
 /* the return type can be anything you want it to */
 long engine(Cell *ip0, Cell *sp, char *fp)
 {
+  long long regs[10];
   /* VM registers (you may want to use gcc's "Explicit Reg Vars" here) */
   Cell *ip;
   Cell cfa;

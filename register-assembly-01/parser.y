@@ -20,14 +20,16 @@ void yyerror(char *s)
 int yylex();
 %}
 
-%token halt num push label jump jump_tos jump_lt dup_ add sub swap
+%token halt num reg push pop set label jump jump_tos jump_lt add sub
 
 %union {
   long long_val;
+  int reg_idx;
   char *string_val;
 }
 
 %type <long_val> num;
+%type <reg_idx> reg;
 %type <string_val> label;
 
 %%
@@ -38,16 +40,16 @@ program:
     | ;
 
 inst:
-    | halt { gen_end(&vmcodep); }
-    | push num { gen_push_l(&vmcodep, $2); }
-    | push label { gen_push_l(&vmcodep, $2); insert_jump($2, vmcodep - 1); }
-    | jump_tos { gen_jump(&vmcodep); }
+    | halt reg { gen_halt_r(&vmcodep, $2); }
+    | set reg num { gen_set_rl(&vmcodep, $2, $3); }
+    | push reg { gen_push_r(&vmcodep, $2); }
+    | push label { gen_push_l(&vmcodep, 0); insert_jump($2, vmcodep - 1); }
+    | pop reg { gen_pop_r(&vmcodep, $2); }
     | jump label { gen_jump_l(&vmcodep, 0); insert_jump($2, vmcodep - 1); }
-    | jump_lt label { gen_jump_l_if_lt(&vmcodep, 0); insert_jump($2, vmcodep - 1); }
-    | dup_ { gen_dup(&vmcodep); }
-    | add { gen_add(&vmcodep); }
-    | sub { gen_sub(&vmcodep); }
-    | swap { gen_swap(&vmcodep); }
+    | jump_tos { gen_jump_tos(&vmcodep); }
+    | jump_lt label reg num { gen_jump_l_if_r_lt_l(&vmcodep, $2, $3, $4); insert_jump($2, vmcodep - 3); }
+    | sub reg reg num { gen_sub_rrl(&vmcodep, $2, $3, $4); }
+    | add reg reg reg { gen_add_rrr(&vmcodep, $2, $3, $4); }
     | ;
 
 %%

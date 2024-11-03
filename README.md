@@ -22,6 +22,7 @@ Build stack-assembly-01:
 ```
 $ cd stack-assembly-01
 $ make vm && time ./vm.out examples/fib01.asm
+
 vm assembly:
 0x643741b3f2a0: push_l i0=110188488291016 
 0x643741b3f2b0: s_pljl _IP0=0x6  _IP1=0x643741b3f2d0 
@@ -57,7 +58,27 @@ Build register-assembly-01:
 ```
 $ cd register-assembly-01
 $ make vm && time ./vm.out examples/fib01.asm
-TODO
+
+vm assembly:
+0x629a870822a0: set_rl i0=0  i1=40 
+0x629a870822b8: s_call0 _IP0=0x629a870822d0  _IP1=0x629a870822e0 
+0x629a870822d0: halt_r i0=0 
+0x629a870822e0: jump_l_if_r_lt_l target0=0x629a870823d0  i0=0  i1=2 
+0x629a87082300: push_r i0=0 
+0x629a87082310: sub_rrl i0=0  i1=0  i2=1 
+0x629a87082330: s_call0 _IP0=0x629a87082348  _IP1=0x629a870822e0 
+0x629a87082348: pop_r i0=1 
+0x629a87082358: push_r i0=0 
+0x629a87082368: sub_rrl i0=0  i1=1  i2=2 
+0x629a87082388: s_call0 _IP0=0x629a870823a0  _IP1=0x629a870822e0 
+0x629a870823a0: pop_r i0=1 
+0x629a870823b0: add_rrr i0=0  i1=0  i2=1 
+0x629a870823d0: jump_tos
+
+vm run:
+return code: 102334155
+
+real    0m2.135s
 ```
 
 ## Appendix
@@ -68,6 +89,7 @@ Learn Vmgen:
 ```
 $ cd learn-vmgen-01
 $ make vm && time ./vm.out
+
 vm assembly:
 0x59ec82ebd2a0: set_rl i0=0  i1=40 
 0x59ec82ebd2b8: s_call0 _IP0=0x9  _IP1=0x59ec82ebd2d8  _IP2=0x59ec82ebd2e8 

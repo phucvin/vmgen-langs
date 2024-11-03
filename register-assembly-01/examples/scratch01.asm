@@ -1,8 +1,9 @@
-// compute fib(N) and print the result
+set r0 #44
+halt r0
 
 @main:
 // prepare to call fib :: r( r0=n ) s( return_address ) -> r( r0=result ) s()
-  set r0 #40
+  set r0 #6
   push @main_end
   jump @fib
 @main_end:
@@ -12,6 +13,10 @@
 @fib:
 // jump to @fib_end if n < 2, fallthrough if not
   jump_lt @fib_end r0 #2
+@fib_end:
+// in both cases, now r( r0=result ) s( return_address )
+  jump_tos
+
 @fib_recursive_case:
 // save r0
   push r0
@@ -32,7 +37,3 @@
 // pop saved fib(n-1) to r1
   pop r1
   add r0 r0 r1
-// fallthrough to return
-@fib_end:
-// in both cases, now r( r0=result ) s( return_address )
-  jump_tos
