@@ -12,7 +12,8 @@ char *mystrdup(const char *s)
 
 %%
 halt return halt;
-[0-9]+ { yylval.long_val=strtol(yytext,NULL,10); return num; }
+push return push;
+#[0-9]+ { yylval.long_val=strtol(yytext+1,NULL,10); return num; }
 [ \t\n]	;
 [/][/].*	;
 .		yyerror("illegal character"); exit(1);

@@ -20,7 +20,7 @@ void yyerror(char *s)
 int yylex();
 %}
 
-%token num halt
+%token halt num push
 
 %union {
   long long_val;
@@ -31,10 +31,13 @@ int yylex();
 %%
 
 program:
-    | program inst;
+    | program inst
+    | ;
 
 inst:
-    | halt { gen_end(&vmcodep); };
+    | halt { gen_end(&vmcodep); }
+    | push num { gen_push_l(&vmcodep, $2); }
+    | ;
 
 %%
 
