@@ -1,3 +1,5 @@
 *.o
 *.out
 *.i
+*.tab.c
+*.yy.c

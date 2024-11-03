@@ -53,6 +53,13 @@ return code: 102334155
 real    0m3.873s
 ```
 
+Build register-assembly-01:
+```
+$ cd register-assembly-01
+$ make vm && time ./vm.out examples/fib01.asm
+TODO
+```
+
 ## Appendix
 
 Learn Vmgen:
