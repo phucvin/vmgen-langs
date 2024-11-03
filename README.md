@@ -21,7 +21,36 @@ real    0m2.213s
 Build stack-assembly-01:
 ```
 $ cd stack-assembly-01
-$ make vm && ./vm.out examples/simple01.asm
+$ make vm && time ./vm.out examples/fib01.asm
+vm assembly:
+0x643741b3f2a0: push_l i0=110188488291016 
+0x643741b3f2b0: s_pljl _IP0=0x6  _IP1=0x643741b3f2d0 
+0x643741b3f2c8: end
+0x643741b3f2d0: dup
+0x643741b3f2d8: push_l i0=2 
+0x643741b3f2e8: jump_l_if_lt target0=0x643741b3f3a0 
+0x643741b3f2f8: dup
+0x643741b3f300: push_l i0=1 
+0x643741b3f310: sub
+0x643741b3f318: push_l i0=110188488291136 
+0x643741b3f328: swap
+0x643741b3f330: jump_l target0=0x643741b3f2d0 
+0x643741b3f340: swap
+0x643741b3f348: push_l i0=2 
+0x643741b3f358: sub
+0x643741b3f360: push_l i0=110188488291208 
+0x643741b3f370: swap
+0x643741b3f378: jump_l target0=0x643741b3f2d0 
+0x643741b3f388: add
+0x643741b3f390: swap
+0x643741b3f398: jump
+0x643741b3f3a0: swap
+0x643741b3f3a8: jump
+
+vm run:
+return code: 102334155
+
+real    0m3.873s
 ```
 
 ## Appendix
