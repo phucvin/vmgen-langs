@@ -1,5 +1,5 @@
 VMGEN=vmgen
-GCC=gcc -O1 -fomit-frame-pointer -Wall
+GCC=gcc -O3 -fomit-frame-pointer -Wall
 CC=$(GCC)
 LEX=flex -l
 YACC=bison -y
