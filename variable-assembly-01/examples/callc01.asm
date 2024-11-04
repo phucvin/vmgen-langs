@@ -8,6 +8,6 @@
   add r1 r1 #1
   ffi_call $abs r1
   add r2 r2 r0
-  jump_lt @loop r1 #4
+  jump_lt @loop r1 #100000000
 @main_end:
   halt r2
