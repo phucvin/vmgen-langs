@@ -1,7 +1,6 @@
 // call C function in a loop
 
 @main:
-  begin_vars #1
   set r1 #0
   set r2 #0
 @loop:
@@ -13,6 +12,8 @@
   halt r2
 
 
+// note: this currently works on x86_64 Linux since the interpreter only has
+// code for this calling convention
 // $ cd .. && make vm && time ./vm.out examples/callc01.asm
 // return code: 5000000050000000
 // real    0m0.456s
