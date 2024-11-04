@@ -11,3 +11,10 @@
   jump_lt @loop r1 #100000000
 @main_end:
   halt r2
+
+
+// $ cd .. && make vm && time ./vm.out examples/callc01.asm
+// return code: 5000000050000000
+// real    0m0.456s
+
+// this is 20x faster than luajit -joff using luaffi, see /tmp02/callc01.lua
