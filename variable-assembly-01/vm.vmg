@@ -64,7 +64,7 @@ jump_l_if_r_lt_l ( #target0 #i0 #i1 -- )
 if (regs[i0] < i1) SET_IP(target0);
 
 ffi_call_r ( #i0 #i1 -- )
-asm("mov %1, %%rdi; call *%2; mov %%rax, %0;" : "=r" (regs[0]) : "r" (regs[i1]), "p" (&llabs) : "rdi");
+asm("mov %1, %%rdi; call *%2; mov %%rax, %0;" : "=a" (regs[0]) : "a" (regs[i1]), "d" (&llabs));
 
 halt_r ( #i0 -- )
 return regs[i0];

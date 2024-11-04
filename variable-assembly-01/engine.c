@@ -65,7 +65,7 @@ long engine(Cell *ip0, Cell *sp, char *fp)
   int var_end = 1;
   int var_tmp = 0;
   /* VM registers (you may want to use gcc's "Explicit Reg Vars" here) */
-  Cell *ip;
+  register Cell *ip asm("rax");  // Have to force this to use rax for calling C to work correctly
   Cell cfa;
 #ifdef USE_spTOS
   Cell spTOS;
