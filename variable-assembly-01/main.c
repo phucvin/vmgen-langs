@@ -132,10 +132,18 @@ void insert_jump(const char *name, Inst *inst)
   p->jtab = jtab;
 }
 
+long long my_sub(long long arg1, long long arg2) {
+  return arg1 - arg2;
+}
+
 long long get_ffi_addr(const char *name) {
   if (strcmp(name, "$abs") == 0)
   {
     return &llabs;
+  }
+  else if (strcmp(name, "$my_sub") == 0)
+  {
+    return &my_sub;
   }
 
   printf("\nUnknown FFI function name %s\n", name);

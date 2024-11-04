@@ -47,15 +47,6 @@
 
 #define MAYBE_UNUSED __attribute__((unused))
 
-/*
-long long ffi_call1(long long arg1) {
-  long long ret;
-  asm("mov %1, %%rdi; call *%2; mov %%rax, %0;" : "=r"(ret) : "r"(arg1), "r"(&abs) : "rdi");
-  printf("\n");
-  return ret;
-}
-*/
-
 /* the return type can be anything you want it to */
 long engine(Cell *ip0, Cell *sp, char *fp)
 {

@@ -59,6 +59,7 @@ inst:
     | begin_vars num { gen_alloc_v(&vmcodep, $2); }
     | jump_end_vars var { gen_jump_v_dealloc(&vmcodep, $2); }
     | ffi_call ffi_name reg { gen_ffi_call_r(&vmcodep, get_ffi_addr($2), $3); }
+    | ffi_call ffi_name reg reg { gen_ffi_call_rr(&vmcodep, get_ffi_addr($2), $3, $4); }
     | ;
 
 %%
