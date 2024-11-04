@@ -20,10 +20,14 @@ add return add;
 sub return sub;
 begin_vars return begin_vars;
 jump_end_vars return jump_end_vars;
+ffi_set return ffi_set;
+ffi_call return ffi_call;
 #[0-9]+ { yylval.long_val=strtol(yytext+1,NULL,10); return num; }
 r[0-9] { yylval.reg_idx=yytext[1]-'0'; return reg; }
 v[0-9]+ { yylval.var_idx=strtol(yytext+1,NULL,10); return var; }
+$[0-9]+ { yylval.ffi_reg_idx=strtol(yytext+1,NULL,10); return ffi_reg; }
 @[a-zA-Z\_][a-zA-Z0-9\_]* { yylval.string_val=mystrdup(yytext); return label; }
+$[a-zA-Z\_][a-zA-Z0-9\_]* { yylval.string_val=mystrdup(yytext); return ffi_name; }
 [ \t\n]	;
 [/][/].*	;
 .		yyerror("illegal character"); exit(1);

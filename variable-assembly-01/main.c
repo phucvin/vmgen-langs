@@ -6,15 +6,15 @@
 #define STACK_SIZE 128
 typedef long (*engine_t)(Inst *ip0, Cell *sp, char *fp);
 
-void genarg_i(Inst **vmcodepp, long i)
+void genarg_i(Inst **vmcodepp, long long i)
 {
   vm_i2Cell(i, *((Cell *)*vmcodepp));
   (*vmcodepp)++;
 }
 
-void printarg_i(long i)
+void printarg_i(long long i)
 {
-  fprintf(vm_out, "%ld ", i);
+  fprintf(vm_out, "%lld ", i);
 }
 
 void genarg_target(Inst **vmcodepp, Inst *target)
@@ -22,6 +22,7 @@ void genarg_target(Inst **vmcodepp, Inst *target)
   vm_target2Cell(target, *((Cell *)*vmcodepp));
   (*vmcodepp)++;
 }
+
 void printarg_target(Inst *target)
 {
   fprintf(vm_out, "%p ", target);

@@ -7,7 +7,7 @@
 \E inst-stream stack-prefix #
 
 \ type prefix definitions:
-\E s" long" single data-stack type-prefix i
+\E s" long long" single data-stack type-prefix i
 \E s" Inst *" single data-stack type-prefix target
 
 alloc_v ( #i0 -- )
@@ -17,6 +17,9 @@ vars[var_end - 1] = i0;  // save for later deallocate
 
 set_vr ( #i0 #i1 -- )
 vars[var_begin + i0] = regs[i1];
+
+set_vl ( #i0 #i1 -- )
+vars[var_begin + i0] = i1;
 
 sub_rvl ( #i0 #i1 #i2 -- )
 regs[i0] = vars[var_begin + i1] - i2;
@@ -32,6 +35,9 @@ var_begin = var_end - vars[var_tmp - 1] - 1;
 
 add_rrr ( #i0 #i1 #i2 -- )
 regs[i0] = regs[i1] + regs[i2];
+
+add_rrl ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] + i2;
 
 sub_rrl ( #i0 #i1 #i2 -- )
 regs[i0] = regs[i1] - i2;
@@ -56,6 +62,12 @@ SET_IP(regs[i0]);
 
 jump_l_if_r_lt_l ( #target0 #i0 #i1 -- )
 if (regs[i0] < i1) SET_IP(target0);
+
+ffi_set_rr ( #i0 #i1 -- )
+rcx = regs[i1];
+
+ffi_call ( #i1 -- )
+// TODO
 
 halt_r ( #i0 -- )
 return regs[i0];
