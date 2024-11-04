@@ -63,8 +63,11 @@ SET_IP(regs[i0]);
 jump_l_if_r_lt_l ( #target0 #i0 #i1 -- )
 if (regs[i0] < i1) SET_IP(target0);
 
-ffi_set_rr ( #i0 #i1 -- )
-rcx = regs[i1];
+ffi_arg1_r ( #i0 -- )
+ffi_arg1 = regs[i0];
+
+ffi_arg2_r ( #i0 -- )
+ffi_arg2 = regs[i0];
 
 ffi_call ( #i1 -- )
 // TODO

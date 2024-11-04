@@ -49,7 +49,9 @@
 /* the return type can be anything you want it to */
 long engine(Cell *ip0, Cell *sp, char *fp)
 {
-  long long rcx __asm__("rcx");
+  long long ffi_arg1 __asm__("rdi");
+  long long ffi_arg2 __asm__("rsi");
+  long long ffi_ret __asm__("rax");
   long long regs[10];
   long long vars[1024];
   int var_begin = 0;
