@@ -70,7 +70,8 @@ ffi_arg2_r ( #i0 -- )
 ffi_arg2 = regs[i0];
 
 ffi_call ( #i1 -- )
-// TODO
+asm("call abs");
+regs[0] = ffi_ret;
 
 halt_r ( #i0 -- )
 return regs[i0];
