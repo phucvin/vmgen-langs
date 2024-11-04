@@ -53,3 +53,4 @@ int yyparse(void);
 
 void insert_jump(const char *name, Inst *inst);
 void insert_label(const char *name, Inst *inst);
+long long get_ffi_addr(const char *name);

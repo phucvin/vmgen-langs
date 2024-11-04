@@ -132,6 +132,17 @@ void insert_jump(const char *name, Inst *inst)
   p->jtab = jtab;
 }
 
+long long get_ffi_addr(const char *name) {
+  if (strcmp(name, "$abs") == 0)
+  {
+    return &llabs;
+  }
+
+  printf("\nUnknown FFI function name %s\n", name);
+  exit(1);
+  return 0;
+}
+
 int main(int argc, char **argv)
 {
   if (argc != 2)
