@@ -9,4 +9,4 @@
   ffi_call $sum
   jump_lt @loop r1 #100
 @main_end:
-  halt r0
+  halt r1
