@@ -66,8 +66,6 @@ long engine(Cell *ip0, Cell *sp, char *fp)
   static Label labels[] = {
 #include "vm-labels.i"
   };
-  long long ffi_arg1 = 0;
-  long long ffi_ret = 0;
 
   if (vm_debug)
     fprintf(vm_out, "entering engine(%p,%p,%p)\n", ip0, sp, fp);
