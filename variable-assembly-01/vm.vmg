@@ -24,6 +24,9 @@ vars[var_begin + i0] = i1;
 sub_rvl ( #i0 #i1 #i2 -- )
 regs[i0] = vars[var_begin + i1] - i2;
 
+sub_rrv ( #i0 #i1 #i2 -- )
+regs[i0] = regs[i1] - vars[var_begin + i2];
+
 add_rrv ( #i0 #i1 #i2 -- )
 regs[i0] = regs[i1] + vars[var_begin + i2];
 
@@ -54,11 +57,17 @@ regs[i0] = i1;
 set_rr ( #i0 #i1 -- )
 regs[i0] = regs[i1];
 
+set_rv ( #i0 #i1 -- )
+regs[i0] = vars[var_begin + i1];
+
 jump_l ( #target0 -- )
 SET_IP(target0);
 
 jump_r ( #i0 -- )
 SET_IP(regs[i0]);
+
+jump_v ( #i0 -- )
+SET_IP(vars[var_begin + i0]);
 
 jump_l_if_r_lt_l ( #target0 #i0 #i1 -- )
 if (regs[i0] < i1) SET_IP(target0);

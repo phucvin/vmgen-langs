@@ -48,9 +48,13 @@
 #define MAYBE_UNUSED __attribute__((unused))
 
 /* the return type can be anything you want it to */
-long engine(Cell *ip0, Cell *sp, char *fp)
+long engine(Cell *ip0, Cell *sp, char *fp, int init_regs_n, long long *init_regs)
 {
   long long regs[10];
+  for (int i = 0; i < init_regs_n; ++i)
+  {
+    regs[i] = init_regs[i];
+  }
   long long vars[1024];
   int var_begin = 0;
   int var_end = 1;

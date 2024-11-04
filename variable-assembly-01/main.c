@@ -4,7 +4,7 @@
 
 #define CODE_SIZE 128
 #define STACK_SIZE 128
-typedef long (*engine_t)(Inst *ip0, Cell *sp, char *fp);
+typedef long (*engine_t)(Inst *ip0, Cell *sp, char *fp, int, long long *);
 
 void genarg_i(Inst **vmcodepp, long long i)
 {
@@ -74,16 +74,23 @@ void delete_labeltab()
   ltab = NULL;
 }
 
-void insert_label(const char *name, Inst *inst)
+lbltab *find_label(const char *name)
 {
   lbltab *p;
   for (p = ltab; p != NULL; p = p->next)
   {
+    // printf("label: %s\n", p->name);
     if (strcmp(p->name, name) == 0)
     {
       break;
     }
   }
+  return p;
+}
+
+void insert_label(const char *name, Inst *inst)
+{
+  lbltab *p = find_label(name);
   if (p == NULL)
   {
     p = malloc(sizeof(lbltab));
@@ -132,11 +139,13 @@ void insert_jump(const char *name, Inst *inst)
   p->jtab = jtab;
 }
 
-long long my_sub(long long arg1, long long arg2) {
+long long my_sub(long long arg1, long long arg2)
+{
   return arg1 - arg2;
 }
 
-long long get_ffi_addr(const char *name) {
+long long get_ffi_addr(const char *name)
+{
   if (strcmp(name, "$abs") == 0)
   {
     return &llabs;
@@ -153,9 +162,9 @@ long long get_ffi_addr(const char *name) {
 
 int main(int argc, char **argv)
 {
-  if (argc != 2)
+  if (argc < 2)
   {
-    printf("Usage: ./vm.out <path to asm file>");
+    printf("Usage: ./vm.out <path to asm file> <opt: func> <opt: arg1> ...");
     return 1;
   }
 
@@ -173,12 +182,13 @@ int main(int argc, char **argv)
 
   vmcodep = vm_code;
   vm_out = stderr;
-  (void)runvm(NULL, NULL, NULL); /* initialize vm_prim */
+  (void)runvm(NULL, NULL, NULL, 0, NULL); /* initialize vm_prim */
   init_peeptable();
 
   start = vmcodep;
   // Parse and generate code at the same time
-  if ((yyin = fopen(argv[1], "r")) == NULL) {
+  if ((yyin = fopen(argv[1], "r")) == NULL)
+  {
     perror(argv[1]);
     exit(1);
   }
@@ -187,19 +197,50 @@ int main(int argc, char **argv)
     exit(1);
   }
   vmcode_end = vmcodep;
-  delete_labeltab();
 
   printf("\nvm assembly:\n");
   vm_disassemble(vm_code, vmcodep, vm_prim);
 
-  printf("\nvm run:\n");
-  long return_code = runvm(start, stack + STACK_SIZE - 1, NULL);
-  printf("%sreturn code: %ld\n", vm_debug ? "\n" : "", return_code);
+  if (argc >= 2)
+  {
+    lbltab *e = find_label("@call_r8");
+    if (e == NULL)
+    {
+      printf("\ncall_r8 not found to wrap calls\n");
+      exit(1);
+      return;
+    }
+    lbltab *f = find_label(argv[2]);
+    if (f == NULL)
+    {
+      printf("\nfunction %s not found\n", argv[2]);
+      exit(1);
+      return;
+    }
+    printf("\ncalling vm function %s(", argv[2]);
+    long long init_regs[10] = {0};
+    for (int i = 3; i < argc; ++i)
+    {
+      init_regs[i - 3] = atoi(argv[i]);
+      printf(i < argc - 1 ? "%lld, " : "%lld", init_regs[i - 3]);
+    }
+    init_regs[8] = f->start;
+    printf(")\n");
+    long return_code = runvm(e->start, stack + STACK_SIZE - 1, NULL, 10, init_regs);
+    printf("%sreturn: %ld\n", vm_debug ? "\n" : "", return_code);
+  }
+  else
+  {
+    printf("\nvm run:\n");
+    long return_code = runvm(start, stack + STACK_SIZE - 1, NULL, 0, NULL);
+    printf("%sreturn code: %ld\n", vm_debug ? "\n" : "", return_code);
+  }
 
 #ifdef VM_PROFILING
   printf("\nvm profiling:\n");
   vm_print_profile(vm_out);
 #endif
 
+  delete_labeltab();
   return 0;
 }
