@@ -5,7 +5,7 @@ int abs(int);
 -- print(ffi.C.abs(-24))
 local n = 0
 for i = 1,100000000 do
-    n = n + ffi.C.abs(-i)
+    n = n + ffi.C.abs(i)
 end
 print(n)
 

@@ -21,7 +21,7 @@ int yylex();
 %}
 
 %token halt num reg var set label jump jump_lt add sub begin_vars jump_end_vars
-    ffi_call ffi_name ffi_arg1 ffi_arg2
+    ffi_call ffi_name
 
 %union {
   long long_val;
@@ -58,9 +58,7 @@ inst:
     | add reg reg var { gen_add_rrv(&vmcodep, $2, $3, $4); }
     | begin_vars num { gen_alloc_v(&vmcodep, $2); }
     | jump_end_vars var { gen_jump_v_dealloc(&vmcodep, $2); }
-    | ffi_arg1 reg { gen_ffi_arg1_r(&vmcodep, $2); }
-    | ffi_arg2 reg { gen_ffi_arg2_r(&vmcodep, $2); }
-    | ffi_call ffi_name { gen_ffi_call(&vmcodep, $2); }
+    | ffi_call ffi_name reg { gen_ffi_call_r(&vmcodep, $2, $3); }
     | ;
 
 %%

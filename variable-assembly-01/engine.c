@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "vm.h"
 
 #define USE_spTOS 1
@@ -49,9 +50,6 @@
 /* the return type can be anything you want it to */
 long engine(Cell *ip0, Cell *sp, char *fp)
 {
-  register long long ffi_arg1 __asm__("rdi");
-  register long long ffi_arg2 __asm__("rsi");
-  register long long ffi_ret __asm__("rax");
   long long regs[10];
   long long vars[1024];
   int var_begin = 0;
@@ -68,6 +66,8 @@ long engine(Cell *ip0, Cell *sp, char *fp)
   static Label labels[] = {
 #include "vm-labels.i"
   };
+  long long ffi_arg1 = 0;
+  long long ffi_ret = 0;
 
   if (vm_debug)
     fprintf(vm_out, "entering engine(%p,%p,%p)\n", ip0, sp, fp);

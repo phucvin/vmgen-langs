@@ -6,9 +6,8 @@
   set r2 #0
 @loop:
   add r1 r1 #1
-  ffi_arg1 r1
-  ffi_call $abs
+  ffi_call $abs r1
   add r2 r2 r0
-  jump_lt @loop r1 #3
+  jump_lt @loop r1 #4
 @main_end:
   halt r2

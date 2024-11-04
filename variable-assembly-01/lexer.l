@@ -20,8 +20,6 @@ add return add;
 sub return sub;
 begin_vars return begin_vars;
 jump_end_vars return jump_end_vars;
-ffi_arg1 return ffi_arg1;
-ffi_arg2 return ffi_arg2;
 ffi_call return ffi_call;
 #[0-9]+ { yylval.long_val=strtol(yytext+1,NULL,10); return num; }
 r[0-9] { yylval.reg_idx=yytext[1]-'0'; return reg; }

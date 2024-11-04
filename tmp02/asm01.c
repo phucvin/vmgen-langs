@@ -18,6 +18,8 @@ int f3(int i, int j) {
 
 int main() {
     register long long rax asm("rax");
+    register long long rdi asm("rdi");
+    register long long rsi asm("rsi");
 
     asm("mov $14, %rax");
     printf("rax=%lld\n", rax);
@@ -35,6 +37,11 @@ int main() {
     printf("rax=%lld\n", rax);
 
     asm("mov $45, %rdi; mov $7, %rsi; call f3;");
+    printf("rax=%lld\n", rax);
+
+    rdi = 2;
+    rsi = 7;
+    asm("call f3;");
     printf("rax=%lld\n", rax);
 
     return 0;
