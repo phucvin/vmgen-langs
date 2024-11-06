@@ -201,7 +201,7 @@ int main(int argc, char **argv)
   printf("\nvm assembly:\n");
   vm_disassemble(vm_code, vmcodep, vm_prim);
 
-  if (argc >= 2)
+  if (argc >= 3)
   {
     lbltab *e = find_label("@call_r8");
     if (e == NULL)

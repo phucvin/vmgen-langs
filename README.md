@@ -140,3 +140,14 @@ return code: 102334155
 
 real    0m2.455s
 ```
+
+Performance of fib(40) in other interpreters:
+```
+$ time tmp02/wasm3-cosmopolitan.com --func fib tmp02/fib32.wasm 40
+Result: 102334155
+real    0m4.991s
+
+$ time luajit -joff tmp02/fib01.lua
+102334155
+real    0m4.504s
+```
