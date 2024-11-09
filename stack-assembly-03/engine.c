@@ -1,6 +1,7 @@
 #include "vm.h"
 
-#define USE_spTOS 1
+// Don't use spTOS
+// #define USE_spTOS 1
 
 #ifdef USE_spTOS
 #define IF_spTOS(x) x

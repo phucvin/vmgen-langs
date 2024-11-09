@@ -17,21 +17,26 @@ add ( i0 i1 -- i2 )
 i2 = i0 + i1;
 
 sub_dl ( #i0 #i1 -- i2 )
-// TODO
+i2 = sp[i0-1+1].i - i1;
 
 jump ( target0 -- )
 SET_IP(target0);
 
 jump_l_if_d_lt_l ( #target0 #i0 #i1 -- )
-// TODO if (i0 < i1) SET_IP(target0);
+if (sp[i0-1].i < i1) SET_IP(target0);
 
 halt_d ( #i0 -- )
-return i0;
+return sp[i0-1].i;
 
-call ( #target0 -- )
-// TODO
+call1 ( #target0 i0 -- target1 i1)
+target1 = IP;
+SET_IP(target0);
+i1 = i0;
 
 ret_dd ( #i0 #i1 -- )
-// TODO
+long long tmp = sp[i1-1].i;
+SET_IP(sp[i0-1].target);
+sp += i0-1;
+sp[0].i = tmp;
 
 \ Super instructions below

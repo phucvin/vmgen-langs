@@ -45,7 +45,7 @@ inst:
     | jump_lt label delta num { gen_jump_l_if_d_lt_l(&vmcodep, 0, $3, $4); insert_jump($2, vmcodep - 3); }
     | add { gen_add(&vmcodep); }
     | sub delta num { gen_sub_dl(&vmcodep, $2, $3); }
-    | call label { gen_call(&vmcodep, 0); insert_jump($2, vmcodep-1); }
+    | call label { gen_call1(&vmcodep, 0); insert_jump($2, vmcodep-1); }
     | ;
 
 %%

@@ -1383,7 +1383,7 @@ yyreduce:
 
   case 13:
 #line 48 "parser.y"
-                 { gen_call(&vmcodep, 0); insert_jump((yyvsp[0].string_val), vmcodep-1); }
+                 { gen_call1(&vmcodep, 0); insert_jump((yyvsp[0].string_val), vmcodep-1); }
 #line 1388 "y.tab.c"
     break;
 
