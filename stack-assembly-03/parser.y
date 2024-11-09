@@ -20,7 +20,7 @@ void yyerror(char *s)
 int yylex();
 %}
 
-%token halt num push label jump jump_tos jump_lt dup_ add sub swap
+%token halt num delta push label jump_lt add sub call ret
 
 %union {
   long long_val;
@@ -28,6 +28,7 @@ int yylex();
 }
 
 %type <long_val> num;
+%type <long_val> delta;
 %type <string_val> label;
 
 %%
@@ -38,16 +39,13 @@ program:
     | ;
 
 inst:
-    | halt { gen_end(&vmcodep); }
+    | halt delta { gen_halt_d(&vmcodep, $2); }
+    | ret delta delta { gen_ret_dd(&vmcodep, $2, $3); }
     | push num { gen_push_l(&vmcodep, $2); }
-    | push label { gen_push_l(&vmcodep, $2); insert_jump($2, vmcodep - 1); }
-    | jump_tos { gen_jump(&vmcodep); }
-    | jump label { gen_jump_l(&vmcodep, 0); insert_jump($2, vmcodep - 1); }
-    | jump_lt label { gen_jump_l_if_lt(&vmcodep, 0); insert_jump($2, vmcodep - 1); }
-    | dup_ { gen_dup(&vmcodep); }
+    | jump_lt label delta num { gen_jump_l_if_d_lt_l(&vmcodep, 0, $3, $4); insert_jump($2, vmcodep - 3); }
     | add { gen_add(&vmcodep); }
-    | sub { gen_sub(&vmcodep); }
-    | swap { gen_swap(&vmcodep); }
+    | sub delta num { gen_sub_dl(&vmcodep, $2, $3); }
+    | call label { gen_call(&vmcodep, 0); insert_jump($2, vmcodep-1); }
     | ;
 
 %%

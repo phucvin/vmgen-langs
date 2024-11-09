@@ -109,6 +109,13 @@ return code: 102334155
 real    0m2.690s
 ```
 
+Build stack-assembly-03:
+```
+$ cd stack-assembly-03
+$ make vm && time ./vm.out examples/fib01.asm
+TODO
+```
+
 ## Appendix
 
 Learn Vmgen:

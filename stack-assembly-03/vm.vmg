@@ -13,32 +13,25 @@
 push_l ( #i0 -- i1 )
 i1 = i0;
 
-dup ( i0 -- i1 i2 )
-i1 = i0;
-i2 = i0;
-
-swap ( i0 i1 -- i2 i3 )
-i2 = i1;
-i3 = i0;
-
 add ( i0 i1 -- i2 )
 i2 = i0 + i1;
 
-sub ( i0 i1 -- i2 )
-i2 = i0 - i1;
+sub_dl ( #i0 #i1 -- i2 )
+// TODO
 
 jump ( target0 -- )
 SET_IP(target0);
 
-jump_l ( #target0 -- )
-SET_IP(target0);
+jump_l_if_d_lt_l ( #target0 #i0 #i1 -- )
+// TODO if (i0 < i1) SET_IP(target0);
 
-jump_l_if_lt ( i0 i1 #target0 -- )
-if (i0 < i1) SET_IP(target0);
-
-end ( i0 -- )
+halt_d ( #i0 -- )
 return i0;
 
-\ Super instructions below
+call ( #target0 -- )
+// TODO
 
-s_pljl = push_l jump_l
+ret_dd ( #i0 #i1 -- )
+// TODO
+
+\ Super instructions below
