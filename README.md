@@ -144,14 +144,13 @@ vm assembly:
 0x5b63221792a0: push_l i0=40 
 0x5b63221792b0: call1 target0=0x5b63221792c8 
 0x5b63221792c0: halt
-0x5b63221792c8: jump_l_if_f_lt_l target0=0x5b6322179348  i0=0  i1=2 
+0x5b63221792c8: jump_l_if_f_lt_l target0=0x5b6322179340  i0=0  i1=2 
 0x5b63221792e8: sub_fl i0=0  i1=1 
 0x5b6322179300: call1 target0=0x5b63221792c8 
 0x5b6322179310: sub_fl i0=0  i1=2 
 0x5b6322179328: call1 target0=0x5b63221792c8 
 0x5b6322179338: add
 0x5b6322179340: ret
-0x5b6322179348: ret_f i0=0 
 
 vm run:
 return code: 102334155

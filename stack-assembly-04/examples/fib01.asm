@@ -13,6 +13,5 @@
   sub |0 #2  // s(| n fib(n-1) n-2 )
   call @fib #1  // s(| n fib(n-1) fib(n-2) )
   add  // s(| n result )
-  ret  // s(.. result )
 @@base_case:
-  ret |0  // s(.. n )
+  ret  // s(.. n_or_result )

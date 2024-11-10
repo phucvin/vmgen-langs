@@ -3,7 +3,7 @@
 #include "vm.h"
 
 #define CODE_SIZE 128
-#define STACK_SIZE 128
+#define STACK_SIZE 256
 typedef long (*engine_t)(Inst *ip0, Cell *sp, Cell *fp);
 
 void genarg_i(Inst **vmcodepp, long long i)
