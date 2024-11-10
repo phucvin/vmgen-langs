@@ -1,7 +1,7 @@
 // compute fib(N) and print the result
 
 @main:
-  push #6
+  push #40
   call @fib #1  // call with 1 parameter already pushed on the stack
   halt
 
