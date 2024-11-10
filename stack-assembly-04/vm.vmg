@@ -35,6 +35,12 @@ i1 = fp;
 i2 = i0;
 fp = sp;
 
+ret ( i0 -- )
+SET_IP((fp+2)->target);
+sp = fp+2;
+fp = (fp+1)->i;
+sp[0].i = i0;
+
 ret_f ( #i0 -- )
 long long tmp = (fp-i0)->i;
 SET_IP((fp+2)->target);

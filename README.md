@@ -139,28 +139,27 @@ Build stack-assembly-04:
 $ cd stack-assembly-04
 $ make vm && time ./vm.out examples/fib01.asm
 vm assembly:
-0x5588178b52a0: push_l i0=40 
-0x5588178b52b0: call1 target0=0x5588178b52c8 
-0x5588178b52c0: halt
-0x5588178b52c8: alloc i0=3 
-0x5588178b52d8: jump_l_if_f_lt_l target0=0x5588178b53a0  i0=0  i1=2 
-0x5588178b52f8: sub_fl i0=0  i1=1 
-0x5588178b5310: call1 target0=0x5588178b52c8 
-0x5588178b5320: store i1=1 
-0x5588178b5330: sub_fl i0=0  i1=2 
-0x5588178b5348: call1 target0=0x5588178b52c8 
-0x5588178b5358: store i1=2 
-0x5588178b5368: add_ff i0=1  i1=2 
-0x5588178b5380: store i1=3 
-0x5588178b5390: ret_f i0=3 
-0x5588178b53a0: ret_f i0=0 
+0x64020e7bd2a0: push_l i0=40 
+0x64020e7bd2b0: call1 target0=0x64020e7bd2c8 
+0x64020e7bd2c0: halt
+0x64020e7bd2c8: alloc i0=1 
+0x64020e7bd2d8: jump_l_if_f_lt_l target0=0x64020e7bd388  i0=0  i1=2 
+0x64020e7bd2f8: sub_fl i0=0  i1=1 
+0x64020e7bd310: call1 target0=0x64020e7bd2c8 
+0x64020e7bd320: store i1=1 
+0x64020e7bd330: sub_fl i0=0  i1=2 
+0x64020e7bd348: call1 target0=0x64020e7bd2c8 
+0x64020e7bd358: store i1=0 
+0x64020e7bd368: add_ff i0=0  i1=1 
+0x64020e7bd380: ret
+0x64020e7bd388: ret_f i0=0 
 
 vm run:
 return code: 102334155
 
-real    0m3.008s
-user    0m3.002s
-sys     0m0.004s
+real    0m2.825s
+user    0m2.820s
+sys     0m0.000s
 ```
 
 ## Appendix

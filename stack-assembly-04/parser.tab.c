@@ -498,7 +498,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  18
+#define YYNRULES  19
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  30
 
@@ -550,7 +550,7 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int8 yyrline[] =
 {
        0,    36,    36,    37,    38,    39,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52,    53
+      45,    46,    47,    48,    49,    50,    51,    52,    53,    54
 };
 #endif
 
@@ -599,9 +599,9 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     7,     0,     0,     0,    12,     0,     0,
-       0,     0,     0,     0,     3,    10,     4,     0,     0,     0,
-       0,     9,     8,    16,    17,     0,    13,    14,    15,    11
+       2,     0,     1,     7,     0,     0,     0,    13,     0,     0,
+       9,     0,     0,     0,     3,    11,     4,     0,     0,     0,
+       0,    10,     8,    17,    18,     0,    14,    15,    16,    12
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -646,14 +646,14 @@ static const yytype_int8 yystos[] =
 static const yytype_int8 yyr1[] =
 {
        0,    17,    18,    18,    18,    18,    19,    19,    19,    19,
-      19,    19,    19,    19,    19,    19,    19,    19,    19
+      19,    19,    19,    19,    19,    19,    19,    19,    19,    19
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     2,     3,     0,     0,     1,     2,     2,
-       2,     4,     1,     3,     3,     3,     2,     2,     0
+       0,     2,     0,     2,     3,     0,     0,     1,     2,     1,
+       2,     2,     4,     1,     3,     3,     3,     2,     2,     0
 };
 
 
@@ -1368,60 +1368,66 @@ yyreduce:
 
   case 9:
 #line 44 "parser.y"
-                { gen_ret_f(&vmcodep, (yyvsp[0].long_val)); }
+          { gen_ret(&vmcodep); }
 #line 1373 "y.tab.c"
     break;
 
   case 10:
 #line 45 "parser.y"
-               { gen_push_l(&vmcodep, (yyvsp[0].long_val)); }
+                { gen_ret_f(&vmcodep, (yyvsp[0].long_val)); }
 #line 1379 "y.tab.c"
     break;
 
   case 11:
 #line 46 "parser.y"
-                              { gen_jump_l_if_f_lt_l(&vmcodep, 0, (yyvsp[-1].long_val), (yyvsp[0].long_val)); insert_jump((yyvsp[-2].string_val), vmcodep - 3); }
+               { gen_push_l(&vmcodep, (yyvsp[0].long_val)); }
 #line 1385 "y.tab.c"
     break;
 
   case 12:
 #line 47 "parser.y"
-          { gen_add(&vmcodep); }
+                              { gen_jump_l_if_f_lt_l(&vmcodep, 0, (yyvsp[-1].long_val), (yyvsp[0].long_val)); insert_jump((yyvsp[-2].string_val), vmcodep - 3); }
 #line 1391 "y.tab.c"
     break;
 
   case 13:
 #line 48 "parser.y"
-                      { gen_add_ff(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
+          { gen_add(&vmcodep); }
 #line 1397 "y.tab.c"
     break;
 
   case 14:
 #line 49 "parser.y"
-                    { gen_sub_fl(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
+                      { gen_add_ff(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
 #line 1403 "y.tab.c"
     break;
 
   case 15:
 #line 50 "parser.y"
-                     { if ((yyvsp[0].long_val) == 1) { gen_call1(&vmcodep, 0); insert_jump((yyvsp[-1].string_val), vmcodep-1); } else { printf("unimplemented"); exit(1); } }
+                    { gen_sub_fl(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
 #line 1409 "y.tab.c"
     break;
 
   case 16:
 #line 51 "parser.y"
-                  { gen_store(&vmcodep, (yyvsp[0].long_val)); }
+                     { if ((yyvsp[0].long_val) == 1) { gen_call1(&vmcodep, 0); insert_jump((yyvsp[-1].string_val), vmcodep-1); } else { printf("unimplemented"); exit(1); } }
 #line 1415 "y.tab.c"
     break;
 
   case 17:
 #line 52 "parser.y"
-                 { gen_load(&vmcodep, (yyvsp[0].long_val)); }
+                  { gen_store(&vmcodep, (yyvsp[0].long_val)); }
 #line 1421 "y.tab.c"
     break;
 
+  case 18:
+#line 53 "parser.y"
+                 { gen_load(&vmcodep, (yyvsp[0].long_val)); }
+#line 1427 "y.tab.c"
+    break;
 
-#line 1425 "y.tab.c"
+
+#line 1431 "y.tab.c"
 
       default: break;
     }
@@ -1653,7 +1659,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 55 "parser.y"
+#line 56 "parser.y"
 
 
 int yywrap(void)

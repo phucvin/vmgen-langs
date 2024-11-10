@@ -41,6 +41,7 @@ program:
 inst:
     | halt { gen_halt(&vmcodep); }
     | alloc num { gen_alloc(&vmcodep, $2); }
+    | ret { gen_ret(&vmcodep); }
     | ret frame { gen_ret_f(&vmcodep, $2); }
     | push num { gen_push_l(&vmcodep, $2); }
     | jump_lt label frame num { gen_jump_l_if_f_lt_l(&vmcodep, 0, $3, $4); insert_jump($2, vmcodep - 3); }
