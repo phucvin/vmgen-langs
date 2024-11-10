@@ -485,7 +485,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   19
+#define YYLAST   21
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  14
@@ -494,7 +494,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  14
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  23
+#define YYNSTATES  24
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   267
@@ -583,8 +583,8 @@ static const yytype_int16 yytoknum[] =
 static const yytype_int8 yypact[] =
 {
      -10,     0,   -10,    -4,    -2,    -9,     6,   -10,     9,     8,
-      11,   -10,   -10,   -10,   -10,    12,     1,   -10,    13,    15,
-     -10,   -10,   -10
+      11,   -10,   -10,   -10,   -10,    12,     1,    14,    15,    17,
+     -10,   -10,   -10,   -10
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -593,8 +593,8 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        2,     0,     1,     0,     0,     0,     0,    11,     0,     0,
-       0,     3,     7,     9,     4,     0,     0,    13,     0,     0,
-      12,     8,    10
+       0,     3,     7,     9,     4,     0,     0,     0,     0,     0,
+      12,    13,     8,    10
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -615,13 +615,15 @@ static const yytype_int8 yydefgoto[] =
 static const yytype_int8 yytable[] =
 {
        2,    12,    13,     3,    14,    20,     4,     5,     6,     7,
-       8,     9,    10,    15,    16,    17,    18,    19,    21,    22
+       8,     9,    10,    15,    16,    17,    18,    19,    21,     0,
+      22,    23
 };
 
 static const yytype_int8 yycheck[] =
 {
        0,     5,     4,     3,    13,     4,     6,     7,     8,     9,
-      10,    11,    12,     7,     5,     7,     5,     5,     5,     4
+      10,    11,    12,     7,     5,     7,     5,     5,     4,    -1,
+       5,     4
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -630,7 +632,7 @@ static const yytype_int8 yystos[] =
 {
        0,    15,     0,     3,     6,     7,     8,     9,    10,    11,
       12,    16,     5,     4,    13,     7,     5,     7,     5,     5,
-       4,     5,     4
+       4,     4,     5,     4
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -644,7 +646,7 @@ static const yytype_int8 yyr1[] =
 static const yytype_int8 yyr2[] =
 {
        0,     2,     0,     2,     3,     0,     0,     2,     3,     2,
-       4,     1,     3,     2,     0
+       4,     1,     3,     3,     0
 };
 
 
@@ -1342,53 +1344,53 @@ yyreduce:
   case 4:
 #line 38 "parser.y"
                         { insert_label((yyvsp[-1].string_val), vmcodep); }
-#line 1346 "y.tab.c"
+#line 1348 "y.tab.c"
     break;
 
   case 7:
 #line 42 "parser.y"
                  { gen_halt_d(&vmcodep, (yyvsp[0].long_val)); }
-#line 1352 "y.tab.c"
+#line 1354 "y.tab.c"
     break;
 
   case 8:
 #line 43 "parser.y"
                       { gen_ret_dd(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
-#line 1358 "y.tab.c"
+#line 1360 "y.tab.c"
     break;
 
   case 9:
 #line 44 "parser.y"
                { gen_push_l(&vmcodep, (yyvsp[0].long_val)); }
-#line 1364 "y.tab.c"
+#line 1366 "y.tab.c"
     break;
 
   case 10:
 #line 45 "parser.y"
                               { gen_jump_l_if_d_lt_l(&vmcodep, 0, (yyvsp[-1].long_val), (yyvsp[0].long_val)); insert_jump((yyvsp[-2].string_val), vmcodep - 3); }
-#line 1370 "y.tab.c"
+#line 1372 "y.tab.c"
     break;
 
   case 11:
 #line 46 "parser.y"
           { gen_add(&vmcodep); }
-#line 1376 "y.tab.c"
+#line 1378 "y.tab.c"
     break;
 
   case 12:
 #line 47 "parser.y"
                     { gen_sub_dl(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
-#line 1382 "y.tab.c"
+#line 1384 "y.tab.c"
     break;
 
   case 13:
 #line 48 "parser.y"
-                 { gen_call1(&vmcodep, 0); insert_jump((yyvsp[0].string_val), vmcodep-1); }
-#line 1388 "y.tab.c"
+                     { if ((yyvsp[0].long_val) == 1) { gen_call1(&vmcodep, 0); insert_jump((yyvsp[-1].string_val), vmcodep-1); } else { printf("unimplemented"); exit(1); } }
+#line 1390 "y.tab.c"
     break;
 
 
-#line 1392 "y.tab.c"
+#line 1394 "y.tab.c"
 
       default: break;
     }
