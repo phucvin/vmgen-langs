@@ -16,11 +16,14 @@ i1 = i0;
 add ( i0 i1 -- i2 )
 i2 = i0 + i1;
 
+add_ff ( #i0 #i1 -- i2 )
+i2 = (fp-i0)->i + (fp-i1)->i;
+
 sub_fl ( #i0 #i1 -- i2 )
-i2 = (fp+i0)->i - i1;
+i2 = (fp-i0)->i - i1;
 
 jump_l_if_f_lt_l ( #target0 #i0 #i1 -- )
-if ((fp+i0)->i < i1) SET_IP(target0);
+if ((fp-i0)->i < i1) SET_IP(target0);
 
 halt ( i0 -- )
 return i0;
@@ -33,20 +36,20 @@ i2 = i0;
 fp = sp;
 
 ret_f ( #i0 -- )
-long long tmp = (fp+i0)->i;
-SET_IP((fp-2)->target);
-sp = fp-2;
-fp = (fp-1)->i;
+long long tmp = (fp-i0)->i;
+SET_IP((fp+2)->target);
+sp = fp+2;
+fp = (fp+1)->i;
 sp[0].i = tmp;
 
 alloc ( #i0 -- )
-sp -= i0;
 if (fp == NULL) fp = sp;
+sp -= i0;
 
 store ( i0 #i1 -- )
-(fp+i1)->i = i0;
+(fp-i1)->i = i0;
 
 load ( #i0 -- i1 )
-i1 = (fp+i0)->i;
+i1 = (fp-i0)->i;
 
 \ Super instructions below

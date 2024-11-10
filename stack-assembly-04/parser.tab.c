@@ -491,16 +491,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   25
+#define YYLAST   27
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  17
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  17
+#define YYNRULES  18
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  28
+#define YYNSTATES  30
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   270
@@ -550,7 +550,7 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int8 yyrline[] =
 {
        0,    36,    36,    37,    38,    39,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52
+      45,    46,    47,    48,    49,    50,    51,    52,    53
 };
 #endif
 
@@ -589,9 +589,9 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -15,     0,   -15,   -15,    -3,   -14,    -2,   -15,    -1,     9,
-      12,    14,    15,    16,   -15,   -15,   -15,    17,    19,    20,
-     -15,   -15,   -15,   -15,    21,   -15,   -15,   -15
+     -15,     0,   -15,   -15,    -3,   -14,    -2,    -1,    11,    10,
+      13,    15,    16,    17,   -15,   -15,   -15,    18,    19,    21,
+      22,   -15,   -15,   -15,   -15,    23,   -15,   -15,   -15,   -15
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -601,7 +601,7 @@ static const yytype_int8 yydefact[] =
 {
        2,     0,     1,     7,     0,     0,     0,    12,     0,     0,
        0,     0,     0,     0,     3,    10,     4,     0,     0,     0,
-       9,     8,    15,    16,     0,    13,    14,    11
+       0,     9,     8,    16,    17,     0,    13,    14,    15,    11
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -622,15 +622,15 @@ static const yytype_int8 yydefgoto[] =
 static const yytype_int8 yytable[] =
 {
        2,    15,    16,     3,    18,    17,     4,     5,     6,     7,
-       8,     9,    10,    11,    12,    13,    19,    20,    21,     0,
-      22,    23,    24,    25,    26,    27
+       8,     9,    10,    11,    12,    13,    19,    20,    21,    22,
+       0,    23,    24,    25,    26,    27,    28,    29
 };
 
 static const yytype_int8 yycheck[] =
 {
        0,     4,    16,     3,     5,     7,     6,     7,     8,     9,
-      10,    11,    12,    13,    14,    15,     7,     5,     4,    -1,
-       5,     5,     5,     4,     4,     4
+      10,    11,    12,    13,    14,    15,     5,     7,     5,     4,
+      -1,     5,     5,     5,     5,     4,     4,     4
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -638,22 +638,22 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,    18,     0,     3,     6,     7,     8,     9,    10,    11,
-      12,    13,    14,    15,    19,     4,    16,     7,     5,     7,
-       5,     4,     5,     5,     5,     4,     4,     4
+      12,    13,    14,    15,    19,     4,    16,     7,     5,     5,
+       7,     5,     4,     5,     5,     5,     5,     4,     4,     4
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
        0,    17,    18,    18,    18,    18,    19,    19,    19,    19,
-      19,    19,    19,    19,    19,    19,    19,    19
+      19,    19,    19,    19,    19,    19,    19,    19,    19
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     0,     2,     3,     0,     0,     1,     2,     2,
-       2,     4,     1,     3,     3,     2,     2,     0
+       2,     4,     1,     3,     3,     3,     2,     2,     0
 };
 
 
@@ -1392,30 +1392,36 @@ yyreduce:
 
   case 13:
 #line 48 "parser.y"
-                    { gen_sub_fl(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
+                      { gen_add_ff(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
 #line 1397 "y.tab.c"
     break;
 
   case 14:
 #line 49 "parser.y"
-                     { if ((yyvsp[0].long_val) == 1) { gen_call1(&vmcodep, 0); insert_jump((yyvsp[-1].string_val), vmcodep-1); } else { printf("unimplemented"); exit(1); } }
+                    { gen_sub_fl(&vmcodep, (yyvsp[-1].long_val), (yyvsp[0].long_val)); }
 #line 1403 "y.tab.c"
     break;
 
   case 15:
 #line 50 "parser.y"
-                  { gen_store(&vmcodep, (yyvsp[0].long_val)); }
+                     { if ((yyvsp[0].long_val) == 1) { gen_call1(&vmcodep, 0); insert_jump((yyvsp[-1].string_val), vmcodep-1); } else { printf("unimplemented"); exit(1); } }
 #line 1409 "y.tab.c"
     break;
 
   case 16:
 #line 51 "parser.y"
-                 { gen_load(&vmcodep, (yyvsp[0].long_val)); }
+                  { gen_store(&vmcodep, (yyvsp[0].long_val)); }
 #line 1415 "y.tab.c"
     break;
 
+  case 17:
+#line 52 "parser.y"
+                 { gen_load(&vmcodep, (yyvsp[0].long_val)); }
+#line 1421 "y.tab.c"
+    break;
 
-#line 1419 "y.tab.c"
+
+#line 1425 "y.tab.c"
 
       default: break;
     }
@@ -1647,7 +1653,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 54 "parser.y"
+#line 55 "parser.y"
 
 
 int yywrap(void)
