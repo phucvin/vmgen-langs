@@ -68,4 +68,3 @@ i1 = (fp-i0)->i;
 
 s_load_push = load push_l
 s_load_push_sub = load push_l sub
-s_load_push_jump_lt = load push_l jump_lt
