@@ -1,7 +1,7 @@
 // compute fib(N) and print the result
 
 @main:
-  push #6
+  push #40
   call @fib
   halt ~1
 

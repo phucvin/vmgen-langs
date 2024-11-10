@@ -113,7 +113,25 @@ Build stack-assembly-03:
 ```
 $ cd stack-assembly-03
 $ make vm && time ./vm.out examples/fib01.asm
-TODO
+vm assembly:
+0x6075598892a0: push_l i0=40 
+0x6075598892b0: call1 target0=0x6075598892d0 
+0x6075598892c0: halt_d i0=1 
+0x6075598892d0: jump_l_if_d_lt_l target0=0x607559889360  i0=1  i1=2 
+0x6075598892f0: sub_dl i0=1  i1=1 
+0x607559889308: call1 target0=0x6075598892d0 
+0x607559889318: sub_dl i0=2  i1=2 
+0x607559889330: call1 target0=0x6075598892d0 
+0x607559889340: add
+0x607559889348: ret_dd i0=3  i1=1 
+0x607559889360: ret_dd i0=2  i1=1 
+
+vm run:
+return code: 102334155
+
+real    0m1.822s
+user    0m1.812s
+sys     0m0.004s
 ```
 
 ## Appendix
