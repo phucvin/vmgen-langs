@@ -25,6 +25,9 @@ i2 = i0 - i1;
 sub_fl ( #i0 #i1 -- i2 )
 i2 = (fp-i0)->i - i1;
 
+jump_lt ( i0 i1 #target0 -- )
+if (i0 < i1) SET_IP(target0);
+
 jump_l_if_f_lt_l ( #target0 #i0 #i1 -- )
 if ((fp-i0)->i < i1) SET_IP(target0);
 
@@ -65,3 +68,4 @@ i1 = (fp-i0)->i;
 
 s_load_push = load push_l
 s_load_push_sub = load push_l sub
+s_load_push_jump_lt = load push_l jump_lt

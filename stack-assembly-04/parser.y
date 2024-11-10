@@ -45,6 +45,7 @@ inst:
     | ret frame { gen_ret_f(&vmcodep, $2); }
     | push num { gen_push_l(&vmcodep, $2); }
     | jump_lt label frame num { gen_jump_l_if_f_lt_l(&vmcodep, 0, $3, $4); insert_jump($2, vmcodep - 3); }
+    | jump_lt label { gen_jump_lt(&vmcodep, 0); insert_jump($2, vmcodep - 1); }
     | add { gen_add(&vmcodep); }
     | add frame frame { gen_add_ff(&vmcodep, $2, $3); }
     | sub { gen_sub(&vmcodep); }
