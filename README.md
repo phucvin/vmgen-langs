@@ -139,26 +139,23 @@ Build stack-assembly-04:
 $ cd stack-assembly-04
 $ make vm && time ./vm.out examples/fib01.asm
 vm assembly:
-0x64020e7bd2a0: push_l i0=40 
-0x64020e7bd2b0: call1 target0=0x64020e7bd2c8 
-0x64020e7bd2c0: halt
-0x64020e7bd2c8: alloc i0=1 
-0x64020e7bd2d8: jump_l_if_f_lt_l target0=0x64020e7bd388  i0=0  i1=2 
-0x64020e7bd2f8: sub_fl i0=0  i1=1 
-0x64020e7bd310: call1 target0=0x64020e7bd2c8 
-0x64020e7bd320: store i1=1 
-0x64020e7bd330: sub_fl i0=0  i1=2 
-0x64020e7bd348: call1 target0=0x64020e7bd2c8 
-0x64020e7bd358: store i1=0 
-0x64020e7bd368: add_ff i0=0  i1=1 
-0x64020e7bd380: ret
-0x64020e7bd388: ret_f i0=0 
+0x5b63221792a0: push_l i0=40 
+0x5b63221792b0: call1 target0=0x5b63221792c8 
+0x5b63221792c0: halt
+0x5b63221792c8: jump_l_if_f_lt_l target0=0x5b6322179348  i0=0  i1=2 
+0x5b63221792e8: sub_fl i0=0  i1=1 
+0x5b6322179300: call1 target0=0x5b63221792c8 
+0x5b6322179310: sub_fl i0=0  i1=2 
+0x5b6322179328: call1 target0=0x5b63221792c8 
+0x5b6322179338: add
+0x5b6322179340: ret
+0x5b6322179348: ret_f i0=0 
 
 vm run:
 return code: 102334155
 
-real    0m2.825s
-user    0m2.820s
+real    0m2.617s
+user    0m2.590s
 sys     0m0.000s
 ```
 
