@@ -133,6 +133,8 @@ real    0m1.822s
 user    0m1.812s
 sys     0m0.004s
 ```
+Note that this one is fastest so far probably because it doesn't use frame pointer like in stack-assembly-04.
+But generating high-level code to this is harder since it uses delta instead of absolute index for accessing local variables.
 
 Build stack-assembly-04:
 ```
