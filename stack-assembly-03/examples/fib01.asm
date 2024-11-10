@@ -14,7 +14,9 @@
   call @fib #1  // s(.. n fib(n-1) fib(n-2) )
   add  // s( ret_addr n result )
   // return using return address in ~3, return value in ~1
-  ret ~3 ~1 // s( result ), control is back to the caller
+  // this also remove everything in the stack up until the return address and
+  // leaves just the return value on top before giving control back to the caller
+  ret ~3 ~1  // s( result )
 @@base_case:
-  // now s( ret_address result_or_n )
+  // now s( ret_addr n )
   ret ~2 ~1
