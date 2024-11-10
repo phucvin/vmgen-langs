@@ -26,7 +26,7 @@ sub return sub;
 \|[0-9]+ { yylval.long_val=strtol(yytext+1,NULL,10); return frame; }
 @[a-zA-Z\_][a-zA-Z0-9\_]* { yylval.string_val=mystrdup(yytext); return label; }
 @@[a-zA-Z\_][a-zA-Z0-9\_]* { yylval.string_val=mystrdup(yytext); return label; }
-[ \t\n]	;
+[ ,\t\n]	;
 [/][/].*	;
 .		{ yyerror("illegal character"); printf("character: %s",  yytext); exit(1); }
 %%

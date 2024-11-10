@@ -47,6 +47,7 @@ inst:
     | jump_lt label frame num { gen_jump_l_if_f_lt_l(&vmcodep, 0, $3, $4); insert_jump($2, vmcodep - 3); }
     | add { gen_add(&vmcodep); }
     | add frame frame { gen_add_ff(&vmcodep, $2, $3); }
+    | sub { gen_sub(&vmcodep); }
     | sub frame num { gen_sub_fl(&vmcodep, $2, $3); }
     | call label num { if ($3 == 1) { gen_call1(&vmcodep, 0); insert_jump($2, vmcodep-1); } else { printf("unimplemented"); exit(1); } }
     | store frame { gen_store(&vmcodep, $2); }

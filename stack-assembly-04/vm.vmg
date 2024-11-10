@@ -19,6 +19,9 @@ i2 = i0 + i1;
 add_ff ( #i0 #i1 -- i2 )
 i2 = (fp-i0)->i + (fp-i1)->i;
 
+sub ( i0 i1 -- i2 )
+i2 = i0 - i1;
+
 sub_fl ( #i0 #i1 -- i2 )
 i2 = (fp-i0)->i - i1;
 
@@ -59,3 +62,6 @@ load ( #i0 -- i1 )
 i1 = (fp-i0)->i;
 
 \ Super instructions below
+
+s_load_push = load push_l
+s_load_push_sub = load push_l sub
