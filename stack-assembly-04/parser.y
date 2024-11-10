@@ -20,7 +20,7 @@ void yyerror(char *s)
 int yylex();
 %}
 
-%token halt num delta push label jump_lt add sub call ret
+%token halt num frame push label jump_lt add sub call ret alloc store load
 
 %union {
   long long_val;
@@ -28,7 +28,7 @@ int yylex();
 }
 
 %type <long_val> num;
-%type <long_val> delta;
+%type <long_val> frame;
 %type <string_val> label;
 
 %%
@@ -39,13 +39,16 @@ program:
     | ;
 
 inst:
-    | halt delta { gen_halt_d(&vmcodep, $2); }
-    | ret delta delta { gen_ret_dd(&vmcodep, $2, $3); }
+    | halt { gen_halt(&vmcodep); }
+    | alloc num { gen_alloc(&vmcodep, $2); }
+    | ret frame { gen_ret_f(&vmcodep, $2); }
     | push num { gen_push_l(&vmcodep, $2); }
-    | jump_lt label delta num { gen_jump_l_if_d_lt_l(&vmcodep, 0, $3, $4); insert_jump($2, vmcodep - 3); }
+    | jump_lt label frame num { gen_jump_l_if_f_lt_l(&vmcodep, 0, $3, $4); insert_jump($2, vmcodep - 3); }
     | add { gen_add(&vmcodep); }
-    | sub delta num { gen_sub_dl(&vmcodep, $2, $3); }
+    | sub frame num { gen_sub_fl(&vmcodep, $2, $3); }
     | call label num { if ($3 == 1) { gen_call1(&vmcodep, 0); insert_jump($2, vmcodep-1); } else { printf("unimplemented"); exit(1); } }
+    | store frame { gen_store(&vmcodep, $2); }
+    | load frame { gen_load(&vmcodep, $2); }
     | ;
 
 %%

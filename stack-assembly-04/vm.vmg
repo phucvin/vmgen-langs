@@ -7,7 +7,7 @@
 \E inst-stream stack-prefix #
 
 \ type prefix definitions:
-\E s" long" single data-stack type-prefix i
+\E s" long long" single data-stack type-prefix i
 \E s" Inst *" single data-stack type-prefix target
 
 push_l ( #i0 -- i1 )
@@ -16,27 +16,37 @@ i1 = i0;
 add ( i0 i1 -- i2 )
 i2 = i0 + i1;
 
-sub_dl ( #i0 #i1 -- i2 )
-i2 = sp[i0-1+1].i - i1;
+sub_fl ( #i0 #i1 -- i2 )
+i2 = (fp+i0)->i - i1;
 
-jump ( target0 -- )
-SET_IP(target0);
+jump_l_if_f_lt_l ( #target0 #i0 #i1 -- )
+if ((fp+i0)->i < i1) SET_IP(target0);
 
-jump_l_if_d_lt_l ( #target0 #i0 #i1 -- )
-if (sp[i0-1].i < i1) SET_IP(target0);
+halt ( i0 -- )
+return i0;
 
-halt_d ( #i0 -- )
-return sp[i0-1].i;
-
-call1 ( #target0 i0 -- target1 i1)
+call1 ( #target0 i0 -- target1 i1 i2)
 target1 = IP;
 SET_IP(target0);
-i1 = i0;
+i1 = fp;
+i2 = i0;
+fp = sp;
 
-ret_dd ( #i0 #i1 -- )
-long long tmp = sp[i1-1].i;
-SET_IP(sp[i0-1].target);
-sp += i0-1;
+ret_f ( #i0 -- )
+long long tmp = (fp+i0)->i;
+SET_IP((fp-2)->target);
+sp = fp-2;
+fp = (fp-1)->i;
 sp[0].i = tmp;
+
+alloc ( #i0 -- )
+sp -= i0;
+if (fp == NULL) fp = sp;
+
+store ( i0 #i1 -- )
+(fp+i1)->i = i0;
+
+load ( #i0 -- i1 )
+i1 = (fp+i0)->i;
 
 \ Super instructions below

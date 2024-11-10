@@ -4,17 +4,17 @@
 
 #define CODE_SIZE 128
 #define STACK_SIZE 128
-typedef long (*engine_t)(Inst *ip0, Cell *sp, char *fp);
+typedef long (*engine_t)(Inst *ip0, Cell *sp, Cell *fp);
 
-void genarg_i(Inst **vmcodepp, long i)
+void genarg_i(Inst **vmcodepp, long long i)
 {
   vm_i2Cell(i, *((Cell *)*vmcodepp));
   (*vmcodepp)++;
 }
 
-void printarg_i(long i)
+void printarg_i(long long i)
 {
-  fprintf(vm_out, "%ld ", i);
+  fprintf(vm_out, "%lld ", i);
 }
 
 void genarg_target(Inst **vmcodepp, Inst *target)
@@ -29,7 +29,7 @@ void printarg_target(Inst *target)
 
 void printarg_Cell(Cell i)
 {
-  fprintf(vm_out, "0x%lx ", i.i);
+  fprintf(vm_out, "0x%llx ", i.i);
 }
 
 Label *vm_prim;

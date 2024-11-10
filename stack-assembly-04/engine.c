@@ -48,7 +48,7 @@
 #define MAYBE_UNUSED __attribute__((unused))
 
 /* the return type can be anything you want it to */
-long engine(Cell *ip0, Cell *sp, char *fp)
+long engine(Cell *ip0, Cell *sp, Cell *fp)
 {
   /* VM registers (you may want to use gcc's "Explicit Reg Vars" here) */
   Cell *ip;

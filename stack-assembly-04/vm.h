@@ -5,7 +5,7 @@ typedef void *Label;
 typedef union Cell
 {
   Label inst;
-  long i;
+  long long i;
   union Cell *target;
 } Cell, Inst;
 
@@ -38,15 +38,15 @@ struct block_count *block_insert(Inst *ip);
 void vm_print_profile(FILE *file);
 
 /* vm type-specific support functions */
-void genarg_i(Inst **vmcodepp, long i);
-void printarg_i(long i);
+void genarg_i(Inst **vmcodepp, long long i);
+void printarg_i(long long i);
 void genarg_target(Inst **vmcodepp, Inst *target);
 void printarg_target(Inst *target);
 void printarg_Cell(Cell i);
 
 /* engine functions (type not fixed) */
-long engine(Inst *ip0, Cell *sp, char *fp);
-long engine_debug(Inst *ip0, Cell *sp, char *fp);
+long engine(Inst *ip0, Cell *sp, Cell *fp);
+long engine_debug(Inst *ip0, Cell *sp, Cell *fp);
 
 extern FILE *yyin;
 int yyparse(void);

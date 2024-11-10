@@ -15,12 +15,15 @@ char *mystrdup(const char *s)
 halt return halt;
 push return push;
 call return call;
+alloc return alloc;
+store return store;
+load return load;
 ret return ret;
 jump_lt return jump_lt;
 add return add;
 sub return sub;
 #[0-9]+ { yylval.long_val=strtol(yytext+1,NULL,10); return num; }
-~[0-9]+ { yylval.long_val=strtol(yytext+1,NULL,10); return delta; }
+\|[0-9]+ { yylval.long_val=strtol(yytext+1,NULL,10); return frame; }
 @[a-zA-Z\_][a-zA-Z0-9\_]* { yylval.string_val=mystrdup(yytext); return label; }
 @@[a-zA-Z\_][a-zA-Z0-9\_]* { yylval.string_val=mystrdup(yytext); return label; }
 [ \t\n]	;
