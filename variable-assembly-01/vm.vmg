@@ -74,6 +74,7 @@ if (regs[i0] < i1) SET_IP(target0);
 
 ffi_call_r ( #i0 #i1 -- )
 {
+/*
 asm(
     "mov %1, %%rdi; "
     "call *%2; "
@@ -82,10 +83,13 @@ asm(
     : "a" (regs[i1]), "d" (i0)
     : "rdi"
 );
+*/
+regs[0] = ((long long (*)(long long))i0)(regs[i1]);
 }
 
 ffi_call_rr ( #i0 #i1 #i2 -- )
 {
+/*
 asm(
     "mov %1, %%rdi; "
     "mov %2, %%rsi; "
@@ -95,6 +99,8 @@ asm(
     : "a" (regs[i1]), "b" (regs[i2]), "d" (i0)
     : "rdi", "rsi"
 );
+*/
+regs[0] = ((long long (*)(long long, long long))i0)(regs[i1], regs[i2]);
 }
 
 halt_r ( #i0 -- )
