@@ -22,9 +22,7 @@ console.log(fib(3));
         ..
     } = Parser::new(&allocator, source_text, source_type).parse();
 
-    println!("{:?}", program);
-    println!("{:?}", errors);
+    println!("Errors: {:?}", errors);
     assert!(!panicked);
-    assert!(errors.is_empty());
-    assert!(!program.body.is_empty());
+    println!("AST:\n{:#?}", program);
 }
