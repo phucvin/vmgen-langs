@@ -2,8 +2,8 @@ use oxc_allocator::Allocator;
 use oxc_parser::{Parser, ParserReturn};
 use oxc_ast::{
     ast::{Class, Function, TSImportType},
-    visit::walk,
-    Visit,
+    visit::walk_mut,
+    VisitMut,
 };
 use oxc_span::SourceType;
 use oxc_syntax::scope::ScopeFlags;
@@ -22,7 +22,7 @@ console.log(fib(3));
     let source_type = SourceType::from_path("t01.ts").unwrap();
 
     let ParserReturn {
-        program,  // AST
+        mut program,  // AST
         errors,   // Syntax errors
         panicked, // Parser encountered an error it couldn't recover from
         ..
@@ -33,7 +33,7 @@ console.log(fib(3));
     println!("AST:\n{:#?}", program);
 
     let mut pass01 = Pass01::default();
-    pass01.visit_program(&program);
+    pass01.visit_program(&mut program);
     println!("{pass01:?}");
 }
 
@@ -44,19 +44,19 @@ struct Pass01 {
     ts_import_types: usize,
 }
 
-impl<'a> Visit<'a> for Pass01 {
-    fn visit_function(&mut self, func: &Function<'a>, flags: ScopeFlags) {
+impl<'a> VisitMut<'a> for Pass01 {
+    fn visit_function(&mut self, func: &mut Function<'a>, flags: ScopeFlags) {
         self.functions += 1;
-        walk::walk_function(self, func, flags);
+        walk_mut::walk_function(self, func, flags);
     }
 
-    fn visit_class(&mut self, class: &Class<'a>) {
+    fn visit_class(&mut self, class: &mut Class<'a>) {
         self.classes += 1;
-        walk::walk_class(self, class);
+        walk_mut::walk_class(self, class);
     }
 
-    fn visit_ts_import_type(&mut self, ty: &TSImportType<'a>) {
+    fn visit_ts_import_type(&mut self, ty: &mut TSImportType<'a>) {
         self.ts_import_types += 1;
-        walk::walk_ts_import_type(self, ty);
+        walk_mut::walk_ts_import_type(self, ty);
     }
 }
