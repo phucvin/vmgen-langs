@@ -4,6 +4,7 @@ $ python transpiler.py fib.wasm fib.generated.wasm
 ```
 
 TODO:
+- Learn from https://github.com/mohanson/pywasm
 - Write Python code to transpile Wasm/Wat input to stack-assembly-03/stack-assembly-04 code
 - The output code should translate the following Wat code (or the corresponding Wasm binary) to something similar to the handwritten version of fib in the target language
 ```
