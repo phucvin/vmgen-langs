@@ -1,17 +1,15 @@
 VMGEN=vmgen
 GCC=gcc -O3 -fomit-frame-pointer -Wall
 CC=$(GCC)
-LEX=flex -l
-YACC=bison -y
 
-vm: main.o parser.tab.o peephole.o profile.o disasm.o engine.o
-	$(CC) main.o parser.tab.o peephole.o profile.o disasm.o engine.o -o vm.out
+vm: main.o peephole.o profile.o disasm.o engine.o
+	$(CC) main.o peephole.o profile.o disasm.o engine.o -o vm.out
 
-vm-debug: main-debug.o parser.tab.o peephole.o profile.o disasm.o engine-debug.o
-	$(CC) main-debug.o parser.tab.o peephole.o profile.o disasm.o engine-debug.o -o vm-debug.out
+vm-debug: main-debug.o peephole.o profile.o disasm.o engine-debug.o
+	$(CC) main-debug.o peephole.o profile.o disasm.o engine-debug.o -o vm-debug.out
 
-vm-profile: main-profile.o parser.tab.o peephole.o profile.o disasm.o engine-profile.o
-	$(CC) main-profile.o parser.tab.o peephole.o profile.o disasm.o engine-profile.o -o vm-profile.out
+vm-profile: main-profile.o peephole.o profile.o disasm.o engine-profile.o
+	$(CC) main-profile.o peephole.o profile.o disasm.o engine-profile.o -o vm-profile.out
 
 vm-vm.i vm-disasm.i vm-gen.i vm-labels.i vm-profile.i vm-peephole.i: vm.vmg
 	$(VMGEN) vm.vmg
@@ -37,14 +35,6 @@ engine-debug.o: engine.c vm-vm.i vm-labels.i vm.h
 
 engine-profile.o: engine.c vm-vm.i vm-labels.i vm.h
 	$(CC) -DVM_PROFILING -c -o $@ engine.c
-
-lexer.yy.c: lexer.l
-	$(LEX) lexer.l && mv lex.yy.c $@
-
-parser.tab.c: parser.y
-	$(YACC) parser.y && mv y.tab.c $@
-
-parser.tab.o: parser.tab.c vm-gen.i lexer.yy.c vm.h
 
 clean:
 	rm -f *.o *.out

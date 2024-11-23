@@ -37,105 +37,11 @@ Inst *vmcodep;
 FILE *vm_out;
 int vm_debug;
 
-typedef struct jumptab
-{
-  struct jumptab *next;
-  Inst *jump;
-} jumptab;
-
-typedef struct lbltab
-{
-  struct lbltab *next;
-  char *name;
-  Inst *start;
-  struct jumptab *jtab;
-} lbltab;
-
-lbltab *ltab = NULL;
-
-void delete_labeltab()
-{
-  lbltab *p = ltab;
-  while (p != NULL)
-  {
-    jumptab *j = p->jtab;
-    while (j != NULL)
-    {
-      jumptab *tmp = j;
-      j = j->next;
-      free(tmp);
-    }
-    p->jtab = NULL;
-    lbltab *tmp = p;
-    p = p->next;
-    free(tmp);
-  }
-  ltab = NULL;
-}
-
-void insert_label(const char *name, Inst *inst)
-{
-  lbltab *p;
-  for (p = ltab; p != NULL; p = p->next)
-  {
-    if (strcmp(p->name, name) == 0)
-    {
-      break;
-    }
-  }
-  if (p == NULL)
-  {
-    p = malloc(sizeof(lbltab));
-    if (p->start != NULL)
-    {
-      printf("redefined label %s", name);
-      exit(1);
-    }
-    p->next = ltab;
-    p->start = inst;
-    p->jtab = NULL;
-    ltab = p;
-  }
-  p->name = name != NULL ? strdup(name) : NULL;
-  p->start = inst;
-  if (p->jtab != NULL)
-  {
-    jumptab *j = p->jtab;
-    while (j != NULL)
-    {
-      j->jump->target = p->start;
-      j = j->next;
-    }
-  }
-}
-
-void insert_jump(const char *name, Inst *inst)
-{
-  lbltab *p;
-  for (p = ltab; p != NULL; p = p->next)
-  {
-    if (strcmp(p->name, name) == 0)
-    {
-      break;
-    }
-  }
-  if (p == NULL)
-  {
-    insert_label(name, NULL);
-    p = ltab;
-  }
-  jumptab *jtab = malloc(sizeof(jumptab));
-  jtab->next = p->jtab;
-  jtab->jump = inst;
-  jtab->jump->target = p->start;
-  p->jtab = jtab;
-}
-
 int main(int argc, char **argv)
 {
   if (argc != 2)
   {
-    printf("Usage: ./vm.out <path to asm file>");
+    printf("Usage: ./vm.out <path to wasm file>");
     return 1;
   }
 
@@ -157,17 +63,8 @@ int main(int argc, char **argv)
   init_peeptable();
 
   start = vmcodep;
-  // Parse and generate code at the same time
-  if ((yyin = fopen(argv[1], "r")) == NULL) {
-    perror(argv[1]);
-    exit(1);
-  }
-  if (yyparse())
-  {
-    exit(1);
-  }
+  // TODO: Parse and generate code at the same time
   vmcode_end = vmcodep;
-  delete_labeltab();
 
   printf("\nvm assembly:\n");
   vm_disassemble(vm_code, vmcodep, vm_prim);
