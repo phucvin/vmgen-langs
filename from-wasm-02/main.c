@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 {
   if (argc != 2)
   {
-    printf("Usage: ./vm.out <path to wasm file>");
+    printf("Usage: ./vm.out <path to wasm file>\n");
     return 1;
   }
 
