@@ -38,15 +38,34 @@ Inst *vmcodep;
 FILE *vm_out;
 int vm_debug;
 
+#define CHECK(x, err_msg) if (!(x)) { printf("error: %s", err_msg); exit(1); }
+
 static char *wasm = NULL;
 static long wasm_size = 0;
 
+long consume_const(long at) {
+  CHECK(wasm[at] == 0x41, "expect 0x41");
+  gen_push_l(&vmcodep, wasm[at+1]);
+  return at + 2;
+}
+
+long consume_magic_header(long at) {
+  CHECK(at + 4 < wasm_size, "expect magic header");
+  CHECK(wasm[at++] == 0x0, "expect magic header");
+  CHECK(wasm[at++] == 0x61, "expect magic header");
+  CHECK(wasm[at++] == 0x73, "expect magic header");
+  CHECK(wasm[at++] == 0x6d, "expect magic header");
+  return at;
+}
+
 long consume_wasm(long at) {
-  // printf("%ld 0x%x\n", at, wasm[at]);
+  if (at == 0) at = consume_magic_header(at);
   if (at >= wasm_size) return at;
-  // TODO: Parse and generate code at the same time
   char x = wasm[at];
-  if (x == 0x61) gen_halt_d(&vmcodep, 1);
+  switch (x) {
+    case 0x41: at = consume_const(at); break;
+    case 0x6a: gen_add(&vmcodep); break;
+  }
   return consume_wasm(at + 1);
 }
 
@@ -85,6 +104,7 @@ void parse_and_gen(char *filename) {
     printf("error: didn't finish parsing wasm");
     exit(1);
   }
+  gen_halt_d(&vmcodep, 1);
 
   free(source); /* Don't forget to call free() later! */
 }
