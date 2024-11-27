@@ -3,7 +3,7 @@ TODO:
 
 ```
 $ npm install -g @irongeek/wabt
-$ wat2wasm examples/fib01.wat
+$ wat2wasm examples/fib01.wat -o examples/fib01.wasm
 $ make vm
 $ time ./vm.out examples/fib01.wasm
 ```

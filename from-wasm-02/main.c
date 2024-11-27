@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "vm.h"
+#include "vm-gen.i"
 
 #define CODE_SIZE 128
 #define STACK_SIZE 128
@@ -37,6 +38,57 @@ Inst *vmcodep;
 FILE *vm_out;
 int vm_debug;
 
+static char *wasm = NULL;
+static long wasm_size = 0;
+
+long consume_wasm(long at) {
+  // printf("%ld 0x%x\n", at, wasm[at]);
+  if (at >= wasm_size) return at;
+  // TODO: Parse and generate code at the same time
+  char x = wasm[at];
+  if (x == 0x61) gen_halt_d(&vmcodep, 1);
+  return consume_wasm(at + 1);
+}
+
+void parse_and_gen(char *filename) {
+  char *source = NULL;
+  long source_size = 0;
+  FILE *fp = fopen(filename, "r");
+  if (fp != NULL) {
+    /* Go to the end of the file. */
+    if (fseek(fp, 0L, SEEK_END) == 0) {
+        /* Get the size of the file. */
+        source_size = ftell(fp);
+        if (source_size == -1) { /* Error */ }
+
+        /* Allocate our buffer to that size. */
+        source = malloc(sizeof(char) * (source_size + 1));
+
+        /* Go back to the start of the file. */
+        if (fseek(fp, 0L, SEEK_SET) != 0) { /* Error */ }
+
+        /* Read the entire file into memory. */
+        size_t newLen = fread(source, sizeof(char), source_size, fp);
+        if ( ferror( fp ) != 0 ) {
+            fputs("Error reading file", stderr);
+        } else {
+            source[newLen++] = '\0'; /* Just to be safe. */
+        }
+    }
+    fclose(fp);
+  }
+
+  printf("file: %s\nsize: %ld bytes\n", filename, source_size);
+  wasm = source;
+  wasm_size = source_size;
+  if (consume_wasm(0) != wasm_size) {
+    printf("error: didn't finish parsing wasm");
+    exit(1);
+  }
+
+  free(source); /* Don't forget to call free() later! */
+}
+
 int main(int argc, char **argv)
 {
   if (argc != 2)
@@ -63,7 +115,7 @@ int main(int argc, char **argv)
   init_peeptable();
 
   start = vmcodep;
-  // TODO: Parse and generate code at the same time
+  parse_and_gen(argv[1]);
   vmcode_end = vmcodep;
 
   printf("\nvm assembly:\n");
